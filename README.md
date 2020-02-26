@@ -13,10 +13,10 @@
    Slightly updated + secured Engine + System from last Version Opencart v.1.5.6.5_rc.
    The best OpenShop Administration Tools and many additional Modules already built-in.
    MaxD's VqMod PRO v.2.6.4 Engine plus ~120 VqMod Extensions are already implemented.
-   75 Admin-related + 45 Frontside-related VqMod Extensions included in the Package.
-   Cookie-free Header Script+JS Link VqMod disabled, active after change of it's Link-URL's.
-   Restore HTTP-linking Images VqMod disabled, active after changing the config.php Image-URL.
-   and much more ....
+   76 Admin-related + 44 Frontside-related VqMod Extensions are included in the Package.
+   High Perfomance Code and Database Caching, all controlled by fine OpenShop Admin Tools. 
+   Some VqMods are disabled, they only function in conjunction with non-active Modules.
+   And much much more, to find out about first ...
 
 # PLEASE NOTE:
    This Software is still in it's late Developer Stage, so, use it at your own Risk!
