@@ -271,14 +271,13 @@ class ControllerCatalogCategory extends Controller {
 		if (!isset($this->request->get['category_id'])) {
 			$this->data['action'] = $this->url->link('catalog/category/insert', 'token=' . $this->session->data['token'], 'SSL');
 		} else {
-			$this->data['action'] = $this->url->link('catalog/category/update', 'token=' . $this->session->data['token'] . '&category_id=' . $this->request->get['category_id'], 'SSL');
-		}
 
 // JTI MOD Category Bugfix dobrenteiistvan.hu
-	//	$this->data['action'] = $this->url->link('catalog/category/update', 'token=' . $this->session->data['token'] . '&category_id=' . $this->request->get['category_id'], 'SSL');
-		$page_id = isset($this->request->get['page']) ? $this->request->get['page'] : "1";
-		$this->data['action'] = $this->url->link('catalog/category/update', 'token=' . $this->session->data['token'] . '&category_id=' . $this->request->get['category_id'] . '&page=' . $page_id, 'SSL');
+	     // $this->data['action'] = $this->url->link('catalog/category/update', 'token=' . $this->session->data['token'] . '&category_id=' . $this->request->get['category_id'], 'SSL');
+        	$page_id = isset($this->request->get['page']) ? $this->request->get['page'] : "1";
+	        $this->data['action'] = $this->url->link('catalog/category/update', 'token=' . $this->session->data['token'] . '&category_id=' . $this->request->get['category_id'] . '&page=' . $page_id, 'SSL');
 // END JTI MOD
+		}
 
 		$this->data['cancel'] = $this->url->link('catalog/category', 'token=' . $this->session->data['token'], 'SSL');
 
