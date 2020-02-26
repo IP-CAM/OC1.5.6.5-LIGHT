@@ -27,6 +27,15 @@
    Admin Demo Access Credentials: admin / password
    Good Luck ! Don't forget, this is a DEVELOPER Version, with all the Consequences involved !
 
+# REWRITE the ROOT CONFIG.PHP File, to make images cookiefree:
+   // HTTP
+   define('HTTP_SERVER', 'http://www.YOURSITE.com/light/');
+   define('HTTP_IMAGE', 'http://YOURSITE.com/light/');
+
+   // HTTPS
+   define('HTTPS_SERVER', 'http://www.YOURSITE.com/light/');
+   define('HTTPS_IMAGE', 'http://YOURSITE.com/light/');
+
 # Links:
    Official OpenCart.com Github Download Site for OpenCart Release Candidate v.1.5.6.5_rc:
    https://github.com/opencart/opencart/tree/c2c8f9c4c8fce44bb81b394e235913306fb75707
