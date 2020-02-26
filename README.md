@@ -1,7 +1,7 @@
 # Ernie's OpenCart v.1.5.6.5 LIGHT
    Created, to meet the Demand of those, tired of much depending on Others, when 
    it comes to technical Wisdom and Knowledge about an Onlineshop Software in Use.
-   The best open E-Car is worthless, out in the Desert, and with empty Batteries ...
+   The best open E-Car is worthless, out in the Desert, and with empty Batteries ... 
 
 # The fasted freeware OC, in the North, South, East+West
    Based on the famous OpenCart OC v.1.5.6.5_rc Release. 
