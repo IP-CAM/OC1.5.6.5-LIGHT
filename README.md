@@ -29,11 +29,15 @@
 
 # REWRITE the ROOT CONFIG.PHP File, to make images cookiefree:
    // HTTP
+   
    define('HTTP_SERVER', 'http://www.YOURSITE.com/light/');
+   
    define('HTTP_IMAGE', 'http://YOURSITE.com/light/');
 
    // HTTPS
+   
    define('HTTPS_SERVER', 'http://www.YOURSITE.com/light/');
+   
    define('HTTPS_IMAGE', 'http://YOURSITE.com/light/');
 
 # Links:
