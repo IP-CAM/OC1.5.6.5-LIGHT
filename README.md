@@ -1,5 +1,5 @@
 # Ernie's OpenCart v.1.5.6.5 LIGHT
-   Created, to meet the Demand of those, tired of much depending on Others, when 
+   Created, to meet the Demand of those, tired of much depending on Others, when
    it comes to technical Wisdom and Knowledge about an Onlineshop Software in Use.
    The best open E-Car is worthless, out in the Desert, and with empty Batteries ... 
 
