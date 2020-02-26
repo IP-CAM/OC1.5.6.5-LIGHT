@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[SEO Category pagination]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[nikita-sp.com.ua - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/language/english/english.php">
+<operation error="log">
+<search position="after"><![CDATA[// Text]]></search>
+<add><![CDATA[
+	$_['text_page_number'] = 'Page Number';
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/category.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['heading_title'] = $category_info['name'];]]></search>
+<add><![CDATA[
+	if($page != 1){
+	$this->document->setTitle($category_info['name']." ".$this->language->get('text_page_number')." ".$page);
+//	$this->document->setDescription($category_info['meta_description']." ".$this->language->get('text_page_number')." ".$page);
+//	$this->document->setKeywords($category_info['meta_keyword']." ".$this->language->get('text_page_number')." ".$page);
+	$this->data['heading_title'] = $category_info['name']." ".$this->language->get('text_page_number')." ".$page;
+	$category_info['description'] = '';
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/manufacturer.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['heading_title'] = $manufacturer_info['name'];]]></search>
+<add><![CDATA[
+	if($page != 1){
+	$this->document->setTitle($manufacturer_info['name']." ".$this->language->get('text_page_number')." ".$page);
+//	$this->document->setDescription($manufacturer_info['meta_description']." ".$this->language->get('text_page_number')." ".$page);
+//	$this->document->setKeywords($manufacturer_info['meta_keyword']." ".$this->language->get('text_page_number')." ".$page);
+	$this->data['heading_title'] = $manufacturer_info['name']." ".$this->language->get('text_page_number')." ".$page;
+	$this->data['description'] = '';
+	}
+]]></add>
+</operation>
+</file>
+
+</modification>

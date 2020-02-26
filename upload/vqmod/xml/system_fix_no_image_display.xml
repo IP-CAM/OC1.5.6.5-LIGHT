@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Fix Product No-Image Display]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[opencartcooladdons - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/module/bestseller.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/module/cart.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = '';]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/module/featured.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/module/latest.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/module/special.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/category.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/compare.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_compare_width'), $this->config->get('config_image_compare_height'));
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/manufacturer.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+]]></add>
+</operation>
+</file>
+	
+<file name="catalog/controller/product/product.php">
+<operation error="log">
+<search position="replace"><![CDATA[$this->data['popup'] = '';]]></search>
+<add trim="true"><![CDATA[
+$this->data['popup'] = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$this->data['thumb'] = '';]]></search>
+<add trim="true"><![CDATA[
+	$this->data['thumb'] = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_related_width'), $this->config->get('config_image_related_height'));
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/search.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/special.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/account/wishlist.php">
+<operation error="log">
+<search position="replace"><![CDATA[$image = false;]]></search>
+<add><![CDATA[
+	$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_wishlist_width'), $this->config->get('config_image_wishlist_height'));
+]]></add>
+</operation>
+</file>
+
+</modification>

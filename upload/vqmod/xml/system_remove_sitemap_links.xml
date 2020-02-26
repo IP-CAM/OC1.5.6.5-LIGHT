@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Remove certain SiteMap Links]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie  - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/information/sitemap.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $special; ?>"><?php echo $text_special; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace" index="4"><![CDATA[<ul>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+ 
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $edit; ?>"><?php echo $text_edit; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $password; ?>"><?php echo $text_password; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $address; ?>"><?php echo $text_address; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $history; ?>"><?php echo $text_history; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace" index="4"><![CDATA[</ul>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+ <operation error="log">
+<search position="replace" index="4"><![CDATA[</li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $cart; ?>"><?php echo $text_cart; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $search; ?>"><?php echo $text_search; ?></a></li>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+</file>
+
+</modification>

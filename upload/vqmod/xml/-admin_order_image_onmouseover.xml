@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Popup Image in Admin Order]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Istvan Dobrentei - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name='admin/controller/sale/order.php'>
+<operation error="log">
+<search position='before'><![CDATA[$this->data['products'][] = array(]]></search>
+<add><![CDATA[
+	$this->document->addScript('view/javascript/image_admin_order.js');
+	$this->load->model('tool/image');
+	$productInfo = $this->model_catalog_product->getProduct($product['product_id']);
+	if ($productInfo['image'] && file_exists(DIR_IMAGE . $productInfo['image'])) 
+	{
+	$productImage = $this->model_tool_image->resize($productInfo['image'], 140, 140);
+	} else {
+	$productImage = $this->model_tool_image->resize('no_image.jpg', 140, 140);
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position='before' index='1'><![CDATA[foreach ($products as $product) {]]></search>
+<add><![CDATA[
+	$this->load->model('catalog/product');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position='after'><![CDATA[$this->data['products'][] = array(]]></search>
+<add><![CDATA[
+	'image' => $productImage,
+]]></add>
+</operation>
+</file>
+
+<file name='admin/view/template/sale/order_info.tpl'>
+<operation error="log">
+<search position='after'><![CDATA[<a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>]]></search>
+<add><![CDATA[
+	<div class="product_image" id="product_image_<?php echo $product['product_id'];?>" style="display:none;position:absolute;">
+	<img src="<?php echo $product['image'];?>" />
+	</div>
+]]></add>
+</operation>
+</file>
+
+</modification>

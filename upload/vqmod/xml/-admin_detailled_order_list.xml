@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin detailled Order List]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Gigo - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['text_reports'] = $this->language->get('text_reports');]]></search>
+<add trim="true"><![CDATA[$this->data['text_orderlist'] = $this->language->get('text_orderlist');]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['report_sale_order'] = $this->url->link('report/sale_order', 'token=' . $this->session->data['token'], 'SSL');]]></search>
+<add trim="true"><![CDATA[$this->data['orderlist'] = $this->url->link('report/newreport', 'token=' . $this->session->data['token'], 'SSL');]]></add>
+</operation>
+</file>
+
+<file name="admin/language/english/common/header.php">
+<operation error="log">
+<search position="before"><![CDATA[$_['text_zone']]]></search>
+<add trim="true"><![CDATA[$_['text_orderlist']	 = 'Customer Order List';]]></add>
+</operation>
+</file>
+
+
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<li><a href="<?php echo $report_sale_order; ?>"><i class="fa fa-money fa-1x"></i><?php echo $text_report_sale_order; ?></a></li>]]></search>
+<add trim="true"><![CDATA[<li><a href="<?php echo $orderlist; ?>"><i class="fa fa-user-md fa-1x" aria-hidden="true"></i><?php echo $text_orderlist; ?></a></li>]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[System Information]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[EchoThemes - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="system/library/db.php">
+<operation error="log">
+<search position="before"><![CDATA[function getLastId()]]></search>
+<add><![CDATA[
+	public function getServerInfo() {
+	return $this->driver->getServerInfo();
+	}
+	public function getHostInfo() {
+	return $this->driver->getHostInfo();
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="system/database/mysqli.php" error="skip">
+<operation error="log">
+<search position="before"><![CDATA[function getLastId()]]></search>
+<add><![CDATA[
+	public function getServerInfo() {
+	return $this->link->server_info;
+	}
+	public function getHostInfo() {
+	return $this->link->host_info;
+	}
+]]></add>
+</operation>
+</file>
+
+</modification>

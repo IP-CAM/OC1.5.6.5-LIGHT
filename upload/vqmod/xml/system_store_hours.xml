@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Store Work Hours]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[globestar - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/information/contact.php">
+<operation error="log">
+<search position="after" offset="1"><![CDATA[$this->data['text_fax'] = $this->language->get('text_fax');]]></search>
+<add><![CDATA[
+		$this->data['text_hours'] = $this->language->get('text_hours');
+		$this->data['text_today'] = $this->language->get('text_today');
+		$this->data['text_close'] = $this->language->get('text_close');
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/language/english/information/contact.php">
+<operation error="log">
+<search position="after" offset="1"><![CDATA[ $_['heading_title']]]></search>
+<add><![CDATA[
+		$_['text_hours'] = 'Store hours:';
+		$_['text_today'] = 'Today: ';
+		$_['text_close'] = 'CLOSED. ';
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/default/template/information/contact.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $address; ?>]]></search>
+<add><![CDATA[
+		<?php echo $address; ?>
+		<br />
+		<br />
+		<b><?php echo $text_hours; ?></b></br>
+
+		<?php
+		$today=date("l"); 
+		if($today=='Monday'){
+		echo "<span style='color:#008000;'>&#9679;</span> ";
+		echo $text_today;
+		echo "9:00 - 18:00";
+		}
+
+		elseif($today=='Tuesday'){
+		echo "Hours for Tuesday";
+		echo $text_today;
+		echo "9:00 - 18:00";
+		}
+
+		elseif($today=='Wednesday'){
+		echo "<span style='color:#008000;'>&#9679;</span> ";
+		echo $text_today;
+		echo "9:00 - 18:00";
+		}
+
+		elseif($today=='Thursday'){
+		echo "<span style='color:#008000;'>&#9679;</span> ";
+		echo $text_today;
+		echo "9:00 - 18:00";
+		}
+
+		elseif($today=='Friday'){
+		echo "<span style='color:#008000;'>&#9679;</span> ";
+		echo $text_today;
+		echo "9:00 - 18:00";
+		}
+
+		elseif($today=='Saturday'){
+		echo "<span style='color:#008000;'>&#9679;</span> ";
+		echo $text_today;
+		echo "9:00 - 16:00";
+		}
+
+		elseif($today=='Sunday'){
+		echo "<span style='color:#ff0000;'>&#9679;</span> ";
+		echo $text_today;
+		echo $text_close;
+		}
+		?>
+]]></add>
+</operation>
+</file>
+</modification>

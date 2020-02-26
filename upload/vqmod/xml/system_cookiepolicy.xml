@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Cookie Policy]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[the1path.com - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/common/footer.tpl">
+<operation error="log">
+<search position="after"><![CDATA[compressed.js");});</script>]]></search>
+<add><![CDATA[
+<?php if($this->config->get('cookiepolicy_status')== 1) { 
+$this->language->load('module/cookie');
+?>
+<script type="text/javascript">
+    var text_before = "<?php echo $this->language->get('text_before'); ?>";
+    var link_text = "<?php echo $this->language->get('link_text'); ?>";
+    var text_after = "<?php echo $this->language->get('text_after'); ?>";
+    var accept_text = "<?php echo $this->language->get('accept_text'); ?>";
+    var cookie_url = "<?php echo $this->config->get('cookie_url'); ?>";
+</script>
+<script src="http://openshop.li/light/catalog/view/javascript/jquery.cookie.js"></script>
+<script src="http://openshop.li/light/catalog/view/javascript/jquery.cookiecuttr.js"></script>
+<style>
+a.cc-cookie-accept{color: <?php echo $this->config->get('accept_text_colour');?>;background: <?php echo $this->config->get('accept_button_colour');?>}a.cc-cookie-accept:hover{color: <?php echo $this->config->get('accept_text_hover');?>;background: <?php echo $this->config->get('accept_button_hover');?>}.cc-cookies, .cc-cookies a{color: <?php echo $this->config->get('cookie_text_colour');?>}.cc-cookies:before{opacity: <?php echo $this->config->get('cookie_opacity');?>;background: <?php echo $this->config->get('cookie_background_colour');?>}
+<?php if($this->config->get('rounded_corners')!='') { ?>
+a.cc-cookie-accept{-webkit-border-radius:3px 3px 3px 3px;border-radius:3px 3px 3px 3px}
+<?php }?>
+</style>
+
+<?php
+switch ($this->config->get('cookiepolicy_position')) { 
+case "1":
+echo '<style>.cc-cookies{bottom:0;}</style>';
+break; 
+case "2":
+echo '<style>.cc-cookies{top:0;}</style>';
+break;
+case "3":
+echo '<style>.cc-cookies{padding:15%; height:100%; top:0;}</style>';
+break;
+}
+?>
+<script>$(document).ready(function(){$.cookieCuttr();});</script>
+<?php } ?>
+]]></add>
+</operation>
+</file>
+
+</modification>

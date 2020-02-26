@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Attribute Select]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[elance - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/model/catalog/category.php">
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[$category_id = $this->db->getLastId();]]></search>
+<add><![CDATA[
+	$category_id = $this->db->getLastId();
+	if (isset($data['product_attribute'])&&$data['product_attribute']!="") {
+	$this->db->query("UPDATE " . DB_PREFIX . "category SET atts = '" . $this->db->escape($data['product_attribute']). "' WHERE category_id = '" . (int)$category_id . "'");}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[getCategory($category_id) {]]></search>
+<add><![CDATA[
+	getCategory($category_id) {
+	$queryc=$this->db->query("show columns from " . DB_PREFIX . "category like 'atts' ");
+	if ($queryc->num_rows) {
+	} else {
+	$this->db->query("alter table " . DB_PREFIX . "category add atts text ");
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[editCategory($category_id, $data) {]]></search>
+<add><![CDATA[
+	editCategory($category_id, $data) {
+	if (isset($data['product_attribute'])&&$data['product_attribute']!="") {
+	$this->db->query("UPDATE " . DB_PREFIX . "category SET atts = '" . $this->db->escape($data['product_attribute']). "' WHERE category_id = '" . (int)$category_id . "'");}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/catalog/category_form.tpl">
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[<?php echo $tab_design; ?></a>]]></search>
+<add><![CDATA[
+	<?php echo $tab_design; ?></a><a href="#tab-attribute">Attribute</a>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[</script>]]></search>
+<add><![CDATA[
+	</script>
+	<script type="text/javascript"><!--
+    $.widget('custom.catcomplete', $.ui.autocomplete, {
+	_renderMenu: function(ul, items) {
+	var self = this, currentCategory = '';
+	$.each(items, function(index, item) {
+	if (item.category != currentCategory) {
+	ul.append('<li class="ui-autocomplete-category">' + item.category + '</li>');
+	currentCategory = item.category;
+	}
+	self._renderItem(ul, item);
+	});
+	}
+	});
+	var attribute_row = <?php echo $attribute_row; ?>;
+	function addAttribute() {
+	html  = '<tbody id="attribute-row' + attribute_row + '">';
+    html += '  <tr>';
+	html += '    <td class="left"><input type="text" name="product_attribute[' + attribute_row + '][name]" value="" /><input type="hidden" name="product_attribute[' + attribute_row + '][attribute_id]" value="" /></td>';
+	html += '    <td class="left">';
+	<?php foreach ($languages as $language) { ?>
+	html += '<textarea name="product_attribute[' + attribute_row + '][product_attribute_description][<?php echo $language['language_id']; ?>][text]" cols="40" rows="5"></textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" align="top" /><br />';
+    <?php } ?>
+	html += '    </td>';
+	html += '    <td class="left"><a onclick="$(\'#attribute-row' + attribute_row + '\').remove();" class="button">Remove </a></td>';
+    html += '  </tr>';	
+    html += '</tbody>';
+	$('#attribute tfoot').before(html);
+	attributeautocomplete(attribute_row);
+	attribute_row++;
+	}
+	function attributeautocomplete(attribute_row) {
+	$('input[name=\'product_attribute[' + attribute_row + '][name]\']').catcomplete({
+	delay: 500,
+	source: function(request, response) {
+	$.ajax({
+	url: 'index.php?route=catalog/attribute/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+	dataType: 'json',
+	success: function(json) {	
+	response($.map(json, function(item) {
+	return {
+	category: item.attribute_group,
+	label: item.name,
+	value: item.attribute_id
+	}
+	}));
+	}
+	});
+	}, 
+	select: function(event, ui) {
+	$('input[name=\'product_attribute[' + attribute_row + '][name]\']').attr('value', ui.item.label);
+	$('input[name=\'product_attribute[' + attribute_row + '][attribute_id]\']').attr('value', ui.item.value);
+	return false;
+	},
+	focus: function(event, ui) {
+	return false;
+	}
+	});
+	}
+	$('#attribute tbody').each(function(index, element) {
+	attributeautocomplete(index);
+	});
+	//-->
+	</script> 
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[</form>]]></search>
+<add><![CDATA[
+	<div id="tab-attribute" class="pfatt">
+	<h3>Attributes</h3>
+	<table id="attribute" class="list">
+	<thead>
+	<tr>
+	<td class="left">Attribute</td>
+	<td class="left">Values</td>
+	<td></td>
+	</tr> 
+	</thead>
+	<?php $attribute_row = 0; ?>
+	<?php foreach ($product_attributes as $product_attribute) { ?>
+	<tbody id="attribute-row<?php echo $attribute_row; ?>">
+	<tr>
+	<td class="left"><input type="text" name="product_attribute[<?php echo $attribute_row; ?>][name]" value="<?php echo $product_attribute['name']; ?>" />
+	<input type="hidden" name="product_attribute[<?php echo $attribute_row; ?>][attribute_id]" value="<?php echo $product_attribute['attribute_id']; ?>" /></td>
+	<td class="left"> <br /><?php foreach ($languages as $language) { ?>
+	<textarea name="product_attribute[<?php echo $attribute_row; ?>][product_attribute_description][<?php echo $language['language_id']; ?>][text]" cols="40" rows="5"><?php echo isset($product_attribute['product_attribute_description'][$language['language_id']]) ? $product_attribute['product_attribute_description'][$language['language_id']]['text'] : ''; ?></textarea>
+	<img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" align="top" /><br />
+	<?php } ?></td>
+	<td class="left"><a onclick="$('#attribute-row<?php echo $attribute_row; ?>').remove();" class="button">Remove</a></td>
+	</tr>
+	</tbody>
+	<?php $attribute_row++; ?>
+	<?php } ?>
+	<tfoot>
+	<tr>
+	<td colspan="2"></td>
+	<td class="left"><a onclick="addAttribute();" class="button">Add</a></td>
+	</tr>
+	</tfoot>
+	</table>
+	</div></form>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/catalog/category.php">
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[public function update() {]]></search>
+<add><![CDATA[
+	public function loadatts() {
+	$this->load->model('localisation/language');
+	$languages= $this->model_localisation_language->getLanguages();
+	if(isset($this->request->get['catid'])) {
+	$query = $this->db->query("SELECT atts FROM " . DB_PREFIX . "category WHERE category_id = '" . (int)$this->request->get['catid'] . "'");
+	if($query->row['atts']!="") {
+	$atts=unserialize($query->row['atts']);
+	$attribute_row = 0;
+	foreach ($atts as $product_attribute) { 
+	echo  '<tbody id="attribute-row' . $attribute_row. '"><tr><td class="left"><input type="text" name="product_attribute[' . $attribute_row. '][name]" value="' . $product_attribute['name']. '" /> <input type="hidden" name="product_attribute[' . $attribute_row. '][attribute_id]" value="' . $product_attribute['attribute_id']. '" /></td> <td class="left"> <br />';
+	foreach ($languages as $language) { echo ' <textarea name="product_attribute[' . $attribute_row. '][product_attribute_description][' . $language['language_id']. '][text]" cols="40" rows="5">' ;
+	if( isset($product_attribute['product_attribute_description'][$language['language_id']]) ) echo  $product_attribute['product_attribute_description'][$language['language_id']]['text']; else echo '';
+	echo '</textarea> <img src="view/image/flags/' . $language['image']. '" title="' . $language['name']. '" align="top" /><br /> ';}
+	echo 	 '</td> <td class="left"><a onclick="$(\'#attribute-row' . $attribute_row. '\').remove()" class="button">Remove</a></td> </tr> </tbody>';
+	$attribute_row++; 
+	}
+	}
+	else 
+	echo "No attribute list set in this category. Add default list by going to category edit form catalog > categories  ";
+	}
+	}
+	public function update() { 
+	$this->language->load('catalog/category');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"  index="1"><![CDATA[$this->data['category_store'] = array(0);]]></search>
+<add><![CDATA[
+	$this->data['category_store'] = array(0); }
+	if (isset($this->request->post['product_attribute'])) {
+	$this->data['product_attributes'] = $this->request->post['product_attribute'];
+	} elseif (!empty($category_info)) {
+	if($category_info['atts'])
+	$this->data['product_attributes'] = unserialize($category_info['atts']);
+	else
+	$this->data['product_attributes'] = array();
+	} else {
+	$this->data['product_attributes'] = array(); 
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[protected function validateForm() {]]></search>
+<add><![CDATA[
+	protected function validateForm() {
+	if (isset($this->request->post['product_attribute'])) {
+	$this->request->post['product_attribute']= serialize($this->request->post['product_attribute']);
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/catalog/product_form.tpl">
+<operation error="log">
+<search position="replace" index="1"><![CDATA[<div id="tab-attribute">]]></search>
+<add><![CDATA[
+	<div id="tab-attribute">
+	<br />
+	<b>Select Category to load Attribute templates</b>
+	<br /><br />
+	<select id="attselect">
+	<?php $this->load->model('catalog/category');
+	$categories = $this->model_catalog_category->getCategories(0);
+
+	foreach ($categories as $category) { ?>
+	<?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+	<option value="<?php echo $category['category_id']; ?>" >
+	<?php echo $category['name']; ?></option>
+	<?php } ?>
+	</select> &nbsp; <a class="button" onclick="loadlist()" id="attlistload" >Load</a>
+	<br />
+	<br />
+	<script>
+	function loadlist() {
+	$.ajax({
+	url: 'index.php?route=catalog/category/loadatts&token=<?php echo $token; ?>',
+	dataType: 'html',
+	beforeSend: function() {
+	$('#attlistload').attr('disabled', true);
+	$('#attlistload').after('<span class="wait">&nbsp;<img src="../catalog/view/theme/default/image/loading.gif" alt="" /></span>');
+	},	
+	complete: function() {
+	$('#attlistload').attr('disabled', false);
+	$('.wait').remove();
+	},	
+	data: 'catid='+$('#attselect option:selected').val(),
+	success: function(html) {
+	$('#attribute thead').after(html)
+	}});
+	}
+	</script>
+]]></add>
+</operation>
+</file>
+
+</modification>

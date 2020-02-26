@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Fix ax ordering according priority on checkout]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[LediFrance - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/checkout/cart.php">
+<operation error="log">
+<search position="before"><![CDATA[foreach ($total_data as $key => $value) {]]></search>
+<add><![CDATA[
+	$tmp_order = 0;
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$sort_order[$key] = $value['sort_order'];]]></search>
+<add><![CDATA[
+	$sort_order[$key] = $value['sort_order'] * 1000 + $tmp_order;
+	$tmp_order = $tmp_order + 1;
+]]></add>
+</operation>
+</file>
+
+</modification>

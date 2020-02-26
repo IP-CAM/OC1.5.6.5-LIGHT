@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[OC Currency Update Fix]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[GrandCMS - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/model/localisation/currency.php">
+<operation error="log">
+<search><![CDATA[$data[] = $this->config->get('config_currency') . $result['code'] . '=X';]]></search>
+<add position="before" offset="1"><![CDATA[
+	if ($query->num_rows) {
+]]></add>	
+</operation>
+
+<operation error="log">
+<search><![CDATA[$data[] = $this->config->get('config_currency') . $result['code'] . '=X';]]></search>
+<add position="replace"><![CDATA[
+	$data[] = $result['code'];
+]]></add>
+</operation>
+
+<operation error="log">
+<search><![CDATA['http://download.finance.yahoo.com/d/quotes.csv?s=' . implode(',', $data) . '&f=sl1&e=.csv']]></search>
+<add position="replace"><![CDATA[
+	'https://api.exchangeratesapi.io/latest?base='.$this->config->get('config_currency').'&symbols='.implode(',', $data)
+]]></add>
+</operation>
+
+<operation error="log">
+<search><![CDATA[$lines = explode("\n", trim($content));]]></search>
+<add position="replace" offset="11"><![CDATA[
+	if (!$content) $content = @file_get_contents('https://api.exchangeratesapi.io/latest?base='.$this->config->get('config_currency').'&symbols='.implode(',', $data)); 
+	if ($content) {
+	$currencies = json_decode($content, true);
+	foreach ($currencies['rates'] as $currency => $value) {
+	if ((float)$value) {
+	$this->db->query("UPDATE " . DB_PREFIX . "currency SET value = '" . (float)$value . "', date_modified = '" .  $this->db->escape(date('Y-m-d H:i:s')) . "' WHERE code = '" . $this->db->escape($currency) . "'");
+	}
+	}
+	$this->db->query("UPDATE " . DB_PREFIX . "currency SET value = '1.00000', date_modified = '" .  $this->db->escape(date('Y-m-d H:i:s')) . "' WHERE code = '" . $this->db->escape($this->config->get('config_currency')) . "'");
+	}
+	}
+]]></add>
+</operation>
+</file>
+
+</modification>

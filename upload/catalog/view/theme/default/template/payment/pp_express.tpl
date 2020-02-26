@@ -1,0 +1,1 @@
+<a href="<?php echo $button_continue_action; ?>" class="btn btn-primary btn-lg btn-block"><?php echo $button_continue; ?></a>

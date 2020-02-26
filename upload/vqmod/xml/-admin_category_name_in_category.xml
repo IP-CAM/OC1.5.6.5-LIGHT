@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Show Category Path &amp; Name]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[OSWorX - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/catalog/category_form.tpl">
+<operation error="log">
+<search position="replace" index="1"><![CDATA[<?php echo $heading_title; ?>]]></search>
+<add trim="true"><![CDATA[
+	<?php echo $heading_title; ?>
+	<small>
+	<?php
+	if( $path ) {
+	echo ' &raquo; ' . $path;
+	}
+	foreach( $languages as $language ) {
+	if( $language['language_id'] == $this->config->get( 'config_language_id' ) ) {
+	if( !empty( $category_description[$language['language_id']] ) ) {
+	echo ' :: ' . $category_description[$language['language_id']]['name'];
+	}
+	}
+	} ?>
+	</small>
+]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Customer Login Details]]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[alfa - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/model/account/customer.php">
+<operation error="log">
+<search position="before"><![CDATA[$message .= $this->language->get('text_thanks') . "\n";]]></search>
+<add><![CDATA[
+	$text_usr = 'Access Name: ';
+	$text_psw = 'Access Data: ';
+	$message .= $text_usr . ' ' . $data['email'] . "\n";
+	$message .= $text_psw . ' ' . $this->db->escape($data['password']) . "\n\n";
+]]></add>
+</operation>
+</file>
+
+</modification>

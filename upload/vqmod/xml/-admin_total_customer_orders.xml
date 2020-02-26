@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Total customer orders in Order Page]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[ImakeITwork - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/sale/order.php">
+<operation error="log">
+<search position="before" index="1"><![CDATA[ $this->data['orders'][] = array(]]></search>
+<add><![CDATA[
+	$order_customer_id = 0;
+	$order_customer_id = $this->model_sale_order->getOrderCustomerId($result['order_id']);
+	$total_customer_orders = 0;
+	if ($order_customer_id>0) {
+	$total_customer_orders = $this->model_sale_order->getTotalOrdersByCustomer($order_customer_id);
+	} 
+]]></add>
+</operation>
+  
+<operation error="log">
+<search position="after"><![CDATA[ 'customer'      => $result['customer'], ]]></search>
+<add><![CDATA[
+	'customer_id'=> $order_customer_id,
+	'total_customer_orders'      => $total_customer_orders,
+]]></add>
+</operation> 
+</file>
+
+
+<file name="admin/model/sale/order.php">
+<operation error="log">
+<search position="before"><![CDATA[ public function getOrder($order_id) { ]]></search>
+<add><![CDATA[
+	public function getOrderCustomerId($order_id=0) {
+	$cust_id=0;
+	$sql1 = "SELECT customer_id FROM `" . DB_PREFIX . "order` WHERE order_id=".$order_id." ";
+	$query1 = $this->db->query($sql1);
+	$da_orders = $query1->rows;
+	$cust_id = 0;
+	if (!empty($da_orders)) {
+	foreach ($da_orders as $da_order) {
+	$cust_id = $da_order['customer_id'];
+	}
+	}
+	return $cust_id;
+	}
+	public function getTotalOrdersByCustomer($customer_id=0) {
+	$sql = "SELECT count(*) as total FROM `" . DB_PREFIX . "order`";
+	$sql .= " WHERE order_status_id > '0'";
+	$sql .= " AND customer_id=".$customer_id." ";
+	$query = $this->db->query($sql);
+	$total = $query->row['total'];
+	if (!empty($total)) {
+	return $total;
+	} else {
+	return 0;
+	}
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/sale/order_list.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $order['customer']; ?></td>]]></search>
+<add><![CDATA[
+	<?php echo $order['customer']; ?> <?php if (isset($order['total_customer_orders'])) { ?>( <?php echo $order['total_customer_orders']; ?> )<?php } ?></td>
+]]></add>
+</operation>
+</file>
+
+</modification>

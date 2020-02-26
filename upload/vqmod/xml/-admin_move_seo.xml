@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Move SEO controls to separate tab]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[MaxD - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/catalog/product_form.tpl,admin/view/template/catalog/category_form.tpl">
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_meta_description; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_meta_keyword; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_seo_h1; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_seo_title; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_keyword; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+<operation error="skip">
+<search position="replace"><![CDATA[<a href="#tab-attribute">]]></search>
+<add><![CDATA[<a href="#tab-seo"><?php if (!isset($tab_seo)) $tab_seo='SEO'; echo $tab_seo; ?></a><a href="#tab-attribute">]]></add>
+</operation>
+<operation error="skip">
+<search position="before"><![CDATA[<div id="tab-attribute">]]></search>
+<add><![CDATA[<div id="tab-seo">
+<table class="form">
+<tr>
+<td><?php echo $entry_keyword; ?></td>
+<td><input type="text" name="keyword" value="<?php echo $keyword; ?>" /></td>
+</tr>
+</table>
+<div id="languages1" class="htabs">
+<?php foreach ($languages as $language) { ?>
+<a href="#language-1<?php echo $language['language_id']; ?>"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a>
+<?php } ?>
+</div>
+<?php foreach ($languages as $language) { ?>
+<div id="language-1<?php echo $language['language_id']; ?>">
+<table class="form">
+<?php if (isset($entry_seo_h1)) { ?>
+<tr>
+ <td><?php echo $entry_seo_h1; ?></td>
+<td><input type="text" name="product_description[<?php echo $language['language_id']; ?>][seo_h1]" maxlength="255" size="100" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['seo_h1'] : ''; ?>" /></td>
+</tr>
+<tr>
+<td><?php echo $entry_seo_title; ?></td>
+<td><input type="text" name="product_description[<?php echo $language['language_id']; ?>][seo_title]" maxlength="255" size="100" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['seo_title'] : ''; ?>" /></td>
+</tr>
+<?php } ?>
+<tr>
+<td><?php echo $entry_meta_description; ?></td>
+<td><textarea name="product_description[<?php echo $language['language_id']; ?>][meta_description]" cols="40" rows="5"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_description'] : ''; ?></textarea></td>
+</tr>
+<tr>
+<td><?php echo $entry_meta_keyword; ?></td>
+<td><textarea name="product_description[<?php echo $language['language_id']; ?>][meta_keyword]" cols="40" rows="5"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea></td>
+</tr>
+</table>
+</div>
+<?php } ?>
+</div>
+<script type="text/javascript"><!--
+$('#languages1 a').tabs(); 
+//--></script>
+]]></add>
+</operation>
+</file>
+	
+<file name="admin/view/template/catalog/category_form.tpl">
+<operation error="skip">
+<search position="replace"><![CDATA[<a href="#tab-design">]]></search>
+<add><![CDATA[<a href="#tab-seo"><?php if (!isset($tab_seo)) $tab_seo='SEO'; echo $tab_seo; ?></a><a href="#tab-design">]]></add>
+</operation>
+<operation error="skip">
+<search position="before"><![CDATA[<div id="tab-design">]]></search>
+<add><![CDATA[<div id="tab-seo">
+<table class="form">
+<tr>
+<td><?php echo $entry_keyword; ?></td>
+<td><input type="text" name="keyword" value="<?php echo $keyword; ?>" /></td>
+</tr>
+</table>
+<div id="languages1" class="htabs">
+<?php foreach ($languages as $language) { ?>
+<a href="#language-1<?php echo $language['language_id']; ?>"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a>
+<?php } ?>
+</div>
+<?php foreach ($languages as $language) { ?>
+<div id="language-1<?php echo $language['language_id']; ?>">
+<table class="form">
+<?php if (isset($entry_seo_h1)) { ?>
+<tr>
+ <td><?php echo $entry_seo_h1; ?></td>
+<td><input type="text" name="category_description[<?php echo $language['language_id']; ?>][seo_h1]" maxlength="255" size="100" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['seo_h1'] : ''; ?>" /></td>
+</tr>
+<tr>
+<td><?php echo $entry_seo_title; ?></td>
+<td><input type="text" name="category_description[<?php echo $language['language_id']; ?>][seo_title]" maxlength="255" size="100" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['seo_title'] : ''; ?>" /></td>
+</tr>
+<?php } ?>
+<tr>
+<td><?php echo $entry_meta_description; ?></td>
+<td><textarea name="category_description[<?php echo $language['language_id']; ?>][meta_description]" cols="40" rows="5"><?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['meta_description'] : ''; ?></textarea></td>
+</tr>
+<tr>
+<td><?php echo $entry_meta_keyword; ?></td>
+<td><textarea name="category_description[<?php echo $language['language_id']; ?>][meta_keyword]" cols="40" rows="5"><?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea></td>
+</tr>
+</table>
+</div>
+<?php } ?>
+</div>
+<script type="text/javascript"><!--
+$('#languages1 a').tabs(); 
+//--></script>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/catalog/information_form.tpl">
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_meta_description; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_meta_keyword; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_seo_h1; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_seo_title; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="3"><![CDATA[<td><?php echo $entry_keyword; ?></td>]]></search>
+<add><![CDATA[<?php if (empty($entry_seo_h1)) { ?><td><?php echo $entry_keyword; ?></td>
+<td><input type="text" name="keyword" value="<?php echo $keyword; ?>" /></td>
+</tr><?php } ?>]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[<a href="#tab-design">]]></search>
+<add><![CDATA[<?php if (!empty($entry_seo_h1)) { if (!isset($tab_seo)) $tab_seo='SEO'; ?><a href="#tab-seo"><?php echo $tab_seo; ?></a><?php } ?><a href="#tab-design">]]></add>
+</operation>
+
+<operation error="skip">
+<search position="before"><![CDATA[<div id="tab-design">]]></search>
+<add><![CDATA[
+<?php if (!empty($entry_seo_h1)) { ?><div id="tab-seo">
+<table class="form">
+<tr>
+<td><?php echo $entry_keyword; ?></td>
+<td><input type="text" name="keyword" value="<?php echo $keyword; ?>" /></td>
+</tr>
+</table>
+<div id="languages1" class="htabs">
+<?php foreach ($languages as $language) { ?>
+<a href="#language-1<?php echo $language['language_id']; ?>"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a>
+<?php } ?>
+</div>
+<?php foreach ($languages as $language) { ?>
+<div id="language-1<?php echo $language['language_id']; ?>">
+<table class="form">
+<tr>
+ <td><?php echo $entry_seo_h1; ?></td>
+<td><input type="text" name="information_description[<?php echo $language['language_id']; ?>][seo_h1]" maxlength="255" size="100" value="<?php echo isset($information_description[$language['language_id']]) ? $information_description[$language['language_id']]['seo_h1'] : ''; ?>" /></td>
+</tr>
+<tr>
+<td><?php echo $entry_seo_title; ?></td>
+<td><input type="text" name="information_description[<?php echo $language['language_id']; ?>][seo_title]" maxlength="255" size="100" value="<?php echo isset($information_description[$language['language_id']]) ? $information_description[$language['language_id']]['seo_title'] : ''; ?>" /></td>
+</tr>
+<tr>
+<td><?php echo $entry_meta_description; ?></td>
+<td><textarea name="information_description[<?php echo $language['language_id']; ?>][meta_description]" cols="40" rows="5"><?php echo isset($information_description[$language['language_id']]) ? $information_description[$language['language_id']]['meta_description'] : ''; ?></textarea></td>
+</tr>
+<tr>
+<td><?php echo $entry_meta_keyword; ?></td>
+<td><textarea name="information_description[<?php echo $language['language_id']; ?>][meta_keyword]" cols="40" rows="5"><?php echo isset($information_description[$language['language_id']]) ? $information_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea></td>
+</tr>
+</table>
+</div>
+<?php } ?>
+</div>
+<script type="text/javascript"><!--
+$('#languages1 a').tabs();
+//--></script>
+<?php } ?>
+]]></add>
+</operation>
+</file>
+
+</modification>

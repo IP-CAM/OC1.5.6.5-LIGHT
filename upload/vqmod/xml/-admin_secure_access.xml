@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[SecureMyAdmin]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Razorin Works - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/common/login.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<div id="content">]]></search>
+<add><![CDATA[
+	<?php if ($checked_ip == 1) { ?>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[//--></script>]]></search>
+<add><![CDATA[
+	<?php } else { ?>
+	<div class="box" style="width: 600px; min-height: 200px; margin-top: 100px; margin-left: auto; margin-right: auto;">
+	<table border="0">
+	<tr align="center">
+	<td><img src="view/image/access_denied.png" alt="Access denied"></td>
+	</tr>
+	</table>
+	</div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $footer; ?>]]></search>
+<add><![CDATA[
+	<?php } ?>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/login.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->language->load('common/login');]]></search>
+<add><![CDATA[
+	$this->load->model('common/login');
+	$this->data['checked_ip'] = $this->model_common_login->getTotalIpChecks();
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/home.php">
+<operation error="log">
+<search position="before"><![CDATA[public function permission() {]]></search>
+<add><![CDATA[
+	public function secureURL($getRequestVar) {
+	$valid = FALSE;
+	// check if the module has been enabled
+	if ( $this->config->get('secure_status') &&  $this->config->get('secure_status') == 1 ) {
+	// get the secure key from the database
+	$db_skey    =  $this->config->get('secure_key');
+	// get the secure value from the database
+	$db_sval    =  $this->config->get('secure_value');
+	// Get the session securekey
+	$session_skey = "" ;
+	$session_sval = "" ;
+	If( isset($this->session->data[$db_skey]) ) {
+	$k = explode("_",$this->session->data[$db_skey]);
+	$k[0];
+	//$session_skey = $this->session->data[$db_skey] ;
+	$session_skey = $k[0];
+	$session_sval = $k[1];
+	}
+	// Get the session secure value
+	//If( isset($this->session->data[$db_sval]) ) { $session_sval = $this->session->data[$db_sval] ; }
+	if(!empty($getRequestVar)){
+	if(isset($getRequestVar[$db_skey] )){
+	$getlink = array( $db_skey => $getRequestVar[$db_skey] );
+	}}
+	// Get the URL params thru get request
+	$url_skey = "" ;
+	$url_sval = "" ;
+
+	if(isset($getlink) ){
+	foreach ( $getlink as $key =>$value ){
+	$url_skey = $key;
+	$url_sval = $value;
+	}
+	}
+
+	if($db_skey && $db_sval && $url_skey && $url_sval ){
+	if ( $db_skey === $url_skey && $db_sval === $url_sval ) {
+	// if everything is correct , set the session
+	$this->session->data[$db_skey] = $db_skey."_".$db_sval  ;
+	//$this->session->data[$db_sval] = $db_sval  ;
+	$valid = TRUE;
+	}
+	}
+
+	if ( $session_skey && $session_sval && $session_skey === $db_skey  && $session_sval === $db_sval ) {
+	$valid = TRUE;
+	}
+
+	if (!$valid ) {
+	if ($this->config->get('config_url') != "") {
+	$loc = 'Location:'.$this->config->get('config_url').'?route=common/home';
+	} else {
+	$loc = 'Location:../?route=common/home';
+	}
+	header($loc);
+	exit;
+	}}}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before" index="1"><![CDATA[if (isset($this->request->get['route'])) {]]></search>
+<add><![CDATA[
+	$this->secureURL($this->request->get);
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/logout.php">
+<operation error="log">
+<search position="after"><![CDATA[unset($this->session->data['token']);]]></search>
+<add><![CDATA[
+	if ( $this->config->get('secure_status') &&  $this->config->get('secure_status') == 1 ) {
+	// get the secure key from the database
+	$db_skey    =  $this->config->get('secure_key');
+	// get the secure value from the database
+	$db_sval    =  $this->config->get('secure_value');
+	unset($this->session->data[$db_skey]);
+	unset($this->session->data[$db_sval]);
+	}
+]]></add>
+</operation>
+</file>
+
+</modification>

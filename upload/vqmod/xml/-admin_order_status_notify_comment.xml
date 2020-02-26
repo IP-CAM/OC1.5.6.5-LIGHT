@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Order Status Notify Comment]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[hakim_jz - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/sale/order_info.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<td><textarea name="comment" cols="40" rows="8" style="width: 99%"></textarea>]]></search>
+<add><![CDATA[
+	<div style="margin-top: 10px;">
+	<a id="button-template-notify-a" class="button">A Comment</a>&nbsp;
+	<a id="button-template-notify-b" class="button">B Comment</a>&nbsp;
+	<a id="button-template-notify-c" class="button">C Comment</a>&nbsp;
+	<a id="button-template-notify-d" class="button">D Comment</a>&nbsp;
+	<a id="button-template-notify-e" class="button">E Comment</a>
+	<script type="text/javascript"><!--
+	$('#button-template-notify-a').live('click', function() {
+	var template_msg = 'Dear <?php echo $firstname; ?> <?php echo $lastname; ?>,\n\nThis is the  message A you need to replace\n\nThank You';
+	$('textarea[name=\'comment\']').val(template_msg);
+	});
+	$('#button-template-notify-b').live('click', function() {
+	var template_msg = 'Dear <?php echo $firstname; ?> <?php echo $lastname; ?>,\n\nThis is the  message B you need to replace\n\nThank You';
+	$('textarea[name=\'comment\']').val(template_msg);
+	});
+	$('#button-template-notify-c').live('click', function() {
+	var template_msg = 'Dear <?php echo $firstname; ?> <?php echo $lastname; ?>,\n\nThis is the  message C you need to replace\n\nThank You';
+	$('textarea[name=\'comment\']').val(template_msg);
+	});
+	$('#button-template-notify-d').live('click', function() {
+	var template_msg = 'Dear <?php echo $firstname; ?> <?php echo $lastname; ?>,\n\nThis is the  message D you need to replace\n\nThank You';
+	$('textarea[name=\'comment\']').val(template_msg);
+	});
+	$('#button-template-notify-e').live('click', function() {
+	var template_msg = 'Dear <?php echo $firstname; ?> <?php echo $lastname; ?>,\n\nThis is the  message E you need to replace\n\nThank You';
+	$('textarea[name=\'comment\']').val(template_msg);
+	});
+	//--></script>
+	</div>
+]]></add>
+</operation>	
+</file>
+
+</modification>

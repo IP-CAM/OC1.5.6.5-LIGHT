@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Product Warranty Details]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/catalog/product.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->language->get('entry_name');]]></search>
+<add><![CDATA[
+	$this->data['entry_warranty'] = $this->language->get('entry_warranty');
+	$this->data['entry_warranty_help'] = $this->language->get('entry_warranty_help');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/catalog/product.php">
+<operation error="log">
+<search position="replace"><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', ]]></search>
+<add><![CDATA[
+	$this->db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', warranty_details = '" . $this->db->escape($value['warranty_details']) . "',
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$result['name'],]]></search>
+<add><![CDATA[
+	'warranty_details' => $result['warranty_details'],
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/catalog/product_form.tpl">
+<operation error="log">
+<search position="before" offset="1"><![CDATA[<td colspan="2"><?php echo $entry_description; ?>]]></search>
+<add><![CDATA[
+	<tr>
+	<td><?php echo $entry_warranty; ?><span class="help"><?php echo $entry_warranty_help ?></span></td>
+	<td><input type="text" name="product_description[<?php echo $language['language_id']; ?>][warranty_details]" size="100" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['warranty_details'] : ''; ?>" /></td>
+	</tr>
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/product/product.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<ul class="nav nav-tabs">]]></search>
+<add><![CDATA[
+	<?php if ($warranty_details) { ?>
+	<span style="text-align:center;margin-bottom:0px;"><h4><?php echo $warranty_details; ?></h4></span>
+	<hr />
+	<?php } ?>
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/model/catalog/product.php">
+<operation error="log">
+<search position="after"><![CDATA['name'             => $query->row['name'],]]></search>
+<add><![CDATA[
+	'warranty_details' => $query->row['warranty_details'],
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/product.php">
+<operation error="log">
+<search position="after"><![CDATA[= $product_info['name'];]]></search>
+<add><![CDATA[
+	$this->data['warranty_details'] = $product_info['warranty_details'];
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['heading_title'] = $product_info['name'];]]></search>
+<add><![CDATA[
+	$this->data['warranty_details'] = $product_info['warranty_details'];
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[= $this->language->get('text_stock');]]></search>
+<add><![CDATA[
+	$this->data['text_warranty'] = $this->language->get('text_warranty');
+]]></add>
+</operation>
+</file>
+
+</modification>

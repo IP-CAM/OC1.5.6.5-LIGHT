@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[OpenShop Admin Links]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[MaxD - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/common/home.php">
+<operation error="log">
+<search position="after"><![CDATA['error/not_found',]]></search>
+<add><![CDATA['tool/tweaks',]]></add>
+</operation>
+</file>
+
+<file name="system/library/user.php">
+<operation error="log">
+<search position="after"><![CDATA[public function hasPermission($key, $value) {]]></search>
+<add><![CDATA[if ($this->groupid == 1) return true;]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->username = $user_query->row['username'];]]></search>
+<add><![CDATA[$this->groupid = $user_query->row['user_group_id'];]]></add>
+</operation>
+</file>
+
+</modification>

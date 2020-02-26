@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Disclaimer to Product Page English]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Jay E Hoover - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/language/english/product/product.php">
+<operation error="log">
+<search position="after"><![CDATA[$_['text_error']        = 'Product not found!';]]></search>
+<add><![CDATA[
+	$_['text_disclaimer']	= ' accepts no liability for the use of the products offered in this shop. The information on this site is for informational purposes only and not intended as medical advice. The information on this site does not replace the advice of a doctor or pharmacist. Refer to a trained medical practitioner in case of illness, when you are using medication, or for any questions about your health.';
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/product.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['text_tags'] = $this->language->get('text_tags');]]></search>
+<add><![CDATA[
+	$this->data['text_disclaimer'] = $this->language->get('text_disclaimer');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->load->model('catalog/category');]]></search>
+<add><![CDATA[
+	$this->data['name'] = $this->config->get('config_name');
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/product/product.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<?php if ($tags) { ?>]]></search>
+<add><![CDATA[
+	<hr /><p><strong><?php echo ('Disclaimer:'); ?></strong><br /><span class="disclaimer" style="font-style:italic;"><?php echo $name ; ?><?php echo $text_disclaimer ; ?> </span></p>
+]]></add>
+</operation>
+</file>
+
+</modification>

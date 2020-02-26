@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Address Change]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[DB Desai - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/sale/order.php">
+<operation error="skip">
+<search position="after"><![CDATA[$total_data = $this->model_sale_order->getOrderTotals($order_id);]]></search>
+<add><![CDATA[
+	//Get address group data from'setting'
+	$add_info = $this->model_setting_setting->getSetting('invoice_modifier');
+
+	if(empty($add_info)){
+	$add_info['module_address_req'] = NULL;
+	$add_info['module_title_fontsize'] = '';
+	$add_info['module_title_fontcolor'] = '';
+	$add_info['module_body_fontsize'] = '';
+	$add_info['module_body_fontcolor'] = '';
+	$add_info['module_store_time'] = '';
+	$add_info['module_address_2'] = '';
+	$add_info['module_title_bold'] = '1';
+	$add_info['module_title_bg'] = '';
+	$add_info['invoice_logo'] = NULL;
+	}
+
+	if(!isset($add_info['module_address_req'])){
+	$add_info['module_address_req'] = NULL;	
+	}
+
+	if(!isset($add_info['module_title_bold'])){
+	$add_info['module_title_bold'] = NULL;
+	}
+
+	 if($add_info['module_title_fontsize'] == ''){
+	$add_info['module_title_fontsize'] = '12';	
+	} 
+
+	if($add_info['module_body_fontsize'] == ''){
+	$add_info['module_body_fontsize'] = '12';	
+	} 
+
+	if($add_info['module_title_fontcolor'] == ''){
+	$add_info['module_title_fontcolor'] = '000000';	
+	} 
+
+	 if($add_info['module_body_fontcolor'] == ''){
+	$add_info['module_body_fontcolor'] = '000000';	
+	}
+	if($add_info['module_title_bg'] == ''){
+	$add_info['module_title_bg'] = 'e7efef';	
+	} 
+
+	if($add_info['module_address_req'] == 1){
+	$add_info['module_address_1'] = $add_info['module_address_1'];
+	$add_info['module_contact_no'] = $add_info['module_contact_no'];
+	$add_info['module_address_2'] = $add_info['module_address_2'];
+	$add_info['module_store_time'] = $add_info['module_store_time'];
+	} else {
+	$add_info['module_address_1'] = $this->config->get('config_address');
+	$add_info['module_contact_no'] = $this->config->get('config_telephone');
+	$add_info['module_address_2'] = '';
+	$add_info['module_store_time'] = '';
+	}
+]]></add>
+</operation>
+	
+<operation error="skip">
+<search position="replace"><![CDATA['store_address'	=> nl2br($store_address),]]></search>
+<add><![CDATA['store_address'	=> nl2br($add_info['module_address_1']),]]></add>
+</operation>
+	
+<operation error="skip">
+<search position="replace"><![CDATA['store_telephone'	=> $store_telephone,]]></search>
+<add><![CDATA['store_telephone'	=> nl2br($add_info['module_contact_no']),]]></add>
+</operation>
+
+<operation error="skip">
+<search position="after"><![CDATA['total'	 => $total_data,]]></search>
+<add><![CDATA[
+	'title_fontsize'	 =>$add_info['module_title_fontsize'],//added data from $add_info array
+	'modifier_address_1' =>$add_info['module_address_1'],
+	'title_fontcolor' 	 =>$add_info['module_title_fontcolor'],
+	'body_fontsize'   	 =>$add_info['module_body_fontsize'],
+	'body_fontcolor'  	 =>$add_info['module_body_fontcolor'],
+	'store_time'	 =>$add_info['module_store_time'],
+	'modifier_address_2' =>nl2br($add_info['module_address_2']),
+	'title_bg'	 =>$add_info['module_title_bg'],
+	'title_bold'	 	 =>$add_info['module_title_bold'],
+	'invoice_logo'	 =>$add_info['invoice_logo'],//End $add_info array
+]]></add>
+</operation>
+</file>  
+
+<file name="admin/view/template/sale/order_invoice.tpl">
+<operation error="skip">
+<search position="after"><![CDATA[<?php foreach ($orders as $order) { ?>]]></search>
+<add><![CDATA[
+	<style>
+	body, td, th {
+	font-size: <?php echo $order['body_fontsize']."px"; ?>;
+	color: #<?php echo $order['body_fontcolor']?>;
+	}
+	.heading td {
+	font-size:<?php echo $order['title_fontsize']."px";?>;
+	color: #<?php echo $order['title_fontcolor'];?>;
+	background: #<?php echo $order['title_bg'];?>;
+	}
+	</style>
+]]></add>
+</operation>
+	
+<operation error="skip">
+<search position="after"><![CDATA[<div style="page-break-after: always;">]]></search>
+<add><![CDATA[
+	<?php if($order['invoice_logo']){?>
+	<img src="../image/<?php echo $order['invoice_logo'];?>" alt="store logo" />
+	<?php }?>
+]]></add>
+</operation>
+	
+<operation error="skip">
+<search position="before"><![CDATA[<?php echo $text_telephone; ?> <?php echo $order['store_telephone']; ?><br />]]></search>
+<add><![CDATA[
+	<?php if($order['modifier_address_2']) echo $order['modifier_address_2']."<br />"; ?>
+]]></add>
+</operation>
+	
+<operation error="skip">
+<search position="before"><![CDATA[<?php echo $order['store_email']; ?><br />]]></search>
+<add><![CDATA[
+	<?php if(!empty($order['store_time'])){echo "Store Time:";  echo $order['store_time']."<br />";} ?>
+]]></add>
+</operation>
+	
+<operation error="skip">
+<search position="replace" index="6,7,8,9,10,11,12,14"><![CDATA[<b>]]></search>
+<add><![CDATA[
+	<?php if($order['title_bold']== 1){ echo "<b>";}?>
+]]></add>
+</operation>
+	
+<operation error="skip">
+<search position="replace" index="6,7,8,9,10,11,12"><![CDATA[</b>]]></search>
+<add><![CDATA[
+	<?php if($order['title_bold']== 1){ echo "</b>";}?>
+]]></add>
+</operation>
+</file>
+
+</modification>

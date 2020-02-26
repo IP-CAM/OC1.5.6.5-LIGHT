@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Featured Product Plus]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[WeDoWeb.com.au - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/module/featured.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<input type="hidden" name="featured_product"]]></search>
+<add><![CDATA[
+	<a href="#" class="m_mover" onclick="moveMarkedItemsUp(); return false;"><span>Move Up</span></a>&nbsp;
+	<a href="#" class="m_mover" onclick="moveMarkedItemsDown(); return false;"><span>Move Down</span></a>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before" index="1"><![CDATA[//--></script> ]]></search>
+<add><![CDATA[
+	$('#featured-product div').live('click', function() {
+	$this = $(this);
+	if($this.hasClass('marked'))
+	$(this).removeClass('marked');
+	else
+	$(this).addClass('marked');
+	});
+	function moveMarkedItemsUp() {
+	$('.marked').each(function(index) {
+	$this = $(this);
+	$this.prev().before($this);
+	});
+	reColorThenReMap();
+	}
+	jQuery.fn.reverse = function() {
+	return this.pushStack(this.get().reverse(), arguments);
+	};
+	function moveMarkedItemsDown() {
+	$('.marked').reverse().each(function(index) {
+	$this = $(this);
+	$this.next().after($this);
+	});
+	reColorThenReMap();
+	}
+	function reColorThenReMap()
+	{
+	$('#featured-product div').removeClass('odd').removeClass('even');
+	$('#featured-product div:odd').addClass('odd');
+	$('#featured-product div:even').addClass('even');
+	data = $.map($('#featured-product input'), function(element){
+	return $(element).attr('value');
+	});
+	$('input[name=\'featured_product\']').attr('value', data.join());	
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after" index="1"><![CDATA[//--></script>]]></search>
+<add><![CDATA[
+	<style>
+	.marked {
+	border-left: 5px solid orange;
+	}
+	.scrollbox {
+	height: 200px;
+	}
+	div#featured-product {
+	float: left;
+	}
+	a.m_mover {
+	float: left;
+	margin-left: 15px;
+	text-decoration: none;
+	text-align: center;
+	outline: none;
+	}
+	a.m_mover span {
+	display:block;
+	margin: 5px auto;
+	color:#666;
+	}
+	a.m_mover span:before {
+	content: '';
+	width: 22px;
+	height: 27px;
+	display: block;
+	margin: 0 auto;
+	background: url(view/image/mover_up_bg.png) left top no-repeat;
+	}
+	a + a.m_mover span:before {
+	background-image: url(view/image/mover_down_bg.png);
+	}
+	a.m_mover:hover span {color: #333;} 
+	a.m_mover:hover span:before {background-position: center top}
+	a.m_mover:active span{color: #5c9bc8;}
+	a.m_mover:active span:before {background-position: right top}
+	</style>
+]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Out of Stock Report]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Reason8 - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+  
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $text_report_product_purchased; ?></a></li>]]></search>
+<add><![CDATA[
+	<li><a href="<?php echo 'index.php?route=report/product_quantity&token=' . $this->session->data['token']; ?>"><i class="fa fa-comment-o fa-1x"></i>Out of Stock Report</a></li>
+]]></add>
+</operation>
+</file>
+  
+<file name="admin/model/report/product.php">
+<operation error="log">
+<search position="before"><![CDATA[public function getTotalPurchased($data) {]]></search>
+<add><![CDATA[
+	public function getProductsQuantity($data = array()) {
+	$sql = "SELECT pd.name, p.product_id, p.model, p.quantity FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.quantity < 2  ORDER BY p.quantity ASC, pd.name ASC LIMIT 999";	
+	$query = $this->db->query($sql);
+	return $query->rows;
+	}
+]]></add>
+</operation>
+</file>
+
+</modification>

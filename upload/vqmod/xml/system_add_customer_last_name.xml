@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Customer First + last Name]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Globestar - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/common/header.php">
+<operation error="log">
+<search position="replace"><![CDATA[$this->data['text_logged'] = sprintf($this->language->get('text_logged'), $this->url->link('account/account', '', 'SSL'), $this->customer->getFirstName(), $this->url->link('account/logout', '', 'SSL'));]]></search>
+<add><![CDATA[
+	$this->data['text_logged'] = sprintf($this->language->get('text_logged'), $this->url->link('account/account', '', 'SSL'), $this->customer->getFirstName(), $this->customer->getLastName(), $this->url->link('account/logout', '', 'SSL'));
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/language/*/common/header.php">
+<operation error="log">
+<search position="replace"><![CDATA[<a href="%s">%s</a>]]></search>
+<add><![CDATA[
+	<a href="%s">%s %s</a>
+]]></add>
+</operation>
+</file>
+
+</modification>       

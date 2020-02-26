@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin find other Orders]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[opencartaddons - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/language/english/sale/order.php">
+<operation error="log">
+<search position="after"><![CDATA[$_['text_customer']]]></search>
+<add><![CDATA[	$_['text_find_other_orders'] = 'Find Other Orders';]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/sale/order.php">
+<operation error="log">
+<search position="before"><![CDATA[if ($order_info['customer_id']) {]]></search>
+<add><![CDATA[
+	$this->data['text_find_other_orders'] = $this->language->get('text_find_other_orders');
+	$this->data['find_other_orders_href'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_customer=' . $order_info['firstname'] . ' ' . $order_info['lastname'], 'SSL');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/sale/order_info.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<td><a href="<?php echo $customer; ?>"><?php echo $firstname; ?> <?php echo $lastname; ?></a></td>]]></search>
+<add><![CDATA[<td><a class="button" href="<?php echo $customer; ?>"><?php echo $firstname; ?> <?php echo $lastname; ?></a> <a class="button" href="<?php echo $find_other_orders_href; ?>"><?php echo $text_find_other_orders; ?></a></td>]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<td><?php echo $firstname; ?> <?php echo $lastname; ?></td>]]></search>
+<add><![CDATA[<td><?php echo $firstname; ?> <?php echo $lastname; ?></td> <a class="button" href="<?php echo $find_other_orders_href; ?>"><?php echo $text_find_other_orders; ?></a></td>]]></add>
+</operation>
+</file>
+
+</modification>

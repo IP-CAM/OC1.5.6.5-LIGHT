@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Language Switcher]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[addist.ru - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="system/library/config.php">
+<operation error="log">
+<search position="replace"><![CDATA[$this->data[$key] = $value;]]></search>
+<add><![CDATA[
+	if ($key == 'config_language_id') {
+	$this->setLanguage();
+	} else {
+	$this->data[$key] = $value;
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[public function load($filename)]]></search>
+<add><![CDATA[
+	public function setLanguage() {
+	global $languages;
+	$session = new Session();
+	if (isset($_POST['language_code'])) {
+	$session->data['language'] = $_POST['language_code'];
+	} elseif (isset($_GET['lang'])) {
+	$session->data['language'] = $_GET['lang'];
+	}
+	if (isset($session->data['language']) && array_key_exists($session->data['language'], $languages) && $languages[$session->data['language']]['status']) {
+	$code = $session->data['language'];
+	} elseif (isset($_COOKIE['language']) && array_key_exists($_COOKIE['language'], $languages) && $languages[$_COOKIE['language']]['status']) {
+	$code = $_COOKIE['language'];
+	} else {
+	$code = $this->get('config_language');
+	}
+	if (!isset($session->data['language']) || $session->data['language'] != $code) {
+	$session->data['language'] = $code;
+	}
+
+	if (!isset($_COOKIE['language']) || $_COOKIE['language'] != $code) {
+	setcookie('language', $code, time() + 60 * 60 * 24 * 30, '/', $_SERVER['HTTP_HOST']);
+	}
+
+	$this->data['config_language'] = $languages[$code]['code'];
+	$this->data['config_admin_language'] = $languages[$code]['code'];
+	$this->data['config_language_id'] = $languages[$languages[$code]['code']]['language_id'];
+
+	if (isset($_POST['language_redirect'])) {
+	header('Location: ' . str_replace(array('&amp;', "\n", "\r"), array('&', '', ''), $_POST['language_redirect']), true);
+	}
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->language->load('common/header');]]></search>
+<add><![CDATA[
+	if ($this->user->isLogged() && isset($_GET['route'])) {
+	$this->load->model('localisation/language');
+	$this->data['text_switch_language'] = $this->language->get('text_switch_language');
+	$this->data['languages'] = array();
+	$results = $this->model_localisation_language->getLanguages();
+	foreach ($results as $result) {
+	if ($result['status']) {
+	$this->data['languages'][] = array(
+	'name'  => $result['name'],
+	'code'  => $result['code'],
+	'image'  => $result['image']
+	);
+	}
+	}
+
+	$this->data['language_code'] = isset($this->session->data['language']) ? $this->session->data['language'] : $this->config->get('config_language');
+	$args = $_GET; unset($args['route']);
+	$this->data['language_redirect'] = $this->url->link($_GET['route'], urldecode(http_build_query($args, '', '&')), 'SSL');
+	$this->data['action'] = $this->url->link('common/home', isset($_GET['token']) ? 'token=' . $_GET['token'] : '', 'SSL');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/language/english/common/header.php">
+<operation error="log">
+<search position="before"><![CDATA[$_['text_affiliate']]]></search>
+<add><![CDATA[
+	$_['text_switch_language'] = 'Switch language';
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="iafter"><![CDATA[style="display: none;">]]></search>
+<add><![CDATA[
+	<?php if (count($languages) > 1) { ?>
+	<li id="language-menu">
+	<a class="top"><?php foreach ($languages as $language) { ?><?php if ($language['code'] == $language_code) { ?><img src="<?php echo HTTP_CATALOG; ?>image/flags/<?php echo $language['image']; ?>" alt="<?php echo $language['name']; ?>" title="<?php echo $language['name']; ?>" /><?php } ?><?php } ?> <?php echo $text_switch_language; ?></a>
+	<form method="post" action="<?php echo $action; ?>" id="language-form">
+	<input type="hidden" name="language_code" id="language-code" value="<?php echo $language_code; ?>" />
+	<input type="hidden" name="language_redirect" value="<?php echo $language_redirect; ?>" />
+	</form>
+	<ul>
+	<?php foreach ($languages as $language) { ?>
+	<li><a href="#" onclick="$('#language-code').val('<?php echo $language['code']; ?>');$('#language-form').submit();return false;"><img src="<?php echo HTTP_CATALOG; ?>image/flags/<?php echo $language['image']; ?>" alt="<?php echo $language['name']; ?>" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a></li>
+	<?php } ?>
+	</ul>
+	</li>
+	<?php } ?>
+]]></add>
+</operation>
+</file>
+
+</modification>

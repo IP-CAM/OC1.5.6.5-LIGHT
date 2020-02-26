@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Print Invoice LayOut]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[EDesigniz Team - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/model/sale/order.php"> 
+<operation error="log">
+<search position="replace"><![CDATA[$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");]]></search>
+<add><![CDATA[$query = $this->db->query("SELECT *,op.quantity FROM `" . DB_PREFIX . "order_product` op LEFT JOIN " . DB_PREFIX . "product p ON (p.product_id = op.product_id) WHERE order_id = '" . (int)$order_id . "'");]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/sale/order.php">
+<operation error="log">
+<search position="before"><![CDATA[$product_data[] = array(]]></search>
+<add><![CDATA[$this->load->model('tool/image');]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$product_data[] = array(]]></search>
+<add><![CDATA[ 'image'    => $this->model_tool_image->resize($product['image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height')),]]></add>
+</operation>
+</file>
+		
+<file name="admin/view/template/sale/order_invoice.tpl">
+<operation error="log"> 
+<search position="replace"><![CDATA[</body>]]></search> 
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="log"> 
+<search position="replace"><![CDATA[</html>]]></search> 
+<add><![CDATA[]]></add>
+</operation> 
+
+<operation error="log"> 
+<search position="after"><![CDATA[<?php foreach ($orders as $order) { ?>]]></search> 
+<add><![CDATA[
+<div style="page-break-after: always; margin-top:10px;">
+<div style="width:770px; margin:0 auto; position:relative; color:#333; font-size:11px;" >
+<table class="store" style="font-size:11px; ">
+<tr><td colspan="2" style="text-align:center; min-height:100px;" ><?php if (!empty($logo)): ?>
+<img src="<?php echo $logo; ?>" style="margin:0 auto !important; position:relative;" />
+<?php endif; ?>
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center" style="line-height:22px;  font-size:11px;">
+<hr/>
+</td>
+</tr>
+<tr><td>
+<h3 style="text-transform: uppercase; color: #333; text-align: left; font-size: 12px; font-weight: normal; padding-bottom: 5px; margin-top: 0px; margin-bottom: 0px; padding-left:12px;"><?php echo $text_invoice_no; ?> <b># <?php echo $order['invoice_no']; ?></b></h3>
+</td>
+<td align="right">
+<h3 style="text-transform: uppercase; color: #333; text-align: right; font-size: 12px; font-weight: normal; padding-bottom: 5px; margin-top: 0px; margin-bottom: 0px; padding-right:12px;"><?php echo $text_date_added; ?> <?php echo $order['date_added']; ?></h3>
+</td>
+</tr>
+<tr>
+<td style="border-bottom:1px solid #333;" >
+<div style="width:356px; margin:0px; background-color:#CCC; color:#333; font-size:13px; padding:6px 12px; font-weight:bold;">Bill To :</div>
+<div style="width:356px; margin:4px 0px; color:#333; font-size:13px; padding:6px 12px; min-height:140px; max-height:140px;">
+<?php echo $order['payment_address']; ?><br/>
+E-mail : <?php echo $order['email']; ?><br/>
+Contact No. : <?php echo $order['telephone']; ?>
+</div>
+</td>
+<td style="border-bottom:1px solid #333;">
+<div style="width:356px; margin:0px; background-color:#CCC; color:#333; font-size:13px; padding:6px 12px; font-weight:bold;">Ship To :</div>
+<div style="width:356px; margin:4px 0px; color:#333; font-size:13px; padding:6px 12px; min-height:140px;  max-height:140px;">
+<?php echo $order['shipping_address']; ?><br/>
+Contact No. : <?php echo $order['telephone']; ?>
+</div>
+</td>
+</tr>
+<tr>
+<td style="border-bottom:1px solid #333; padding-bottom:4px;" >
+<div style="width:356px; margin:0px; background-color:#CCC; color:#333; font-size:12px; padding:6px 12px;"><?php echo $text_payment_method; ?> <b><?php echo $order['payment_method']; ?></b></div>
+</td>
+<td style="border-bottom:1px solid #333; padding-bottom:4px;" >
+<div style="width:356px; margin:0px; background-color:#CCC; color:#333; font-size:12px; padding:6px 12px;"><?php echo $text_shipping_method; ?> <b><?php echo $order['shipping_method']; ?></b></div>
+</td>
+</tr>
+<tr >
+<td colspan="2">
+<table class="product" style="border:none !important; ">
+<tr style="background-color:#333; color:#fff;">
+<td align="center" style="color:#fff; padding:12px 6px; border-top:1px solid #333 !important; font-size:12px; min-width:55%;" colspan="2"><b>Item Descriptions</b></td>
+<td align="center"  style="color:#fff; padding:12px 6px; border-top:1px solid #333 !important; min-width:12%; font-size:12px; "><b><?php echo $column_quantity; ?></b></td>
+<td align="right" style="color:#fff; padding:12px 6px; border-top:1px solid #333 !important; min-width:20%; font-size:12px;" ><b><?php echo $column_price; ?></b></td>
+<td align="right" style="color:#fff; padding:12px 6px; border-top:1px solid #333 !important; min-width:22% !important; font-size:12px;"><b><?php echo $column_total; ?></b></td>
+</tr>
+<?php foreach ($order['product'] as $product) { ?>
+<tr>
+<td style="width:90px; min-height:90px; border:none !important;  font-size:11px; max-width: 13px;" style="border:none !important;" ><img src="<?php echo $product['image'] ?>" style="width:80px !important; height:auto; margin:0px auto; position:relative;"/></td>
+<td style="border:none !important; font-size:11px; padding-left:46px !important;">
+<table style="margin-left:12px; border:none !important;">
+<tr>
+<td colspan="2" style="border:none !important;"><b><?php echo $product['name']; ?></b></td>
+</tr>
+<tr style="border:none !important;">
+<td style="width:25%; border:none !important; font-size:10px; ">Order No. : </td>
+<td style="width:*; font-size:9px; border:none !important;"><?php echo $order['order_id']; ?></td>
+</tr>
+<?php foreach ($product['option'] as $option) { ?>
+<tr><td colspan="2" style=" font-size:11px; border:none !important;"">
+<small> - <?php echo $option['name']; ?>: <?php echo $option['value']; ?></small>
+</td></tr>
+<?php } ?></table></td>
+<td  align="center" style="border:none !important;  font-size:11px;" ><?php echo $product['quantity']; ?></td>
+<td align="right" style="border:none !important;  font-size:11px;" ><?php echo $product['price']; ?></td>
+<td align="right" style="border:none !important;  font-size:11px;" ><?php echo $product['total']; ?></td>
+</tr>
+<?php } ?>
+<?php foreach ($order['voucher'] as $voucher) { ?>
+<tr>
+<td align="left"><?php echo $voucher['description']; ?></td>
+<td align="left"></td>
+<td align="right">1</td>
+<td align="right"><?php echo $voucher['amount']; ?></td>
+<td align="right"><?php echo $voucher['amount']; ?></td>
+</tr>
+<?php } ?>
+<?php foreach ($order['total'] as $total) { ?>
+<tr>
+<td colspan="3" style="border:none !important;">
+</td>
+<td align="right" style="border:none !important;  font-size:11px;"><b><?php echo $total['title']; ?> :</b></td>
+<td align="right" style="border:none !important;  font-size:12px;"><b><?php echo $total['text']; ?></b></td>
+</tr>
+<?php } ?>
+<tr style="border:none !important; ">
+<td colspan="3" style="border:none !important;">
+<ul>
+<ol style="line-height:18px; font-size:12px; font-weight:bold;">For Further Detail contact us on <?php echo $order['store_telephone']; ?></ol>
+</ul></td>
+</tr>
+</table>
+</td>
+</tr>
+<?php if ($order['comment']) { ?>
+<tr>
+<td colspan="3" style="padding:12px; vertical-align:top;">
+<b><?php echo $column_comment; ?></b> : <?php echo $order['comment']; ?>
+</td>
+</tr>
+<?php } ?>
+<tr>
+<td colspan="2" align="center" style="line-height:22px;  font-size:11px;">
+<hr/>
+<?php echo $order['store_address']; ?><br />
+<?php echo $text_telephone; ?> <b><?php echo $order['store_telephone']; ?></b>  |  <?php echo 'E-mail : '; ?> <b><?php echo $order['store_email']; ?></b> |  <?php echo 'Web-Site : '; ?> <b><?php echo $order['store_url']; ?></b>
+<hr/>
+</td>
+</tr>
+</table>
+</div>
+<?php } ?>
+</body>
+</html>
+<?php $rarno = 0; ?>
+<?php if($rarno == 1) { ?>
+]]></add>    
+</operation> 
+</file>  
+
+<file name="admin/language/english/sale/order.php">
+<operation error="log">
+<search position="replace"><![CDATA[$_['text_date_added']                         = 'Date Added:';]]></search>
+<add><![CDATA[$_['text_date_added'] = 'Order Date : ';]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$_['text_order_id']                           = 'Order ID:';]]></search>
+<add><![CDATA[$_['text_order_id']   = 'Order No. :';]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$_['text_shipping_method']                    = 'Shipping Method:';]]></search>
+<add><![CDATA[$_['text_shipping_method']       = 'Shipping Method :';]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$_['text_payment_method']                     = 'Payment Method:';]]></search>
+<add><![CDATA[$_['text_payment_method']= 'Payment Type :';]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$_['column_price']                            = 'Unit Price';]]></search>
+<add><![CDATA[$_['column_price']    = 'Price';]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$_['column_comment']                          = 'Comment';]]></search>
+<add><![CDATA[$_['column_comment']  = 'Customer Comment';]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/sale/order.php">
+<operation error="log">
+<search position="before"><![CDATA[$this->language->load('sale/order');]]></search>
+<add><![CDATA[
+if ($this->config->get('config_logo') && file_exists(DIR_IMAGE . $this->config->get('config_logo'))) {
+//$this->data['logo'] = $this->config->get('config_logo');
+$this->data['logo'] = str_replace("/admin/", "", HTTPS_SERVER) . '/image/' . $this->config->get('config_logo');
+} else {
+$this->data['logo'] = '';
+}
+]]></add>
+</operation>
+</file>
+
+</modification>

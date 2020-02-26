@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Abandond Carts on Dashboard]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Adam Dudley - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/common/home.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<table>]]></search>
+<add><![CDATA[
+	<tr>
+	<td>Abandoned Carts in past 30 days (<a href="<?php echo HTTP_SERVER ?>index.php?route=sale/order&token=<?php echo $this->session->data['token'] ?>&filter_order_status_id=0&filter_order_id=<?php echo $abandoned_order_ids; ?>">view</a>)</td>
+	<td><?php echo $total_abandoned_orders; ?></td>
+	</tr>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/home.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['total_order'] = $this->model_sale_order->getTotalOrders();]]></search>
+<add><![CDATA[
+	$this->data['total_abandoned_orders'] = $this->model_sale_order->getAbandonedOrderCount();
+	$this->data['abandoned_order_ids'] = $this->model_sale_order->getAbandonedOrderIds();
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/sale/order.php">
+<operation error="log">
+<search position="before"><![CDATA[public function getTotalOrders($data = array())]]></search>
+<add><![CDATA[
+	public function getAbandonedOrderCount() {
+	$sql = "SELECT COUNT( Distinct `email`) as total FROM `" . DB_PREFIX . "order` 
+	where `order_status_id` = 0
+	and `date_added` > DATE_SUB(CURDATE(),INTERVAL 31 DAY)";
+	$query = $this->db->query($sql);
+	return $query->row['total'];
+	}
+
+	public function getAbandonedOrderIds() {
+	$sql = "SELECT GROUP_CONCAT(CAST(`order_id` AS CHAR)) as order_ids FROM `" . DB_PREFIX . "order` 
+	where `order_status_id` = 0
+	AND `email` NOT IN (
+	SELECT `email` FROM `" . DB_PREFIX . "order` 
+	where `order_status_id` > 0 and `date_added` > DATE_SUB(CURDATE(),INTERVAL 31 DAY)
+	)";
+	$query = $this->db->query($sql);
+	return $query->row['order_ids'];
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$sql .= " AND o.order_id = '" . (int)$data['filter_order_id'] . "'";]]></search>
+<add><![CDATA[
+	$sql .= " AND o.order_id IN (" . $data['filter_order_id'] . ")";
+]]></add>
+</operation>
+</file>
+
+</modification>

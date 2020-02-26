@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Full Text Cart Order Confirmation]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Bernd - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/checkout/cart.php">
+<operation error="log">
+<search position="replace"><![CDATA['value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)]]></search>
+<add><![CDATA['value' => (wordwrap($value,30, "<br />"))]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/checkout/confirm.php">
+<operation error="log">
+<search position="replace"><![CDATA['value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)]]></search>
+<add><![CDATA['value' => (wordwrap($value,30, "<br />"))]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/module/cart.php">
+<operation error="log">
+<search position="replace"><![CDATA['value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)]]></search>
+<add><![CDATA['value' => (wordwrap($value,30, "<br />"))]]></add>
+</operation>
+</file>
+
+<file name="catalog/model/checkout/order.php">
+<operation error="log">
+<search position="replace"><![CDATA['value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)]]></search>
+<add><![CDATA['value' => (wordwrap($value,30, "<br />"))]]></add>
+</operation>
+</file>
+
+</modification>

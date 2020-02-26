@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Product Images in Customer eMail Confirmation]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/mail/order.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $product['name']; ?>]]></search>
+<add><![CDATA[
+	<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" title="<?php echo $product['name']; ?>" style="float:left;padding:8px;" /></a> <?php echo " "; ?><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?><a href="<?php echo $product['href']; ?>"></a>
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/model/checkout/order.php">
+<operation error="log">
+<search position="before"><![CDATA[foreach ($order_product_query->rows as $product) {]]></search>
+<add><![CDATA[
+	$this->load->model('tool/image');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$option_data = array();]]></search>
+<add><![CDATA[
+	$product_query = $this->db->query("SELECT image FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$product['product_id'] . "'");
+	foreach ($product_query->rows as $prodquery) {
+	$image = $prodquery['image'];
+	}
+	$thumb = $this->model_tool_image->resize($image, 60, 60);
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$template->data['products'][] = array(]]></search>
+<add><![CDATA[
+	'thumb'    => $thumb,
+	'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id']),
+]]></add>
+</operation>
+</file>
+
+</modification>

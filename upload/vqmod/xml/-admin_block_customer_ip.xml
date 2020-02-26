@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Customer Block IPs]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[frymi - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], 'SSL');]]></search>
+<add><![CDATA[
+	$this->data['text_customer_block'] = $this->language->get('text_customer_block');
+	$this->data['customer_block']      = $this->url->link('sale/customer_block' . '&token=' . $this->session->data['token'], '', 'SSL');
+]]></add>
+</operation>
+</file>  
+
+<file name="admin/language/english/common/header.php">
+<operation error="log">
+<search position="before"><![CDATA[$_['text_customer_ban_ip']]]></search>
+<add><![CDATA[
+	$_['text_customer_block']    = 'Block Customer IPs';
+]]></add>
+</operation>
+</file>  
+  
+  <file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $text_customer_group; ?></a></li>]]></search>
+<add><![CDATA[
+	<li><a href="<?php echo $customer_block; ?>"><i class="fa fa-user-times fa-1x"></i><?php echo $text_customer_block; ?></a></li>
+]]></add>
+</operation>
+</file>  
+
+  <file name="admin/controller/sale/customer.php">
+<operation error="log">
+<search position="before"><![CDATA[if (isset($this->request->post['confirm'])) {]]></search>
+<add><![CDATA[
+	$this->data['entry_ip'] = $this->language->get('entry_ip');
+	if (isset($customer_info)) { 
+	$this->data['ip']    = $customer_info['ip'];
+	} else {
+	$this->data['ip']    = '';
+	}
+	$this->data['button_block_ip']    = $this->language->get('button_block_ip');
+	$this->data['button_block_email'] = $this->language->get('button_block_email');
+	$this->data['url_customer_block_ip']    = $this->url->link('sale/customer_block/insert' . '&token=' . $this->session->data['token'] . '&block_type=ip&block_value=' . $this->data['ip'], '', 'SSL');
+	$this->data['url_customer_block_email'] = $this->url->link('sale/customer_block/insert' . '&token=' . $this->session->data['token'] . '&block_type=email&block_value=' . $this->data['email'], '', 'SSL');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/language/english/sale/customer.php">
+<operation error="log">
+<search position="before"><![CDATA[// Error]]></search>
+<add><![CDATA[
+	$_['entry_ip']           = 'IP Address:';
+	$_['button_block_ip']    = 'Block this customer by ip';
+	$_['button_block_email'] = 'Block this customer by email';
+]]></add>
+</operation>
+</file>
+
+ <file name="admin/view/template/sale/customer_form.tpl">
+<operation error="log">
+<search position="after" offset="10"><![CDATA[<td><?php echo $entry_status; ?></td>]]></search>
+ <add><![CDATA[
+	<tr>
+	<td><?php echo $entry_ip; ?></td>
+	<td>
+	<?php 
+	if(isset($ip)){ 
+	if ($ip!='') { 
+	?>
+	<?php echo $ip;?>&nbsp; &nbsp;
+	<a onclick="location.href='<?php echo $url_customer_block_ip;?>';" class="button"><span><?php echo $button_block_ip; ?></span></a>
+	<?php 
+	} else {
+	echo "???.???.???.???";
+	}
+	} 
+	?>
+	&nbsp; &nbsp;
+	<a onclick="location.href='<?php echo $url_customer_block_email;?>';" class="button"><span><?php echo $button_block_email; ?></span></a>
+	</td>
+	</tr>
+]]></add>
+</operation>
+</file>  
+
+</modification>

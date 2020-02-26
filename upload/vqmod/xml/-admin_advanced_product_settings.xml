@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Advanced Product Display Settings]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Sergey Milus - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/model/catalog/product.php">
+<operation error="log">
+<search position="replace"><![CDATA[AS discount, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)]]></search>
+<add><![CDATA[
+	AS discount, (SELECT date_end FROM " . DB_PREFIX . "product_special pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$customer_group_id . "' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.date_end ASC LIMIT 1) AS date_end,(SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA['length_class_id'  => $query->row['length_class_id'],]]></search>
+<add><![CDATA[
+	'length_class'     => $query->row['length_class'],
+	'weight_class'     => $query->row['weight_class'],
+	'shipping' => $query->row['shipping'],
+	'dsrating' => round($query->row['rating'],1),
+	'date_end' => $query->row['date_end'],
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/product.php">
+<operation error="log">
+<search position="before"><![CDATA[public function index() ]]></search>
+<add><![CDATA[
+	protected function getTotalBought($product_id, $order_status_id = 0){
+	$bought = 0;
+	$filter_status = " AND o.order_status_id > 0";
+	if($order_status_id ) {
+	$filter_status = " AND o.order_status_id IN (".implode(",",$order_status_id).")";
+	}
+	$query = $this->db->query("SELECT sum(quantity) as `total` FROM `" . DB_PREFIX . "order_product` op
+	LEFT JOIN `".DB_PREFIX."order` AS o ON op.order_id = o.order_id WHERE op.product_id = ".$product_id.$filter_status);
+
+	if($query->num_rows){
+	return $query->row['total'];
+	}
+	return 0;
+}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->language->load('product/product');]]></search>
+<add><![CDATA[//Advanced Product Display Settings
+	$this->language->load('displaysettings');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['button_continue'] = $this->language->get('button_continue');]]></search>
+<add><![CDATA[
+	$this->data['text_ds_sku'] = $this->language->get('text_ds_sku');
+	$this->data['text_ds_upc'] = $this->language->get('text_ds_upc');
+	$this->data['text_ds_ean'] = $this->language->get('text_ds_ean');
+	$this->data['text_ds_jan'] = $this->language->get('text_ds_jan');
+	$this->data['text_ds_isbn'] = $this->language->get('text_ds_isbn');
+	$this->data['text_ds_mpn'] = $this->language->get('text_ds_mpn');
+	$this->data['text_ds_quantity'] = $this->language->get('text_ds_quantity');
+	$this->data['text_ds_sales'] = $this->language->get('text_ds_sales');
+	$this->data['text_ds_views'] = $this->language->get('text_ds_views');
+	$this->data['text_ds_requires_shipping'] = $this->language->get('text_ds_requires_shipping');
+	$this->data['text_ds_save'] = $this->language->get('text_ds_save');
+	$this->data['text_ds_special_date'] = $this->language->get('text_ds_special_date');
+	$this->data['text_ds_points'] = $this->language->get('text_ds_points');
+	$this->data['text_ds_reviews'] = $this->language->get('text_ds_reviews');
+	$this->data['text_ds_yes'] = $this->language->get('text_ds_yes');
+	$this->data['text_ds_date_available'] = $this->language->get('text_ds_date_available');
+	$this->data['text_ds_dimensions'] = $this->language->get('text_ds_dimensions');
+	$this->data['text_ds_weight'] = $this->language->get('text_ds_weight');
+	$this->data['text_ds_reviews'] = $this->language->get('text_ds_reviews');
+	$this->data['text_ds_rating'] = $this->language->get('text_ds_rating');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->load->model('tool/image');]]></search>
+<add><![CDATA[
+	if ($product_info['shipping'] == 0) {
+	$this->data['shipping'] = $this->language->get('text_ds_no');
+	} 
+	if ($product_info['shipping'] == 1) {
+	$this->data['shipping'] = $this->language->get('text_ds_yes');
+	} 
+	if ((float)$product_info['special']) {
+	$this->data['save'] = $this->currency->format((($product_info['special'])-($product_info['price']))*(-1)) ;
+	} else {
+	$this->data['special'] = false;
+	}
+	$symLeft = $this->currency->getSymbolLeft();
+	$symRight = $this->currency->getSymbolRight();
+	if($symLeft != NULL){
+	$currCode = $this->currency->getSymbolLeft();
+	}else{
+	$currCode = $this->currency->getSymbolRight();
+	}
+	$normal =  strip_tags(str_replace($currCode,'', $product_info['price']));
+	$normalP = strip_tags(str_replace(',','', $normal));
+	$specialp = strip_tags(str_replace($currCode,'', $product_info['special']));
+	$specialP = strip_tags(str_replace(',','', $specialp));
+	$date_added =  date_create($product_info['date_added'])->Format('Y-m-d');
+	$this->data['date_added'] = $date_added;
+	$this->data['sku'] = $product_info['sku'];
+	$this->data['upc'] = $product_info['upc'];
+	$this->data['ean'] = $product_info['ean'];
+	$this->data['jan'] = $product_info['jan'];
+	$this->data['isbn'] = $product_info['isbn'];
+	$this->data['mpn'] = $product_info['mpn'];
+	$this->data['date_end'] = $product_info['date_end'];
+	$this->data['reviews_ds'] = $product_info['reviews'];
+	$this->data['dsrating'] = $product_info['dsrating'];
+	$this->data['sold_items'] = $this->getTotalBought($product_info['product_id']);
+	$this->data['length'] = $product_info['length'];
+	$this->data['width'] = $product_info['width'];
+	$this->data['height'] = $product_info['height'];
+	$this->data['length_class'] = $product_info['length_class'];
+	$this->data['quantity'] = $product_info['quantity'];
+	$this->data['viewed'] = $product_info['viewed'];
+	$this->data['weight'] = $product_info['weight'];
+	$this->data['weight_class'] = $product_info['weight_class'];
+]]></add>
+</operation>	
+</file>
+
+<file name="catalog/view/theme/*/template/product/product.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<span><?php echo $text_manufacturer; ?></span> <a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a><br />]]></search>
+<add><![CDATA[
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<span><?php echo $text_model; ?></span> <?php echo $model; ?><br />]]></search>
+<add><![CDATA[
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<span><?php echo $text_reward; ?></span> <?php echo $reward; ?><br />]]></search>
+<add><![CDATA[
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<span><?php echo $text_stock; ?></span> <?php echo $stock; ?></div>]]></search>
+<add><![CDATA[
+	<?php if ($this->config->get('config_product_brands') == '1') { ?>
+	<?php if ($manufacturer) { ?>
+	<span><?php echo $text_manufacturer; ?></span> <a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_model') == '1') { ?>
+	<?php if ($model) { ?>
+	<span><?php echo $text_model; ?></span> <?php echo $model; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_sku') == '1') { ?>
+	<?php if ($sku) { ?>
+	<span><?php echo $text_ds_sku; ?></span> <?php echo $sku; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_upc') == '1') { ?>
+	<?php if ($upc) { ?>
+	<span><?php echo $text_ds_upc; ?></span> <?php echo $upc; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_ean') == '1') { ?>
+	<?php if ($ean) { ?>
+	<span><?php echo $text_ds_ean; ?></span> <?php echo $ean; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_jan') == '1') { ?>
+	<?php if ($jan) { ?>
+	<span><?php echo $text_ds_jan; ?></span> <?php echo $jan; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_isbn') == '1') { ?>
+	<?php if ($isbn) { ?>
+	<span><?php echo $text_ds_isbn; ?></span> <?php echo $isbn; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_mpn') == '1') { ?>
+	<?php if ($mpn) { ?>
+	<span><?php echo $text_ds_mpn; ?></span> <?php echo $mpn; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_reward') == '1') { ?>
+	<?php if ($reward) { ?>
+	<span><?php echo $text_reward; ?></span> <?php echo $reward; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_points') == '1') { ?>
+	<?php if ($points) { ?>
+	<span><?php echo $text_ds_points; ?></span> <?php echo $points; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_stockstatus') == '1') { ?>
+	<span><?php echo $text_stock; ?></span> <?php echo $stock; ?><br />
+	<?php } ?>
+	<?php if ($this->config->get('config_product_quantity') == '1') { ?>
+	<span><?php echo $text_ds_quantity; ?></span> <?php echo $quantity; ?><br />
+	<?php } ?>
+	<?php if ($this->config->get('config_product_sales') == '1') { ?>
+	<?php if ($sold_items) { ?>
+	<span><?php echo $text_ds_sales; ?></span> <?php echo $sold_items; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_views') == '1') { ?>
+	<?php if ($viewed) { ?>
+	<span><?php echo $text_ds_views; ?></span> <?php echo $viewed; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_save') == '1') { ?>
+	<?php if ($special) { ?>
+	<span><?php echo $text_ds_save; ?></span> <?php echo $save; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_special_date') == '1') { ?>
+	<?php if ($special) { ?>
+	<span><?php echo $text_ds_special_date; ?></span> <?php echo $date_end; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_date_available') == '1') { ?>
+	<span><?php echo $text_ds_date_available; ?></span> <?php echo $date_added; ?><br />
+	<?php } ?>
+	<?php if ($this->config->get('config_product_weight') == '1') { ?>
+	<?php if($weight > 0) { ?>
+	<span><?php echo $text_ds_weight; ?></span> <?php echo round($weight); ?><?php echo $weight_class; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_dimensions') == '1') { ?>
+	<?php if( $length > 0 || $height > 0 || $width > 0 ) { ?>	
+	<span><?php echo $text_ds_dimensions; ?></span> <?php echo round($length); ?> x <?php echo round($width); ?> x <?php echo round($height); ?> <?php echo $length_class; ?><br />
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('config_product_rating') == '1') { ?>
+	<?php if ($dsrating) { ?>
+	<span><?php echo $text_ds_rating; ?></span> <?php echo $dsrating; ?><br />
+	<?php } ?>	
+	<?php } ?>
+	<?php if ($this->config->get('config_product_reviews') == '1') { ?>
+	<?php if ($reviews_ds) { ?>
+	<span><?php echo $text_ds_reviews; ?></span> <?php echo $reviews_ds; ?><br />
+	<?php } ?>	
+	<?php } ?>
+	<?php if ($this->config->get('config_product_requires_shipping') == '1') { ?>
+	<span><?php echo $text_ds_requires_shipping; ?></span> <?php echo $shipping; ?><br />	
+	<?php } ?>
+	<!--Requires Shipping end-->
+	</div>
+]]></add>
+</operation>	
+</file>
+	
+</modification>

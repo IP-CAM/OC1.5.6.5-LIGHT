@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Show Product+Category Name Above Tabs]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[OC Extender - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/catalog/product_form.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $heading_title; ?></h1>]]></search>
+<add><![CDATA[
+	<?php echo $heading_title; ?><span class="prodname"></span></h1>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="bottom" offset="1"><![CDATA[ <!-- This is irrelevant --> ]]></search>
+<add><![CDATA[
+	<script type="text/javascript"><!--
+	$name = $('input[name="product_description[<?php echo $this->config->get('config_language_id'); ?>][name]"]'); 
+	$model = $('input[name="model"]'); 
+	$prodname = $('.prodname');
+	$prodmodel = $('.prodmodel');
+	if ($name.val() != '') {
+	$prodname.html(' - ' + $name.val()); 
+	}
+	if ($model.val() != '') {
+	$prodmodel.html(' (' + $model.val() + ')'); 
+	}
+	$name.keyup(function() {
+	if ($(this).val() != '') {
+	$('.prodname').html(' - ' + $(this).val()); 
+	} else {
+	$('.prodname').html('');
+	}
+	});
+
+	$model.keyup(function() {
+	if ($(this).val() != '') {
+	$('.prodmodel').html(' (' + $(this).val() + ')'); 
+	} else {
+	$('.prodmodel').html('');
+	}
+	});
+	//--></script> 
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/catalog/category_form.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $heading_title; ?></h1>]]></search>
+<add><![CDATA[
+	<?php echo $heading_title; ?><span class="catname"></span></h1>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="bottom" offset="1"><![CDATA[<!-- This is irrelevant -->]]></search>
+<add><![CDATA[
+	<script type="text/javascript"><!--
+	$catname = $('input[name="category_description[<?php echo $this->config->get('config_language_id'); ?>][name]"]'); 
+	$title = $('.catname');
+	if ($catname.val() != '') {
+	$title.html(' - ' + $catname.val()); 
+	}
+	$catname.keyup(function() {
+	if ($catname.val() != '') {
+	$title.html(' - ' + $catname.val()); 
+	} else {
+	$title.html('');
+	}
+	});
+	//--></script> 
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/catalog/information_form.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $heading_title; ?></h1>]]></search>
+<add><![CDATA[
+	<?php echo $heading_title; ?><span class="infoname"></span></h1>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="bottom" offset="1"><![CDATA[<!-- This is irrelevant -->]]></search>
+<add><![CDATA[
+	<script type="text/javascript"><!--
+	$infoname = $('input[name="information_description[<?php echo $this->config->get('config_language_id'); ?>][title]"]'); 
+	$title = $('.infoname');
+	if ($infoname.val() != '') {
+	$title.html(' - ' + $infoname.val()); 
+	}
+	$infoname.keyup(function() {
+	if ($infoname.val() != '') {
+	$title.html(' - ' + $infoname.val()); 
+	} else {
+	$title.html('');
+	}
+	});
+	//--></script> 
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/setting/store_form.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $heading_title; ?></h1>]]></search>
+<add><![CDATA[
+	<?php echo $heading_title; ?><span class="storename"></span></h1>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="bottom" offset="1"><![CDATA[<!-- This is irrelevant -->]]></search>
+<add><![CDATA[
+	<script type="text/javascript"><!--
+	$storename = $('input[name="config_name"]'); 
+	$title = $('.storename');
+	if ($storename.val() != '') {
+	$title.html(' - ' + $storename.val()); 
+	}
+	$storename.keyup(function() {
+	if ($storename.val() != '') {
+	$title.html(' - ' + $storename.val()); 
+	} else {
+	$title.html('');
+	}
+	});
+	//--></script> 
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/setting/setting.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $heading_title; ?></h1>]]></search>
+<add><![CDATA[
+	<?php echo $heading_title; ?><span class="storename"></span></h1>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="bottom" offset="1"><![CDATA[ <!-- This is irrelevant --> ]]></search>
+<add><![CDATA[
+	<script type="text/javascript"><!--
+	$storename = $('input[name="config_name"]'); 
+	$title = $('.storename');
+	if ($storename.val() != '') {
+	$title.html(' - ' + $storename.val()); 
+	}
+	$storename.keyup(function() {
+	if ($storename.val() != '') {
+	$title.html(' - ' + $storename.val()); 
+	} else {
+	$title.html('');
+	}
+	});
+	//--></script> 
+]]></add>
+</operation>
+</file>
+
+</modification>

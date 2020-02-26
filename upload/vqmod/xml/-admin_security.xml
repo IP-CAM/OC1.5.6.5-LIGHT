@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Security OpenCart Module]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[exife.com - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after" offset="1"><![CDATA[<?php echo $text_reports; ?></a>]]></search>
+<add><![CDATA[
+	<?php if(!empty($text_security)) { ?>
+	<li><a class="parent"><i class="fa fa-shield fa-1x"></i><?php echo $text_security; ?></a>
+	<ul>
+	<li><a href="<?php echo $security_404_detection; ?>"><i class="fa fa-shield fa-1x"></i><?php echo $text_security_404_detection; ?></a></li>
+	<li><a href="<?php echo $security_file_changes; ?>"><i class="fa fa-shield fa-1x"></i><?php echo $text_security_file_changes; ?></a></li>
+	<li><a href="<?php echo $security_login_attempts; ?>"><i class="fa fa-shield fa-1x"></i><?php echo $text_security_login_attempts; ?></a></li>
+	<li><a href="<?php echo $security_away_schedule; ?>"><i class="fa fa-shield fa-1x"></i><?php echo $text_security_away_schedule; ?></a></li>
+	<li><a href="<?php echo $security_backup; ?>"><i class="fa fa-shield fa-1x"></i><?php echo $text_security_backup; ?></a></li>
+	<li><a href="<?php echo $security_lockouts_list; ?>"><i class="fa fa-shield fa-1x"></i><?php echo $text_security_lockouts_list; ?></a></li>
+	<li><a href="<?php echo $security_ban_list; ?>"><i class="fa fa-shield fa-1x"></i><?php echo $text_security_ban_list; ?></a></li>
+	</ul>
+	</li>
+	<?php } ?>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[protected function index() {]]></search>
+<add><![CDATA[
+	if ($this->config->get('security_key') && isset($this->session->data['token'])) {
+	$this->language->load('module/security');
+	$this->data['text_security'] = $this->language->get('menu_security');
+	$this->data['text_security_404_detection'] = $this->language->get('menu_404_detection');
+	$this->data['text_security_file_changes'] = $this->language->get('menu_file_change_detection');
+	$this->data['text_security_login_attempts'] = $this->language->get('menu_login_attempts');
+	$this->data['text_security_away_schedule'] = $this->language->get('menu_away_schedule');
+	$this->data['text_security_backup'] = $this->language->get('menu_backup');
+	$this->data['text_security_ban_list'] = $this->language->get('menu_ban_list');
+	$this->data['text_security_lockouts_list'] = $this->language->get('menu_lockouts_list');
+	$this->data['security_404_detection'] = $this->url->link('report/security/detection_404', 'token=' . $this->session->data['token'], 'SSL');
+	$this->data['security_file_changes'] = $this->url->link('report/security/file_changes', 'token=' . $this->session->data['token'], 'SSL');
+	$this->data['security_login_attempts'] = $this->url->link('report/security/login_attempts', 'token=' . $this->session->data['token'], 'SSL');
+	$this->data['security_away_schedule'] = $this->url->link('report/security/away_schedule', 'token=' . $this->session->data['token'], 'SSL');
+	$this->data['security_backup'] = $this->url->link('report/security/backup', 'token=' . $this->session->data['token'], 'SSL');
+	$this->data['security_ban_list'] = $this->url->link('report/security/blacklist', 'token=' . $this->session->data['token'], 'SSL');
+	$this->data['security_lockouts_list'] = $this->url->link('report/security/lockouts', 'token=' . $this->session->data['token'], 'SSL');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="system/engine/registry.php">
+<operation error="log">
+<search position="replace"><![CDATA[$this->data[$key] = $value;]]></search>
+<add><![CDATA[
+	$this->data[$key] = $value;
+	if ($key == 'document' && $this->has('request') &&
+	(php_sapi_name() == 'cli' || empty($_SERVER['REMOTE_ADDR']))) {
+	$this->get('request')->server['HTTP_HOST'] = '';
+	}
+	if ($key == 'user' && $this->has('config')) {
+	if ($this->get('config')->get('security_key')) {
+	require_once(DIR_SYSTEM . 'library/security/cron.php');
+	$cron = new SecurityCron($this);
+	if (php_sapi_name() == 'cli' || empty($_SERVER['REMOTE_ADDR'])) {
+	$cron->run();
+	} else {
+	$cron->run_web();
+	}
+	}
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="system/engine/front.php">
+<operation error="log">
+<search position="after"><![CDATA[private function execute($action) {]]></search>
+<add><![CDATA[
+	if ($this->registry->get('config')->get('security_key')) {
+	require_once(DIR_SYSTEM . 'library/security/security.php');
+	require_once(DIR_SYSTEM . 'library/security/check404.php');
+	$sl = new SecurityCheck404($this->registry);
+	$sl->log_event($action->getClass() == 'Controllererrornotfound');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/home.php">
+<operation error="log">
+<search position="before"><![CDATA[if (is_dir(dirname(DIR_APPLICATION) . '/install')) {]]></search>
+<add><![CDATA[
+	if ($this->config->get('security_file_change_admin_warning') && $this->config->get('security_change_warning')) {
+	$this->load->language('module/security_strings');
+	$this->data['error_install'] = sprintf($this->language->get('text_security_file_change_warning'), $this->url->link('report/security/file_changes', 'token=' . $this->session->data['token'], 'SSL'));
+	} else
+]]></add>
+</operation>
+</file>
+
+</modification>

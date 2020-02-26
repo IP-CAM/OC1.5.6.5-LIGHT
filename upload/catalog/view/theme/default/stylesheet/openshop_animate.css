@@ -1,0 +1,102 @@
+/* Controls Animation CSS Set                                                                   */
+/* *********************************************************************************** */
+/* *** Part of OpenShop project: http://OpenShop.org.ua (c) MaxD                   *** */
+/* *********************************************************************************** */
+/* Redistribution in any form without written permission is prohibited.                */
+
+/*---- Buttons ----*/
+a.button, input.button {
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+a.button:hover, input.button:hover {
+    -webkit-box-shadow: -3px 3px 5px #BBBBBB;
+    -moz-box-shadow: -3px 3px 5px #BBBBBB;
+    box-shadow: -3px 3px 5px #BBBBBB;
+}
+
+a.button:active, input.button:active {
+    -webkit-box-shadow: 0px 0px 0px #BBBBBB;
+    -moz-box-shadow: 0px 0px 0px #BBBBBB;
+    box-shadow: 0px 0px 0px #BBBBBB;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+/* Links */
+
+/*---- Images ----*/
+
+a img {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+a img:hover {
+    opacity:0.7;
+}
+
+a img:active {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#logo a img:hover {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+/*---- Menu ----*/
+
+#menu > ul > li > div {
+    visibility: hidden;
+    opacity: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    display: table;
+    -webkit-transition: all 0.6s ease-out;
+    -moz-transition: all 0.6s ease-out;
+    -o-transition: all 0.6s ease-out;
+    transition: all 0.6s ease-out;
+}
+
+#menu > ul > li:hover > div {
+    visibility: visible;
+    opacity: 1;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#menu > ul > li ul > li > a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    -webkit-transition: all 0.6s ease-out;
+    -moz-transition: all 0.6s ease-out;
+    -o-transition: all 0.6s ease-out;
+    transition: all 0.6s ease-out;
+}
+
+#menu > ul > li ul > li > a:active {
+    background: white;
+}
+
+#menu > ul > li:hover ul > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#menu > ul > li > a {
+    -webkit-transition: all 0.6s ease-out;
+    -moz-transition: all 0.6s ease-out;
+    -o-transition: all 0.6s ease-out;
+    transition: all 0.6s ease-out;
+}
+
+#menu > ul > li:active > a {
+    background: grey;
+}

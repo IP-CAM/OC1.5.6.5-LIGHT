@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Report New Customers]]></id>
+<version><![CDATA[OS 1.75 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[frymi - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['text_reports'] = $this->language->get('text_reports');]]></search>
+<add><![CDATA[
+	$this->data['text_report_customer_register'] = $this->language->get('text_report_customer_register');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['report_customer_online']]]></search>
+<add><![CDATA[
+	$this->data['report_customer_register'] = $this->url->link('report/registration_newcustomers', 'token=' . $this->session->data['token'], 'SSL');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/language/english/common/header.php" error="skip">
+<operation error="log">
+<search position="after"><![CDATA[$_['text_reports']]]></search>
+<add><![CDATA[
+	$_['text_report_customer_register'] = 'New Customers';
+]]></add>
+</operation>
+</file>  
+  
+  <file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $text_report_customer_credit; ?></a></li>]]></search>
+<add><![CDATA[
+	<li><a href="<?php echo $report_customer_register; ?>"><i class="fa fa-paw fa-1x"></i><?php echo $text_report_customer_register; ?></a></li>
+]]></add>
+</operation>
+</file>
+
+</modification>

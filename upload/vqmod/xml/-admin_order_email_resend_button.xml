@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin resend Order eMail to Buyer]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name='admin/view/template/sale/order_info.tpl'>
+<operation error="log">
+<search position="iafter"><![CDATA[<a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a>]]></search>
+<add><![CDATA[
+	<a onclick="resendMails('<?=$order_id?>'); return false;" class="button">Send eMail Order to Buyer</a>
+]]></add>
+</operation>
+
+<operation error="log">>
+<search position="iafter"><![CDATA[<div class="buttons">]]></search>
+<add><![CDATA[
+	<span id='review-title' style='margin-right: 10px; font-size: 16px; font-weight: bold; color: red'></span>
+]]></add>
+</operation>
+
+<operation error="log">>
+<search position="bottom"></search>
+<add><![CDATA[
+<script>
+	function resendMails(oid) {
+	$('#review-title').html('Heading off...');
+	$.post('index.php?route=sale/order/resend_mails&oid='+oid+'&token=<?=$token?>', function (resp) {
+	if (resp.error) {
+	$('#review-title').html(resp.error);
+	} else {
+	$('#review-title').html(resp.msg);
+	}
+	}, 'json');
+	}
+</script>
+]]></add>
+</operation>
+</file>
+
+</modification>

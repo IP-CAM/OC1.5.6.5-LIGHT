@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Optimize Database]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[OpenCartPlus - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/language/*/tool/backup.php">
+<operation error ="log">
+<search position="before"><![CDATA[?>]]></search>
+<add><![CDATA[
+	$_['button_optimize']='Optimize DB';$_['text_success_optimize']='Success: Successfully optimize your database!';
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/tool/backup.php">
+<operation error ="log">
+<search position="before"><![CDATA[$this->data['button_backup']]]></search>
+<add><![CDATA[
+	$this->data['button_optimize'] = $this->language->get('button_optimize');
+	$this->data['entry_optimize']=$this->language->get('button_optimize');
+	$this->data['optimize']=$this->url->link('tool/backup/optimize','token='.$this->session->data['token'], 'SSL');
+]]></add>
+</operation>
+
+<operation error ="log">
+<search position="before"><![CDATA[public function backup()]]></search>
+<add><![CDATA[
+	public function optimize(){
+	if(isset($this->request->post['optimize'])&&($this->request->server['REQUEST_METHOD']=='POST')){
+	$this->load->model('tool/backup');
+	$this->model_tool_backup->optimize($this->request->post['optimize']);
+	$this->session->data['success']='Success: Successfully optimize your database!';
+	$this->redirect($this->url->link('tool/backup','token='.$this->session->data['token'], 'SSL'));
+	}else{
+	return $this->forward('error/permission');
+	}
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/tool/backup.php">
+<operation error ="log">
+<search position="before"><![CDATA[public function backup(]]></search>
+<add><![CDATA[
+	public function optimize($tables){
+	foreach($tables as $table){
+	if(DB_PREFIX){
+	if(strpos($table, DB_PREFIX) === false){
+	$status = false;
+	}else{
+	$status = true;
+	}
+	}else{
+	$status = true;
+	}
+	if($status){
+	$query=$this->db->query("OPTIMIZE TABLE `".$table . "`");
+	}
+	}
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/tool/backup.tpl">
+<operation error ="log">
+<search position="alter"><![CDATA[<div class="buttons">]]></search>
+<add><![CDATA[
+	<div class="buttons"><a onclick="$('#optimize').submit();" class="button"><span><?php echo $button_optimize; ?></span></a>
+]]></add>
+</operation>
+
+<operation error ="log">
+<search position="before"><![CDATA[<form action="<?php echo $backup; ?>" method="post" enctype="multipart/form-data" id="backup">]]></search>
+<add><![CDATA[
+	<form action="<?php echo $optimize; ?>" method="post" enctype="multipart/form-data" id="optimize">
+	<table class="form">
+	<tr>
+	<td><?php echo $entry_optimize; ?></td>
+	<td><div class="scrollbox" style="margin-bottom: 5px;">
+	<?php $class = 'odd'; ?>
+	<?php foreach ($tables as $table) { ?>
+	<?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+	<div class="<?php echo $class; ?>">
+	<input type="checkbox" name="optimize[]" value="<?php echo $table; ?>" checked="checked" />
+	<?php echo $table; ?></div>
+	<?php } ?>
+	</div>
+	<a class="button" onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a>&nbsp; <a class="button" onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a></td>
+	</tr>
+	</table>
+	</form>
+]]></add>
+</operation>
+</file>
+
+</modification>

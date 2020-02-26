@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Meta-Tag Keyword Setting]]></id>
+<version><![CDATA[OS 1.75 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/language/*/setting/setting.php">
+<operation error="log">
+<search position="before"><![CDATA[$_['entry_meta_description']]]></search>
+<add><![CDATA[
+	$_['entry_meta_keywords']= 'Meta-Tag Keywords:';
+]]></add>
+</operation>
+</file>
+
+<file name="admin/language/*/setting/store.php">
+<operation error="log">
+<search position="before"><![CDATA[$_['entry_meta_description']]]></search>
+<add><![CDATA[
+	$_['entry_meta_keywords']= 'Meta-Tag Keywords:';
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/setting/setting.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['entry_meta_description'] = $this->language->get('entry_meta_description');]]></search>
+<add><![CDATA[
+	$this->data['entry_meta_keywords'] = $this->language->get('entry_meta_keywords');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[if (isset($this->request->post['config_layout_id'])) {]]></search>
+<add><![CDATA[
+	if (isset($this->request->post['config_meta_keywords'])) {
+	$this->data['config_meta_keywords'] = $this->request->post['config_meta_keywords'];
+	} else {
+	$this->data['config_meta_keywords'] = $this->config->get('config_meta_keywords');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/setting/store.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['entry_meta_description'] = $this->language->get('entry_meta_description');]]></search>
+<add><![CDATA[
+	$this->data['entry_meta_keywords'] = $this->language->get('entry_meta_keywords');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[if (isset($this->request->post['config_layout_id'])) {]]></search>
+<add><![CDATA[
+	if (isset($this->request->post['config_meta_keywords'])) {
+	$this->data['config_meta_keywords'] = $this->request->post['config_meta_keywords'];
+	} else {
+	$this->data['config_meta_keywords'] = $this->config->get('config_meta_keywords');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/setting/setting.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<td><?php echo $entry_template; ?>]]></search>
+<add><![CDATA[
+	<td><?php echo $entry_meta_keywords; ?></td>
+	<td><textarea name="config_meta_keywords" cols="40" rows="5"><?php echo $config_meta_keywords; ?></textarea></td>
+	</tr>
+	<tr>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/setting/store_form.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<td><?php echo $entry_template; ?>]]></search>
+<add><![CDATA[
+	<td><?php echo $entry_meta_keywords; ?></td>
+	<td><textarea name="config_meta_keywords" cols="40" rows="5"><?php echo $config_meta_keywords; ?></textarea></td>
+	</tr>
+	<tr>
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/common/home.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->document->setDescription($this->config->get('config_meta_description'));]]></search>
+<add><![CDATA[
+	$this->document->setKeywords($this->config->get('config_meta_keywords'));
+]]></add>
+</operation>
+</file>
+
+</modification>

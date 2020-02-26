@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[QR Code on product page]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/product/product.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<ul class="nav nav-tabs">]]></search>
+<add><![CDATA[
+		<div style="margin-top:6px;margin-bottom:6px;">
+		<span id="qrcode" style="text-align:left;" class="qrcode"><img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=<?php $url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; echo urlencode($url); ?>" alt="<?php echo $manufacturer; ?> <?php echo $heading_title; ?> Product QR Code" width="100" height="100" title="Poduct QR Code" /></span>
+		<span id="barcode" style="text-align:right;"><script src="https://cdn.jsdelivr.net/jsbarcode/3.3.20/JsBarcode.all.min.js"></script>
+		<img style="float:right;margin-top:10px;" id="upc" title="BarCode" /><script> $('#upc').JsBarcode("<?php echo $upc; ?>",{width:1,height:30,lineColor: "#000000" }); </script></span>
+<hr />
+</div>
+
+]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Category Purchased Report]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Tech Teema Pvt - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+	
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['report_affiliate_commission'] = $this->url->link('report/affiliate_commission', 'token=' . $this->session->data['token'], 'SSL');]]></search>
+<add><![CDATA[
+	$this->data['report_category_purchased'] = $this->url->link('report/category_purchased', 'token=' . $this->session->data['token'], 'SSL');
+]]></add>
+</operation>
+	
+<operation error="log">
+<search position="after"><![CDATA[$this->data['text_recurring_profile'] = $this->language->get('text_recurring_profile');]]></search>
+<add><![CDATA[
+	$this->data['text_category'] = $this->language->get('text_category');
+	$this->data['text_report_category_purchased'] = $this->language->get('text_report_category_purchased');
+]]></add>
+</operation>
+</file>
+	
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $text_report_product_purchased; ?></a></li>]]></search>
+<add><![CDATA[
+	<li><a href="<?php echo $report_category_purchased; ?>"><i class="fa fa-list fa-1x"></i><?php echo $text_report_category_purchased; ?></a></li>
+]]></add> 
+</operation>
+</file>
+	
+<file name="admin/language/english/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$_['text_recurring_profile']]]></search>
+<add><![CDATA[
+	$_['text_category'] = 'Category';
+	$_['text_report_category_purchased'] = 'Category Purchased';
+]]></add> 
+</operation>
+</file>
+
+</modification>

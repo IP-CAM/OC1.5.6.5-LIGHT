@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Theme Options, Background, Colors]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[MaxD - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/setting/setting.tpl">
+<operation error="skip">
+<search position="replace" offset="10"><![CDATA[<td><span class="required">*</span> <?php echo $entry_title; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="before"><![CDATA[<td><span class="required">*</span> <?php echo $entry_owner; ?></td>]]></search>
+<add><![CDATA[
+<td><?php echo $entry_meta_description; ?></td>
+<td><textarea name="config_meta_description" cols="40" rows="5"><?php echo $config_meta_description; ?></textarea></td>
+</tr>
+<tr>
+<tr style="display:none;">
+<td><span class="required">*</span> <?php echo $entry_title; ?></td>
+<td><input type="text" name="config_title" value="<?php echo $config_title; ?>" />
+<?php if ($error_title) { ?>
+<span class="error"><?php echo $error_title; ?></span>
+<?php } ?></td>
+</tr>
+<tr>
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[name="config_name"]]></search>
+<add><![CDATA[name="config_name" onchange="document.getElementsByName('config_title')[0].value=this.value;"]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace" offset="5"><![CDATA[<td><?php echo $entry_logo; ?></td>]]></search>
+<add><![CDATA[]]></add>
+</operation>
+
+<operation error="skip">
+<search position="before"><![CDATA[<td><?php echo $entry_template; ?></td>]]></search>
+<add><![CDATA[
+	<td><?php echo $entry_logo; ?></td>
+	<td><div class="image"><img src="<?php echo $logo; ?>" alt="" id="thumb-logo" />
+	<input type="hidden" name="config_logo" value="<?php echo $config_logo; ?>" id="logo" />
+	<br />
+	<a onclick="image_upload('logo', 'thumb-logo');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb-logo').attr('src', '<?php echo $no_image; ?>'); $('#logo').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
+	</tr>
+	<tr>
+	<td><?php echo $theming_logo_offset; ?></td>
+	<td>X: <input name="theme_logo_offsetx" size="3" style="text-align: right;" value="<?php echo $theme_logo_offsetx; ?>">px &nbsp;&nbsp;Y: <input name="theme_logo_offsety" size="3" style="text-align: right;" value="<?php echo $theme_logo_offsety; ?>">px &nbsp;&nbsp;
+	<a onclick="document.getElementsByName('theme_logo_offsetx')[0].value=''; document.getElementsByName('theme_logo_offsety')[0].value='';"><?php echo $theming_default; ?></a>
+	</td>	
+	</tr>
+	<tr>
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[<?php echo $tab_store; ?>]]></search>
+<add><![CDATA[<?php if (empty($theming_design)) {
+	$theming_design	= 'Design';
+	$theming_logo_offset	= 'Logo offset:';
+	$theming_default   = 'Default';
+	$theming_header_size	= 'Header size:';
+	$theming_menu_color= 'Top menu color:';
+	$theming_buttons_color	= 'Buttons color:';
+	$theming_links_color	= 'Links color:';
+	$theming_background_color= 'Background color:';
+	$theming_background= 'Background image:';
+	};
+	echo $theming_design; ?>
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="before"><![CDATA[<td><?php echo $entry_layout; ?></td>]]></search>
+<add><![CDATA[
+	<td><?php echo $theming_header_size; ?></td>
+	<td><input size="3" style="text-align: right;" name="theme_header_size" value="<?php echo $theme_header_size; ?>">px
+	&nbsp;&nbsp;<a onclick="document.getElementsByName('theme_header_size')[0].value='';"><?php echo $theming_default; ?></a></td>
+	</tr>
+	<tr>
+	<td><?php echo $theming_menu_color; ?></td>
+	<td><!--- Color select --->
+	<input size="7" name="theme_menu_color" value="<?php echo $theme_menu_color; ?>"
+	onKeyUp="document.getElementById('menu_color').style.backgroundColor=this.value;">
+	<span id="menu_color" style="background-color: <?php echo $theme_menu_color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	<select value="" style="width:21px;" onchange="document.getElementsByName('theme_menu_color')[0].value=this.value;
+	document.getElementById('menu_color').style.backgroundColor=this.value;">
+	<?php foreach($colors as $color) { ?>
+	<option value="<?php echo $color; ?>" style="background-color: <?php echo $color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+	<?php } ?>
+	</select>
+	&nbsp;&nbsp;<a onclick="document.getElementsByName('theme_menu_color')[0].value='';document.getElementById('menu_color').style.backgroundColor='white';"><?php echo $theming_default; ?></a>
+	</td>
+	</tr>
+	<tr>
+	<td><?php echo $theming_buttons_color; ?></td>
+	<td>
+	<input size="7" name="theme_buttons_color" value="<?php echo $theme_buttons_color; ?>"
+	onKeyUp="document.getElementById('buttons_color').style.backgroundColor=this.value;">
+	<span id="buttons_color" style="background-color: <?php echo $theme_buttons_color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	<select value="" style="width:21px;" onchange="document.getElementsByName('theme_buttons_color')[0].value=this.value;
+	document.getElementById('buttons_color').style.backgroundColor=this.value;">
+	<?php foreach($colors as $color) { ?>
+	<option value="<?php echo $color; ?>" style="background-color: <?php echo $color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+	<?php } ?>
+	</select>
+	&nbsp;&nbsp;<a onclick="document.getElementsByName('theme_buttons_color')[0].value='';document.getElementById('buttons_color').style.backgroundColor='white';"><?php echo $theming_default; ?></a>
+	</td>
+	</tr>
+	<tr>
+	<td><?php echo $theming_links_color; ?></td>
+	<td><!--- Color select --->
+	<input size="7" name="theme_links_color" value="<?php echo $theme_links_color; ?>"
+	onKeyUp="document.getElementById('links_color').style.backgroundColor=this.value;">
+	<span id="links_color" style="background-color: <?php echo $theme_links_color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	<select value="" style="width:21px;" onchange="document.getElementsByName('theme_links_color')[0].value=this.value;
+	document.getElementById('links_color').style.backgroundColor=this.value;">
+	<?php foreach($colors as $color) { ?>
+	<option value="<?php echo $color; ?>" style="background-color: <?php echo $color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+	<?php } ?>
+	</select>
+	&nbsp;&nbsp;<a onclick="document.getElementsByName('theme_links_color')[0].value='';document.getElementById('links_color').style.backgroundColor='white';"><?php echo $theming_default; ?></a>
+	</td>
+	</tr>
+	<tr>
+	<td><?php echo $theming_background_color; ?></td>
+	<td>
+	<input size="7" name="theme_background_color" value="<?php echo $theme_background_color; ?>"
+	onKeyUp="document.getElementById('background_color').style.backgroundColor=this.value;">
+	<span id="background_color" style="background-color: <?php echo $theme_background_color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	<select value="" style="width:21px;" onchange="document.getElementsByName('theme_background_color')[0].value=this.value;
+	document.getElementById('background_color').style.backgroundColor=this.value;">
+	<?php foreach($colors as $color) { ?>
+	<option value="<?php echo $color; ?>" style="background-color: <?php echo $color; ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+	<?php } ?>
+	</select>
+	&nbsp;&nbsp;<a onclick="document.getElementsByName('theme_background_color')[0].value='';document.getElementById('background_color').style.backgroundColor='white';"><?php echo $theming_default; ?></a>
+	</td>
+	</tr>
+	<tr>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/setting/setting.php">
+<operation error="skip">
+<search position="before"><![CDATA[public function index() {]]></search>
+<add><![CDATA[
+	public function pass($var) {
+	if (isset($this->request->post[$var])) {
+	$this->data[$var] = $this->request->post[$var];
+	} else {
+	$this->data[$var] = $this->config->get($var);
+	}
+	}
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="after"><![CDATA[$this->data['token'] = $this->session->data['token'];]]></search>
+<add><![CDATA[
+	$this->pass('theme_logo_offsetx');
+	$this->pass('theme_logo_offsety');
+	$this->pass('theme_header_size');
+	$this->pass('theme_menu_color');
+	$this->pass('theme_buttons_color');
+	$this->pass('theme_links_color');
+	$this->pass('theme_background_color');
+	$this->pass('theme_background');
+	$this->load->model('tool/image');
+	if ($this->data['theme_background'])
+	$this->data['back'] = $this->model_tool_image->resize($this->data['theme_background'], 100, 100);
+	else $this->data['back'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
+	$this->data['colors'] = array(
+	'#ffffff',
+	'#000000',
+	'#333333',
+	'#aaaaaa',
+	'#ffffff',
+	'#eeeeee',
+	'#f9f7ed',
+	'#ffff88',
+	'#cdeb8b',
+	'#c3d9ff',
+	'#36393d',
+	'#ff1a00',
+	'#cc0000',
+	'#ff7400',
+	'#008c00',
+	'#006e2e',
+	'#4096ee',
+	'#ff0084',
+	'#b02b2c',
+	'#d15600',
+	'#c79810',
+	'#73880a',
+	'#6bba70',
+	'#3f4c6b',
+	'#356aa0',
+	'#d01f3c');
+	if (!isset($this->data['text_browse'])) $this->data['text_browse'] = 'Browse';
+	if (!isset($this->data['text_clear'])) $this->data['text_clear'] = 'Clear';
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="after"><![CDATA[if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {]]></search>
+<add><![CDATA[
+	function light($color) {
+	if( !preg_match('/^#?(?P<color>\w{3}|\w{6})$/', $color, $match) ) return false;
+	$mod = strlen($match['color'])/3;
+	$sum=0;
+	foreach( str_split($match['color'], $mod) as $k=>$v )
+	$sum+= hexdec( $mod==2 ? $v : $v.$v );
+	return $sum>500;
+	}
+	function darker($color) {
+	if( !preg_match('/^#?(?P<color>\w{3}|\w{6})$/', $color, $match) ) return "#333333";
+	$mod = strlen($match['color'])/3;
+	$res="#";
+	foreach( str_split($match['color'], $mod) as $k=>$v ) {
+	$d=dechex(hexdec( $mod==2 ? $v : $v.$v )/2);
+	if (strlen($d)==1) $res.='0';
+	$res.= $d; }
+	return $res;
+	}
+	$this->request->post['theme_background_color_dark']=!light($this->request->post['theme_background_color']);
+	$this->request->post['theme_menu_light']=light($this->request->post['theme_menu_color']);
+	$this->request->post['theme_buttons_light']=light($this->request->post['theme_buttons_color']);
+	$this->request->post['theme_buttons_dark']=darker($this->request->post['theme_buttons_color']);
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/common/header.tpl">
+<operation error="skip">
+<search position="before"><![CDATA[<?php foreach ($styles as $style)]]></search>
+<add><![CDATA[
+	<style type="text/css">
+	<?php if ($this->config->get('theme_logo_offsetx')) { ?>
+	#header #logo { <?php if ($direction == 'rtl') echo 'right'; else echo 'left'; ?>: <?php echo $this->config->get('theme_logo_offsetx'); ?>px; }
+	<?php } ?>
+	<?php if ($this->config->get('theme_logo_offsety')) { ?>
+	#header #logo { top: <?php echo $this->config->get('theme_logo_offsety'); ?>px; }
+	<?php } ?>
+	<?php if ($this->config->get('theme_header_size')) { ?>
+	#header { height: <?php echo $this->config->get('theme_header_size'); ?>px; }
+	<?php } ?>
+	<?php if ($this->config->get('theme_links_color')) { ?>
+	#header .links a { color: <?php echo $this->config->get('theme_links_color'); ?>; } .box-product .name a { color: <?php echo $this->config->get('theme_links_color'); ?>; } .product-list .name a { color: <?php echo $this->config->get('theme_links_color'); ?>; } .product-grid .name a { color: <?php echo $this->config->get('theme_links_color'); ?>; } #header #cart .heading a { color: <?php echo $this->config->get('theme_links_color'); ?>; } a, a:visited, a b { color: <?php echo $this->config->get('theme_links_color'); ?>; }
+	<?php } ?>
+	<?php if ($this->config->get('theme_menu_color')) { ?>
+	#menu { background: <?php echo $this->config->get('theme_menu_color'); ?>; } #menu > ul > li > div { background: <?php echo $this->config->get('theme_menu_color'); ?>; }  #menu > ul > li:hover > div { opacity: 0.9; }
+	<?php if ($this->config->get('theme_menu_light')) { ?>
+	#menu > ul > li > a { color: black; } #menu > ul > li:hover > a { color: white; } #menu > ul > li > div > ul > li > a { color: black; }  #menu > ul > li > div > ul > li > a:hover { color: white; } 
+	<?php } else { ?>
+	#menu > ul > li > a { color: white; } #menu > ul > li:hover > a { color: <?php echo $this->config->get('theme_menu_color'); ?>; background: white;} #menu > ul > li > div > ul > li > a { color: white; } #menu > ul > li > div > ul > li > a:hover { color: <?php echo $this->config->get('theme_menu_color'); ?>; background: white; }
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('theme_buttons_color')) { ?>
+	a.button, input.button { background: <?php echo $this->config->get('theme_buttons_color'); ?>; }
+	a.button:hover, input.button:hover { background: <?php echo $this->config->get('theme_buttons_dark'); ?>; }
+	<?php if ($this->config->get('theme_buttons_light')) { ?>
+	a.button, input.button { color: black; }
+	a.button:hover, input.button:hover { color:white; }
+	<?php } else { ?>
+	a.button, input.button { color: white; }
+	<?php } ?>
+	<?php } ?>
+	<?php if ($this->config->get('theme_background_color')) { ?>
+	body { background-color: <?php echo $this->config->get('theme_background_color'); ?>; }
+	<?php } ?>
+	<?php if ($this->config->get('theme_background')) { ?>
+	body { background-image: url('http://opencart.li/light/image/<?php echo $this->config->get('theme_background'); ?>'); background-repeat: repeat; }
+	<?php } ?>
+	</style>
+]]></add>
+</operation>
+</file>
+
+</modification>

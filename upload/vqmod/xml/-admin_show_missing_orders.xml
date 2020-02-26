@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Show Missing Orders]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[comprido - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/model/sale/order.php">
+<operation error="log">
+<search position="replace" error="log"><![CDATA[$sql .= " WHERE o.order_status_id > '0'";]]></search>
+<add><![CDATA[
+	$sql .= "";
+]]></add>
+</operation>
+</file>
+
+</modification>

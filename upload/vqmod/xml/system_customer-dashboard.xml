@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Customer Account Design]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[auratechmind - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/account/account.tpl">   
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $header; ?>]]></search> 
+<add><![CDATA[
+<style>
+.hvr:hover > h5{color: #84C225;}
+</style>
+]]></add>
+</operation>
+	
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $edit; ?>"><?php echo $text_edit; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center" ><a class="hvr" href="<?php echo $edit; ?>"><img src="catalog/view/theme/default/image/account-images/edit.png" alt="Account Details">
+	<h5><?php echo $text_edit; ?></h5></a></div>
+]]></add>
+</operation> 
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $password; ?>"><?php echo $text_password; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center" ><a class="hvr" href="<?php echo $password; ?>"><img src="catalog/view/theme/default/image/account-images/password.png" alt="Account Password">
+	<h5><?php echo $text_password; ?></h5></a></div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $address; ?>"><?php echo $text_address; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center"><a class="hvr" href="<?php echo $address; ?>"><img src="catalog/view/theme/default/image/account-images/address.png" alt="Address Book">
+	<h5><?php echo $text_address; ?></h5></a></div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $wishlist; ?>"><?php echo $text_wishlist; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center">
+	<a class="hvr" href="<?php echo $wishlist; ?>">
+	<img src="catalog/view/theme/default/image/account-images/wishlist.png" alt="Wish List">
+	<h5><?php echo $text_wishlist; ?></h5></a></div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center" ><a class="hvr" href="<?php echo $order; ?>"><img src="catalog/view/theme/default/image/account-images/orders.png" alt="Order History">
+	<h5><?php echo $text_order; ?></h5></a></div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center" ><a class="hvr" href="<?php echo $download; ?>"><img src="catalog/view/theme/default/image/account-images/download.png" alt="Your Downloads">
+	<h5><?php echo $text_download; ?></h5></a></div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $transaction; ?>"><?php echo $text_transaction; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center" ><a class="hvr" href="<?php echo $transaction; ?>"><img src="catalog/view/theme/default/image/account-images/trans.png" alt="Transactions">
+	<h5><?php echo $text_transaction; ?></h5></a></div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<li><a href="<?php echo $newsletter; ?>"><?php echo $text_newsletter; ?></a></li>]]></search>
+<add><![CDATA[
+	<div class="col-md-2 text-center" ><a class="hvr" href="<?php echo $newsletter; ?>"><img src="catalog/view/theme/default/image/account-images/news.png" alt="Your Newsletter">
+	<h5><?php echo $text_newsletter; ?></h5></a></div>
+	<div class="clearfix"></div>
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[<li><a href="<?php echo $account_cancellation; ?>"><?php echo $text_account_cancellation; ?></a></li>]]></search> 
+<add><![CDATA[     		
+	<div class="col-md-2 text-center"><a href="<?php echo $account_cancellation; ?>"><img src="catalog/view/theme/default/image/account-images/cancel.png" alt="Cancel Account" >
+	<p ><?php echo $text_account_cancellation; ?></p></a></div>
+]]></add>
+</operation>
+</file>
+
+</modification>

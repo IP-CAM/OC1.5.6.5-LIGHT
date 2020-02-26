@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[PayPal Express Fix]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[MMOSolution.com - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/model/payment/pp_express.php">
+<operation error="skip">
+<search position="replace"><![CDATA[$item_total = number_format($item_total + $item_price, 2);]]></search>
+<add><![CDATA[$item_total = number_format($item_total + $item_price, 2, '.', '');]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[$item_total += number_format($item_price * $item['quantity'], 2);]]></search>
+<add><![CDATA[$item_total += number_format($item_price * $item['quantity'], 2, '.', '');]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[$data['L_PAYMENTREQUEST_0_ITEMWEIGHTVALUE' . $i] = number_format($weight / $item['quantity'], 2);]]></search>
+<add><![CDATA[$data['L_PAYMENTREQUEST_0_ITEMWEIGHTVALUE' . $i] = number_format($weight / $item['quantity'], 2, '.', '');]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[$data['PAYMENTREQUEST_0_ITEMAMT'] = number_format($item_total, 2);]]></search>
+<add><![CDATA[$data['PAYMENTREQUEST_0_ITEMAMT'] = number_format($item_total, 2, '.', '');]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[$data['PAYMENTREQUEST_0_AMT'] = number_format($item_total, 2);]]></search>
+<add><![CDATA[$data['PAYMENTREQUEST_0_AMT'] = number_format($item_total, 2, '.', '');]]></add>
+</operation>
+</file>
+
+</modification>

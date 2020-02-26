@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Footer Notifications]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[richylh - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/common/footer.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[</body>]]></search>
+<add><![CDATA[
+<div id="FooterNotification" style="z-index:99999;font-size:14px; text-align:center; color:#FFFFFF; position:fixed;width:100%;bottom:4px;">You are on a DEMO Shop Site. No orders will be processed!</div></body>
+]]></add>
+</operation>
+</file>
+
+</modification>

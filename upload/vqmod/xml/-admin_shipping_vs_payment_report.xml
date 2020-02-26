@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Shipping, Payments and Zones]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[frymi - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['report_sale_order']]]></search>
+<add><![CDATA[
+	$this->data['text_report_order_shipays'] = $this->language->get('text_report_order_shipays');
+	$this->data['report_order_shipays'] = $this->url->link('report/shipays', 'token=' . $this->session->data['token'], 'SSL');
+]]></add>
+</operation>    
+</file>
+
+<file name="admin/language/english/common/header.php" error="skip">
+<operation error="log">
+<search position="after"><![CDATA[$_['text_reports']]]></search>
+<add><![CDATA[
+	$_['text_report_order_shipays']= 'Shipping vs Payment';
+]]></add>
+</operation>    
+</file>  
+
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $text_report_sale_coupon; ?></a></li>]]></search>
+<add><![CDATA[
+	<li><a href="<?php echo $report_order_shipays; ?>"><i class="fa fa-list-alt fa-1x"></i><?php echo $text_report_order_shipays; ?></a></li>
+]]></add>
+</operation>    
+</file>
+
+</modification>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Fix Paypal rounding amount difference]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[ADD Creative - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/payment/pp_standard.php">
+<operation error="log" info="create paypal subtotal calc fix variable">
+<search position="after"><![CDATA[$this->data['products'] = array();]]></search>
+<add><![CDATA[
+	$subtotal = 0;
+]]></add>
+</operation>
+
+<operation error="log" info="calculate price, update subtotal">
+<search position="before" index="1"><![CDATA[$this->data['products'][] = array(]]></search>
+<add><![CDATA[
+	$price = $this->currency->format($product['price'], $order_info['currency_code'], false, false);
+	$subtotal += $price * $product['quantity'];
+]]></add>
+</operation>
+
+<operation error="log" info="assign new price">
+<search position="replace"><![CDATA['price'    => $this->currency->format($product['price'], $order_info['currency_code'], false, false),]]></search>
+<add><![CDATA[
+	'price'    => $price,
+]]></add>
+</operation>
+
+<operation error="log" info="calculate new other charges">
+<search position="replace"><![CDATA[$total = $this->currency->format($order_info['total'] - $this->cart->getSubTotal(), $order_info['currency_code'], false, false);]]></search>
+<add><![CDATA[
+	$total = $this->currency->format($this->currency->format($order_info['total'], $order_info['currency_code'], false, false) - $subtotal, $order_info['currency_code'], 1.0, false);
+]]></add>
+</operation>   
+</file>
+   
+<file name="catalog/language/english/payment/pp_standard.php">
+<operation error="log" info="remove tax from text">
+<search position="replace"><![CDATA[$_['text_total']	= 'Shipping, Handling, Discounts & Taxes';]]></search>
+<add><![CDATA[
+	$_['text_total']    = 'Shipping, Handling, & Discounts';
+]]></add>
+</operation>
+</file>
+
+</modification>

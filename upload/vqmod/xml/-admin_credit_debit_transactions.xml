@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Set Debit/Credit to reflect transaction type]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[VINDHYAVART - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/sale/customer_form.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<td><input type="text" name="amount" value="" /></td>]]></search>
+<add><![CDATA[
+	<td><input size="20" type="text" name="amount" value="" /><p><input type="radio" name="transactype" value="" id="transactype_0" onclick="javascript:if(document.getElementById('form').amount.value!='' && document.getElementById('form').amount.value>0){document.getElementById('form').amount.value=this.value+document.getElementById('form').amount.value;}" checked /> Debit <input type="radio" name="transactype" value="-" id="transactype_1" onclick="if(document.getElementById('form').amount.value>0) {document.getElementById('form').amount.value=this.value+document.getElementById('form').amount.value;}" /> Credit</td>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/sale/customer_transaction.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<td class="center"><?php echo $column_amount; ?></td>]]></search> 
+<add><![CDATA[
+	<td class="center">Dr / Cr</td>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after">
+<![CDATA[<td class="center"><?php echo $transaction['amount']; ?></td>]]></search> 
+<add><![CDATA[
+	<td class="center"><?php if($transaction['amount_without_currency_symbol']<0){echo "Cr";} elseif($transaction['amount_without_currency_symbol']>0){echo "Dr";}?></td>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $balance; ?></td>]]></search>
+<add><![CDATA[
+	<td class="center"><b><?php if($balance_without_currency_symbol<0){echo "Cr";} elseif($balance_without_currency_symbol>0){echo "Dr";}?></b></td>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[colspan="3"><?php echo $text_no_results; ?></td>]]></search>
+<add><![CDATA[colspan="4"><?php echo $text_no_results; ?></td>]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/sale/customer.php">
+<operation error="log">
+<search position="after"><![CDATA['amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),]]></search>
+<add><![CDATA[
+	'amount_without_currency_symbol' => $result['amount'],
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[getTransactionTotal($this->request->get['customer_id']), $this->config->get('config_currency'));]]></search>
+<add><![CDATA[
+	$this->data['balance_without_currency_symbol'] = $this->model_sale_customer->getTransactionTotal($this->request->get['customer_id']);
+]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,81 @@
+/* Page appear animation CSS Set                                                                   */
+/* *********************************************************************************** */
+/* *** Part of OpenShop project: http://OpenShop.org.ua (c) MaxD                   *** */
+/* *********************************************************************************** */
+/* Redistribution in any form without written permission is prohibited.                */
+
+/* ------------- Page appear animation --------------- */
+
+#header {
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+body.preload #header {
+    margin-top: -100px;
+    margin-bottom: 100px;
+}
+
+#logo {
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+body.preload #logo {
+    margin-top: 100px;
+    margin-bottom: -100px;
+}
+
+#column-left {
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+body.preload #column-left {
+    opacity: 0;
+    margin-top: 60px;
+    margin-botton: -60px;
+}
+
+#column-right {
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+body.preload #column-right {
+    opacity: 0;
+    margin-top: 60px;
+    margin-botton: -60px;
+}
+
+#menu > ul > li {
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+body.preload #menu > ul > li {
+    margin-left: -20px;
+}
+
+#menu {
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+body.preload #menu {
+    opacity: 0;
+}
+
+/* ------------- END Page appear animation --------------- */

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Item Condition]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[opencartarabic.com - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/language/english/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$_['text_stock_status']                = 'Stock Statuses';]]></search>
+<add><![CDATA[$_['text_item_condition']              = 'Item Conditions';]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/header.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['text_stock_status'] = $this->language->get('text_stock_status');]]></search>
+<add><![CDATA[		$this->data['text_item_condition'] = $this->language->get('text_item_condition');]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['stock_status'] = $this->url->link('localisation/stock_status', 'token=' . $this->session->data['token'], 'SSL');]]></search>
+<add><![CDATA[			$this->data['item_condition'] = $this->url->link('localisation/item_condition', 'token=' . $this->session->data['token'], 'SSL');]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<i class="fa fa-cubes fa-1x"></i><?php echo $text_stock_status; ?></a></li>]]></search>
+<add><![CDATA[<li><a href="<?php echo $item_condition; ?>"><i class="fa fa-heartbeat fa-1x"></i><?php echo $text_item_condition; ?></a></li>]]></add>
+</operation>
+</file>
+
+<file name="admin/language/english/catalog/product.php">
+<operation error="log">
+<search position="after"><![CDATA[$_['entry_stock_status']     = 'Out Of Stock Status:<br/><span class="help">Status shown when a product is out of stock</span>';]]></search>
+<add><![CDATA[$_['entry_item_condition']   = 'Item Condition:<br/><span class="help">Item condition shown on the product\'s page</span>';]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/catalog/product.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['entry_stock_status'] = $this->language->get('entry_stock_status');]]></search>
+<add><![CDATA[
+	$this->data['entry_item_condition'] = $this->language->get('entry_item_condition');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[if (isset($this->request->post['status'])) {]]></search>
+<add><![CDATA[
+	$this->load->model('localisation/item_condition');
+	$this->data['item_conditions'] = $this->model_localisation_item_condition->getItemConditions();
+	if (isset($this->request->post['item_condition_id'])) {
+	$this->data['item_condition_id'] = $this->request->post['item_condition_id'];
+	} elseif (!empty($product_info)) {
+	$this->data['item_condition_id'] = $product_info['item_condition_id'];
+	} else {
+	$this->data['item_condition_id'] = $this->config->get('config_item_condition_id');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/catalog/product.php">
+<operation error="log">
+<search position="replace"><![CDATA[(int)$data['stock_status_id'] . "',]]></search>
+<add><![CDATA[(int)$data['stock_status_id'] . "', item_condition_id = '" . (int)$data['item_condition_id'] . "',]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[public function getTotalProductsByWeightClassId($weight_class_id) {]]></search>
+<add><![CDATA[	public function getTotalProductsByItemConditionId($item_condition_id) {
+$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product WHERE item_condition_id = '" . (int)$item_condition_id . "'");
+return $query->row['total'];
+}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/catalog/product_form.tpl">
+<operation error="log">
+<search position="after" offset="4"><![CDATA[<option value="<?php echo $stock_status['stock_status_id']; ?>"><?php echo $stock_status['name']; ?></option>]]></search>
+<add><![CDATA[
+<tr>
+<td><?php echo $entry_item_condition; ?></td>
+<td><select name="item_condition_id">
+<?php foreach ($item_conditions as $item_condition) { ?>
+<?php if ($item_condition['item_condition_id'] == $item_condition_id) { ?>
+<option value="<?php echo $item_condition['item_condition_id']; ?>" selected="selected"><?php echo $item_condition['name']; ?></option>
+<?php } else { ?>
+<option value="<?php echo $item_condition['item_condition_id']; ?>"><?php echo $item_condition['name']; ?></option>
+<?php } ?>
+<?php } ?>
+</select></td>
+</tr>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/language/english/setting/setting.php">
+<operation error="log">
+<search position="after"><![CDATA[$_['text_stock']                   = 'Stock';]]></search>
+<add><![CDATA[$_['text_condition']               = 'Condition';]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$_['entry_stock_status']           = 'Out of Stock Status:<br /><span class="help">Set the default out of stock status selected in product edit.</span>';]]></search>
+<add><![CDATA[$_['entry_item_condition']         = 'Item Condition:<br /><span class="help">Set the default item condition selected in product edit.</span>';]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/setting/setting.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['text_stock'] = $this->language->get('text_stock');]]></search>
+<add><![CDATA[		$this->data['text_condition'] = $this->language->get('text_condition');]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['entry_stock_status'] = $this->language->get('entry_stock_status');]]></search>
+<add><![CDATA[		$this->data['entry_item_condition'] = $this->language->get('entry_item_condition');]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['stock_statuses'] = $this->model_localisation_stock_status->getStockStatuses();]]></search>
+<add><![CDATA[		if (isset($this->request->post['config_item_condition_id'])) {
+$this->data['config_item_condition_id'] = $this->request->post['config_item_condition_id'];
+} else {
+$this->data['config_item_condition_id'] = $this->config->get('config_item_condition_id');			
+}
+$this->load->model('localisation/item_condition');
+$this->data['item_conditions'] = $this->model_localisation_item_condition->getItemConditions();]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/setting/setting.tpl">
+<operation error="log">
+<search position="before" offset="1"><![CDATA[<div id="tab-image">]]></search>
+<add><![CDATA[          <h2><?php echo $text_condition; ?></h2>
+<table class="form">
+<tr>
+<td><?php echo $entry_item_condition; ?></td>
+<td><select name="config_item_condition_id">
+<?php foreach ($item_conditions as $item_condition) { ?>
+<?php if ($item_condition['item_condition_id'] == $config_item_condition_id) { ?>
+<option value="<?php echo $item_condition['item_condition_id']; ?>" selected="selected"><?php echo $item_condition['name']; ?></option>
+<?php } else { ?>
+<option value="<?php echo $item_condition['item_condition_id']; ?>"><?php echo $item_condition['name']; ?></option>
+<?php } ?>
+<?php } ?>
+</select></td>
+</tr>
+</table>]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/product.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['text_stock'] = $this->language->get('text_stock');]]></search>
+<add><![CDATA[			$this->data['text_condition'] = $this->language->get('text_condition');]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->load->model('tool/image');]]></search>
+<add><![CDATA[			$this->data['condition'] = $product_info['item_condition'];]]></add>
+</operation>
+</file>
+
+<file name="catalog/model/catalog/product.php">
+<operation error="log">
+<search position="replace"><![CDATA[AS stock_status,]]></search>
+<add><![CDATA[AS stock_status, (SELECT ss.name FROM " . DB_PREFIX . "item_condition ss WHERE ss.item_condition_id = p.item_condition_id AND ss.language_id = '" . (int)$this->config->get('config_language_id') . "') AS item_condition,]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA['stock_status'     => $query->row['stock_status'],]]></search>
+<add><![CDATA[				'item_condition'   => $query->row['item_condition'],]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/default/template/product/product.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<?php echo $text_model; ?></span> <?php echo $model; ?><br />]]></search>
+<add><![CDATA[
+<span><?php echo $text_condition; ?></span> <?php echo $condition; ?><br/>
+]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Change Theme StyleSheet]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/default/template/common/header.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[stylesheet/stylesheet-dark.css" media="screen" />]]></search>
+<add><![CDATA[stylesheet/stylesheet.css" media="screen" />]]></add>
+</operation>
+</file>
+
+</modification>

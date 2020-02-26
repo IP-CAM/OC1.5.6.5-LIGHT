@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Save + Stay Button]]></id>
+<version><![CDATA[OS 1.75 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[TheKrotek - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/model/setting/setting.php">
+<operation error="skip">
+<search position="after"><![CDATA[ModelSettingSetting extends Model {]]></search>
+<add><![CDATA[
+	public function getLastInsertID($code)
+	{
+	$query = $this->db->query("SELECT ".$code."_id AS id FROM `".DB_PREFIX.$code."` ORDER BY ".$code."_id DESC LIMIT 1");
+	$id = $query->row['id'];
+	return $id;
+	}
+]]></add>
+</operation>
+</file>
+
+<file path="admin/controller/" name="catalog/*.php,design/*.php,localisation/*.php,marketing/*.php,sale/*.php,user/*.php,setting/*.php">
+<operation error="skip">
+<search position="before"><![CDATA[$this->redirect($this->url->link(]]></search>
+<add><![CDATA[
+	if (!isset($this->request->post['selected']) && isset($this->request->get['route']) && isset($this->request->post['apply'])) {
+	$get = explode("/", $this->request->get['route']);
+	$folder = $get[0];
+	$file = $get[1];
+
+	if ($file == 'user_permission') $table = 'user_group';
+	else $table = $file;
+
+	$this->load->model('setting/setting');
+	$last_id = $this->model_setting_setting->getLastInsertID($table);
+
+	if ($file == 'setting') {
+	$route = 'setting/store';
+	$editroute = 'setting/setting';
+	} else {
+	$route = $folder.'/'.$file;
+	$editroute = $folder.'/'.$file.'/update';
+	}
+
+	if (!isset($url)) $url = "";
+	if (($file != 'setting') && (isset($this->request->get[$table.'_id']) || isset($last_id))) {
+	$url .= '&'.$table.'_id='.(isset($this->request->get[$table.'_id']) ? $this->request->get[$table.'_id'] : $last_id);
+	}
+
+	if ($this->request->post['apply']) {
+	$this->redirect($this->url->link($editroute, 'token='.$this->session->data['token'].$url, 'SSL'));
+	}
+	}
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="before"><![CDATA[$this->data['heading_title']]]></search>
+<add><![CDATA[
+	$this->data['button_apply'] = $this->language->get('button_apply');
+]]></add>
+</operation>
+</file>
+
+<file path="admin/view/template/" name="*/*_form.tpl,setting/setting.tpl">
+<operation error="skip">
+<search position="replace"><![CDATA[<div class="buttons">]]></search>
+<add><![CDATA[
+	<div class="buttons"><a onclick="$('#content form #apply').attr('value', '1');$('#' + $('#content form').attr('id')).submit();" class="button"><?php echo $button_apply; ?></a> 
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="before" index="1"><![CDATA[</form>]]></search>
+<add><![CDATA[
+	<input type="hidden" name="apply" id="apply" value="0">
+]]></add>
+</operation>
+</file>
+
+<file name="admin/language/*/*.php">
+<operation error="skip">
+<search position="after"><![CDATA[<?php]]></search>
+<add><![CDATA[
+	$_['button_apply'] = "Apply";
+]]></add>
+</operation>
+</file>
+
+</modification>

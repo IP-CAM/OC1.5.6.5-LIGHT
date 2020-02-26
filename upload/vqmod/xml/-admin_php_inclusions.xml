@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin PHP Inclusion]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[MaxD - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/information/information.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[echo $description]]></search>
+<add><![CDATA[eval('?>'.$description.'<?php ')]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/product/product.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[echo $description]]></search>
+<add><![CDATA[eval('?>'.$description.'<?php ')]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/product/category.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[echo $description]]></search>
+<add><![CDATA[eval('?>'.$description.'<?php ')]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/module/welcome.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[echo $message]]></search>
+<add><![CDATA[eval('?>'.$message.'<?php ')]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/information/news.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[echo $description]]></search>
+<add><![CDATA[eval('?>'.$description.'<?php ')]]></add>
+</operation>
+</file>
+	
+</modification>

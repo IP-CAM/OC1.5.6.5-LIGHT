@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Font Awesome Icons in Header]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[STEBGO - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/common/header.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<a class="navbar-brand" href="<?php echo $home; ?>"><?php echo $name; ?></a>]]></search>
+<add><![CDATA[
+	<a class="navbar-brand" href="<?php echo $home; ?>"><i class="fa fa-cog fa-spin" style="min-width: 20px;" aria-hidden="true"></i><?php echo $name; ?></a>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<a href="<?php echo $home; ?>"><?php echo $text_home; ?></a></li>]]></search>
+<add><![CDATA[
+	<a href="<?php echo $home; ?>"><i class="fa fa-user" style="min-width: 16px;" aria-hidden="true"></i><?php echo $text_home; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_wishlist; ?></a>]]></search>
+<add><![CDATA[
+	<i class="fa fa-pencil" style="min-width: 16px;" aria-hidden="true"></i><?php echo $text_wishlist; ?></a>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_account; ?></a>]]></search>
+<add><![CDATA[
+	<i class="fa fa-android" style="min-width: 16px;" aria-hidden="true"></i><?php echo $text_account; ?>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_shopping_cart; ?></a>]]></search>
+<add><![CDATA[
+	<i class="fa fa-shopping-cart" style="min-width: 16px;" aria-hidden="true"></i><?php echo $text_shopping_cart; ?></a>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_checkout; ?></a>]]></search>
+<add><![CDATA[
+	<i class="fa fa-share-square-o" style="min-width: 16px;" aria-hidden="true"></i><?php echo $text_checkout; ?></a>
+]]></add>
+</operation>
+</file>
+
+</modification>

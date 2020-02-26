@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[URL Validation]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[zuma design - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<!-- fix explode bug which adds an extra empty variable to $parts array if there is a trailing slash & get categories and manufacturers for product in url -->
+<file name="catalog/controller/common/seo_url.php">
+<operation error="log">
+<search position="replace"><![CDATA[$parts = explode('/', $this->request->get['_route_']);]]></search>
+<add><![CDATA[
+	$parts = preg_split('#/#', $this->request->get['_route_'], 0, PREG_SPLIT_NO_EMPTY);
+	$categories = array();
+	$paths = array();
+	$previous = '';
+	$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE keyword = '" . $this->db->escape($parts[count($parts)-1]) . "'");
+	$last = explode('=', $query->row['query']);
+	if ($last[0] == 'product_id') {
+	$category_query = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$last[1] . "'");
+	foreach ($category_query->rows as $category) {
+	$categories[] = $category['category_id'];
+	}
+	$manufacturer_query = $this->db->query("SELECT manufacturer_id FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$last[1] . "'");
+	$manufacturer_id = $manufacturer_query->row['manufacturer_id'];
+	}
+]]></add>
+</operation>
+
+<!-- if any part of the url is not a valid keyword then throw a 404 -->
+<operation error="log">
+<search position="after"><![CDATA[$this->request->get['route'] = 'error/not_found';]]></search>
+<add><![CDATA[
+	return $this->forward($this->request->get['route']);
+]]></add>
+</operation>
+
+<!-- validate URL structure with these rules:
+1. product cannot be followed by anything
+2. information cannot be followed by anything
+3. manufacturer can only be followed by a product and must not exist more than once
+4. a category can only be followed by another category or a product 
+5. a product must belong to any category or manufacturer present in url
+6. categories must belong to parents in order of appearance in url -->
+<operation error="log">
+<search position="after"><![CDATA[$url = explode('=', $query->row['query']);]]></search>
+<add><![CDATA[
+	$valid = true;
+	if ($url[0] == 'category_id') {
+	$parent_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_path WHERE category_id = '" . (int)$url[1] . "' AND path_id != '" . (int)$url[1] . "'");
+	$parents = array();
+	foreach ($parent_query->rows as $parent) {
+	$parents[] = $parent['path_id'];
+	}
+	if (array_diff($paths, $parents)) $valid = false;	
+	$paths[] = $url[1];
+	} elseif ($url[0] == 'manufacturer_id' && isset($manufacturer_id) && $url[1] != $manufacturer_id) {
+	$valid = false;
+	}
+	if (!$valid || $previous == 'product_id' || ($previous == 'manufacturer_id' && $url[0] != 'product_id') || ($previous == 'category_id' && $url[0] != 'product_id' && $url[0] != 'category_id') || ($previous == 'information_id')) {
+	$this->request->get['route'] = 'error/not_found';
+	return $this->forward($this->request->get['route']);
+	}
+	$previous = $url[0];
+]]></add>
+</operation>
+</file>
+
+</modification>

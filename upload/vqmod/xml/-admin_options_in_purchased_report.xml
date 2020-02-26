@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Product Purchased Report With Options]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[OpenCartBoost - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+	
+<file name="admin/controller/report/product_purchased.php">
+<operation error="log">
+<search position="after"><![CDATA[foreach ($results as $result) {]]></search>
+<add><![CDATA[
+	$option_data = array();
+	$this->load->model('sale/order');
+	$options = $this->model_sale_order->getOrderOptions($result['order_id'], $result['order_product_id']);
+	foreach ($options as $option) {
+	if ($option['type'] != 'file') {
+	$option_data[] = array(
+	'name'  => $option['name'],
+	'value' => $option['value'],
+	'type'  => $option['type']
+	);
+	} else {
+	$option_data[] = array(
+	'name'  => $option['name'],
+	'value' => substr($option['value'], 0, strrpos($option['value'], '.')),
+	'type'  => $option['type'],
+	'href'  => $this->url->link('sale/order/download', 'token=' . $this->session->data['token'] . '&order_id=' . $this->request->get['order_id'] . '&order_option_id=' . $option['order_option_id'], 'SSL')
+	);
+	}
+	}
+	$product_option = array();
+	foreach ($option_data as $option) {
+	$product_option[] = $option['name'] . ': ' . $option['value'];
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA['model'      => $result['model'],]]></search>
+<add><![CDATA[
+	'option'	 => $product_option,
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['column_model'] = $this->language->get('column_model');]]></search>
+<add><![CDATA[
+	$this->data['column_option'] = $this->language->get('column_option');
+]]></add>
+</operation>
+</file>
+	
+<file name="admin/language/english/report/product_purchased.php">
+<operation error="log">
+<search position="before"><![CDATA[?>]]></search>
+<add><![CDATA[
+	$_['column_option'] = 'Product Options';
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/report/product.php">
+<operation error="log">
+<search position="replace"><![CDATA[$sql = "SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.total * op.tax / 100) AS total FROM " . DB_PREFIX . "order_product op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";]]></search>
+<add><![CDATA[
+	$sql = "SELECT op.order_id, op.order_product_id, op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.total * op.tax / 100) AS total FROM " . DB_PREFIX . "order_product op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[$sql .= " GROUP BY op.model ORDER BY total DESC";]]></search>
+<add><![CDATA[
+	$sql .= " GROUP BY op.order_product_id ORDER BY total DESC";
+]]></add>
+</operation>
+</file>
+	
+<file name="admin/view/template/report/product_purchased.tpl">
+<operation error="log">
+<search position="after"><![CDATA[<td class="left"><?php echo $column_model; ?></td>]]></search>
+<add><![CDATA[
+	<td class="left"><?php echo $column_option; ?></td>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[<td class="left"><?php echo $product['model']; ?></td>]]></search>
+<add><![CDATA[
+<td class="left"><?php foreach ($product['option'] as $option) echo $option . '<br />'; ?></td>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<td class="center" colspan="4"><?php echo $text_no_results; ?></td>]]></search>
+<add><![CDATA[
+<td class="center" colspan="5"><?php echo $text_no_results; ?></td>
+]]></add>
+</operation>
+</file>
+
+</modification>

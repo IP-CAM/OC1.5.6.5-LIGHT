@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Dashboard Latest Tabs]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Samdz - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/common/home.tpl">
+<operation error="log">
+<search position="replace" offset="36"><![CDATA[<div class="latest">]]></search>
+<add><![CDATA[
+	<div class="latest">
+	<div class="dashboard-heading"><?php echo $text_latest; ?></div>
+	<div class="dashboard-content">
+	<div id="latest_tabs" class="htabs">
+	<a href="#tab-latest_order"><?php echo $tab_order; ?></a>
+	<?php if ($customers) { ?>
+	<a href="#tab-latest_customer"><?php echo $tab_customer; ?></a>
+	<?php } ?>
+	<?php if ($reviews) { ?>
+	<a href="#tab-latest_review"><?php echo $tab_review; ?></a>
+	<?php } ?>
+	<?php if ($returns) { ?>
+	<a href="#tab-latest_return"><?php echo $tab_return; ?></a>
+	<?php } ?>
+	<?php if ($affiliates) { ?>
+	<a href="#tab-latest_affiliate"><?php echo $tab_affiliate; ?></a>
+	<?php } ?>
+	</div>
+	<div id="tab-latest_order" class="htabs-content">  
+	<table class="list">
+	<thead>
+	<tr>
+	<td class="right"><?php echo $column_order; ?></td>
+	<td class="left"><?php echo $column_customer; ?></td>
+	<td class="left"><?php echo $column_customer_group; ?></td>
+	<td class="left"><?php echo $column_status; ?></td>
+	<td class="left"><?php echo $column_date_added; ?></td>
+	<td class="right"><?php echo $column_total; ?></td>
+	<td class="right"><?php echo $column_cust_orders_total; ?></td>
+	<td class="right"><?php echo $column_cust_orders_missed; ?></td>
+	<td class="right"><?php echo $column_action; ?></td>
+	</tr>
+	</thead>
+	<tbody>
+	<?php if ($orders) { ?>
+	<?php foreach ($orders as $order) { ?>
+	<tr>
+	<td class="right"><?php echo $order['order_id']; ?></td>
+	<td class="left"><?php echo $order['customer']; ?></td>
+	<td class="left"><?php echo $order['customer_group']; ?></td>
+	<td class="left"><?php echo $order['status']; ?></td>
+	<td class="left"><?php echo $order['date_added']; ?></td>
+	<td class="right"><?php echo $order['total']; ?></td>
+	<td class="right"><?php echo $order['orders_total']; ?>
+	<?php if ($order['orders_total'] > 0) { ?>
+	<?php foreach ($order['action_ot'] as $action_ot) { ?>
+	<a class="button" href="<?php echo $action_ot['href']; ?>"><?php echo $action_ot['text']; ?></a>
+	<?php } ?>
+	<?php } ?>
+	</td>
+	<td class="right"><?php echo $order['orders_missed']; ?>
+	<?php if ($order['orders_missed'] > 0) { ?>
+	<?php foreach ($order['action_om'] as $action_om) { ?>
+	<a class="button" href="<?php echo $action_om['href']; ?>"><?php echo $action_om['text']; ?></a> 
+	<?php } ?>
+	<?php } ?>
+	</td>
+	<td class="right"><?php foreach ($order['action'] as $action) { ?>
+	<a class="button" href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> 
+	<?php } ?></td>
+	</tr>
+	<?php } ?>
+	<?php } else { ?>
+	<tr>
+	<td class="center" colspan="9"><?php echo $text_no_results; ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	</div>
+	<?php if ($customers) { ?>
+	<div id="tab-latest_customer" class="htabs-content">  
+	<table class="list">
+	<thead>
+	<tr>
+	<td class="left"><?php echo $column_customer; ?></td>
+	<td class="left"><?php echo $column_email; ?></td>
+	<td class="left"><?php echo $column_customer_group; ?></td>
+	<td class="left"><?php echo $column_status; ?></td>
+	<td class="left"><?php echo $column_approved; ?></td>
+	<td class="left"><?php echo $column_newsletter; ?></td>
+	<td class="right"><?php echo $column_date_added; ?></td>
+	<td class="right"><?php echo $column_orders_total; ?></td>
+	<td class="right"><?php echo $column_orders_missed; ?></td>
+	<td class="right"><?php echo $column_action; ?></td>
+	</tr>
+	</thead>
+	<tbody>
+	<?php if ($customers) { ?>
+	<?php foreach ($customers as $customer) { ?>
+	<tr>
+	<td class="left"><?php echo $customer['name']; ?></td>
+	<td class="left"><?php echo $customer['email']; ?></td>
+	<td class="left"><?php echo $customer['customer_group']; ?></td>
+	<td class="left"><?php echo $customer['status']; ?></td>
+	<td class="left"><?php echo $customer['approved']; ?></td>
+	<td class="left"><?php echo $customer['newsletter']; ?></td>
+	<td class="right"><?php echo $customer['date_added']; ?></td>
+	<td class="right"><?php echo $customer['orders_total']; ?>
+	<?php if ($customer['orders_total'] > 0) { ?>
+	<?php foreach ($customer['action_ot'] as $action_ot) { ?>
+	<a class="button" href="<?php echo $action_ot['href']; ?>"><?php echo $action_ot['text']; ?></a> 
+	<?php } ?>
+	<?php } ?>
+	</td>
+	<td class="right"><?php echo $customer['orders_missed']; ?>
+	<?php if ($customer['orders_missed'] > 0) { ?>
+	<?php foreach ($customer['action_om'] as $action_om) { ?>
+	<a class="button" href="<?php echo $action_om['href']; ?>"><?php echo $action_om['text']; ?></a> 
+	<?php } ?>
+	<?php } ?>
+	</td>
+	<td class="right"><?php foreach ($customer['action'] as $action) { ?>
+	<a class="button" href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> 
+	<?php } ?></td>
+	</tr>
+	<?php } ?>
+	<?php } else { ?>
+	<tr>
+	<td class="center" colspan="8"><?php echo $text_no_results; ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	</div>
+	<?php } ?>
+	<?php if ($reviews) { ?>
+	<div id="tab-latest_review" class="htabs-content">  
+	<table class="list">
+	<thead>
+	<tr>
+	<td class="left"><?php echo $column_product; ?></td>
+	<td class="left"><?php echo $column_author; ?></td>
+	<td class="right"><?php echo $column_rating; ?></td>
+	<td class="left"><?php echo $column_status; ?></td>
+	<td class="left"><?php echo $column_date_added; ?></td>
+	<td class="right"><?php echo $column_rating_total; ?></td>
+	<td class="right"><?php echo $column_action; ?></td>
+	</tr>
+	</thead>
+	<tbody>
+	<?php if ($reviews) { ?>
+	<?php foreach ($reviews as $review) { ?>
+	<tr>
+	<td class="left"><?php echo $review['name']; ?></td>
+	<td class="left"><?php echo $review['author']; ?></td>
+	<td class="right"><?php echo $review['rating']; ?></td>
+	<td class="left"><?php echo $review['status']; ?></td>
+	<td class="left"><?php echo $review['date_added']; ?></td>
+	<td class="right"><?php echo $review['reviews_total']; ?>
+	<?php if ($review['reviews_total'] > 0) { ?>
+	<?php foreach ($review['action_pr'] as $action_pr) { ?>
+	<a class="button" href="<?php echo $action_pr['href']; ?>"><?php echo $action_pr['text']; ?></a> 
+	<?php } ?>
+	<?php } ?>
+	</td>
+	<td class="right"><?php foreach ($review['action'] as $action) { ?>
+	<a class="button" href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> 
+	<?php } ?></td>
+	</tr>
+	<?php } ?>
+	<?php } else { ?>
+	<tr>
+	<td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	</div>
+	<?php } ?>
+	<?php if ($returns) { ?>
+	<div id="tab-latest_return" class="htabs-content">  
+	<table class="list">
+	<thead>
+	<tr>
+	<td class="right"><?php echo $column_return_id; ?></td>
+	<td class="right"><?php echo $column_order_id; ?></td>
+	<td class="left"><?php echo $column_customer; ?></td>
+	<td class="left"><?php echo $column_product; ?></td>
+	<td class="left"><?php echo $column_model; ?></td>
+	<td class="left"><?php echo $column_date_added; ?></td>
+	<td class="right"><?php echo $column_returns_total; ?></td>
+	<td class="right"><?php echo $column_action; ?></td>
+	</tr>
+	</thead>
+	<tbody>
+	<?php if ($returns) { ?>
+	<?php foreach ($returns as $return) { ?>
+	<tr>
+	<td class="right"><?php echo $return['return_id']; ?></td>
+	<td class="right"><?php echo $return['order_id']; ?></td>
+	<td class="left"><?php echo $return['customer']; ?></td>
+	<td class="left"><?php echo $return['product']; ?></td>
+	<td class="left"><?php echo $return['status']; ?></td>
+	<td class="left"><?php echo $return['date_added']; ?></td>
+	<td class="right"><?php echo $return['returns_total']; ?>
+	<?php if ($return['returns_total'] > 0) { ?>
+	<?php foreach ($return['action_rt'] as $action_rt) { ?>
+	<a class="button" href="<?php echo $action_rt['href']; ?>"><?php echo $action_rt['text']; ?></a> 
+	<?php } ?>
+	<?php } ?>
+	</td>
+	<td class="right"><?php foreach ($return['action'] as $action) { ?>
+	<a class="button" href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> 
+	<?php } ?></td>
+	</tr>
+	<?php } ?>
+	<?php } else { ?>
+	<tr>
+	<td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	</div>
+	<?php } ?>
+	<?php if ($affiliates) { ?>
+	<div id="tab-latest_affiliate" class="htabs-content">  
+	<table class="list">
+	<thead>
+	<tr>
+	<td class="left"><?php echo $column_name; ?></td>
+	<td class="left"><?php echo $column_email; ?></td>
+	<td class="left"><?php echo $column_status; ?></td>
+	<td class="left"><?php echo $column_approved; ?></td>
+	<td class="left"><?php echo $column_date_added; ?></td>
+	<td class="right"><?php echo $column_action; ?></td>
+	</tr>
+	</thead>
+	<tbody>
+	<?php if ($affiliates) { ?>
+	<?php foreach ($affiliates as $affiliate) { ?>
+	<tr>
+	<td class="left"><?php echo $affiliate['name']; ?></td>
+	<td class="left"><?php echo $affiliate['email']; ?></td>
+	<td class="left"><?php echo $affiliate['status']; ?></td>
+	<td class="left"><?php echo $affiliate['approved']; ?></td>
+	<td class="left"><?php echo $affiliate['date_added']; ?></td>
+	<td class="right"><?php foreach ($affiliate['action'] as $action) { ?>
+	<a class="button" href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> 
+	<?php } ?></td>
+	</tr>
+	<?php } ?>
+	<?php } else { ?>
+	<tr>
+	<td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	</div>
+	<?php } ?>
+	</div>
+	</div>
+	</div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[<?php echo $footer; ?>]]></search>
+<add><![CDATA[
+	<script type="text/javascript"><!--
+	$('#latest_tabs a').tabs();
+	//--></script>
+	<style type="text/css">
+	<!--
+	.htabs {
+	padding: 0px 0px 0px 10px;
+	height: 30px;
+	line-height: 16px;
+	border-bottom: 1px solid #547C96;
+	margin-bottom: 15px;
+	}
+	.htabs a {
+	border-top: 1px solid #547C96;
+	border-left: 1px solid #547C96;
+	border-right: 1px solid #547C96;
+	background: #547C96;
+	padding: 7px 15px 6px 15px;
+	float: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: 500;
+	text-align: center;
+	text-decoration: none;
+	color: #f7f7f7;
+	margin-right: 2px;
+	border-radius: 3px 3px 0px 0px;
+	display: none;
+	}
+	.htabs a.selected {
+	padding-bottom: 7px;
+	background: #FFFFFF;
+	color: #547C96;
+	}
+	-->
+	</style>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/language/english/common/home.php">
+<operation error="log">
+<search position="before"><![CDATA[?>]]></search>
+<add><![CDATA[
+	$_['text_latest']   = 'Latest 10';
+	$_['text_guest']   = 'Guest';
+	$_['tab_order'] = 'Orders';
+	$_['tab_customer']  = 'Customers';
+	$_['tab_review']= 'Reviews';
+	$_['tab_return']= 'Returns';
+	$_['tab_affiliate'] = 'Affiliate';
+	$_['column_name']   = 'Customer Name';
+	$_['column_email']  = 'E-Mail';
+	$_['column_customer_group'] = 'Customer Group';
+	$_['column_status'] = 'Status'; 
+	$_['column_date_added']     = 'Date Added';
+	$_['column_product']= 'Product';
+	$_['column_author'] = 'Author';
+	$_['column_rating'] = 'Rating';
+	$_['column_return_id']= 'Return ID';
+	$_['column_order_id'] = 'Order ID';
+	$_['column_customer'] = 'Customer Name';
+	$_['column_product']= 'Product';
+	$_['column_model']  = 'Model';
+	$_['column_name']   = 'Affiliate Name';
+	$_['column_newsletter']     = 'Newsletter';
+	$_['column_approved'] = 'Approved';
+	$_['column_orders_total']   = 'Orders Total';
+	$_['column_orders_missed']  = 'Orders Missed';
+	$_['column_cust_orders_total']   = 'Customer Orders Total';
+	$_['column_cust_orders_missed']  = 'Customer Orders Missed';
+	$_['column_returns_total']  = 'Customer Returns Total';
+	$_['column_rating_total']   = 'Product Reviews Total';
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/common/home.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['column_action'] = $this->language->get('column_action');]]></search>
+<add><![CDATA[
+	$this->data['text_latest'] = $this->language->get('text_latest');
+	$this->data['tab_order'] = $this->language->get('tab_order');
+	$this->data['tab_customer'] = $this->language->get('tab_customer');
+	$this->data['tab_review'] = $this->language->get('tab_review');
+	$this->data['tab_return'] = $this->language->get('tab_return');
+	$this->data['tab_affiliate'] = $this->language->get('tab_affiliate');
+	$this->data['column_name'] = $this->language->get('column_name');
+	$this->data['column_email'] = $this->language->get('column_email');
+	$this->data['column_customer_group'] = $this->language->get('column_customer_group');
+	$this->data['column_product'] = $this->language->get('column_product');
+	$this->data['column_author'] = $this->language->get('column_author');
+	$this->data['column_rating'] = $this->language->get('column_rating');
+	$this->data['column_return_id'] = $this->language->get('column_return_id');
+	$this->data['column_order_id'] = $this->language->get('column_order_id');
+	$this->data['column_customer'] = $this->language->get('column_customer');
+	$this->data['column_product'] = $this->language->get('column_product');
+	$this->data['column_model'] = $this->language->get('column_model');
+	$this->data['column_newsletter'] = $this->language->get('column_newsletter');
+	$this->data['column_approved'] = $this->language->get('column_approved');
+	$this->data['column_orders_total'] = $this->language->get('column_orders_total');
+	$this->data['column_orders_missed'] = $this->language->get('column_orders_missed');
+	$this->data['column_cust_orders_total'] = $this->language->get('column_cust_orders_total');
+	$this->data['column_cust_orders_missed'] = $this->language->get('column_cust_orders_missed');
+	$this->data['column_returns_total'] = $this->language->get('column_returns_total');
+	$this->data['column_rating_total'] = $this->language->get('column_rating_total');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[if ($this->config->get('config_currency_auto')) {]]></search>
+<add><![CDATA[
+	$this->data['customers'] = array(); 
+	$data = array(
+	'sort'  => 'c.date_added',
+	'order' => 'DESC',
+	'start' => 0,
+	'limit' => 10
+	);
+	$customer_results = $this->model_sale_customer->getCustomers($data);
+	foreach ($customer_results as $customer_result) {
+	$action = array();
+		$action[] = array(
+	'text' => $this->language->get('text_edit'),
+	'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $customer_result['customer_id'], 'SSL')
+	);
+	$action_ot = array();
+	$action_ot[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_email=' . $customer_result['email'], 'SSL')
+	);
+	$action_om = array();
+	$action_om[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_email=' . $customer_result['email'] . '&filter_order_status_id=0', 'SSL')
+	);
+	$this->data['customers'][] = array(
+	'customer_id'    => $customer_result['customer_id'],
+	'name'   => $customer_result['name'],
+	'email'  => $customer_result['email'],
+	'newsletter'     => ($customer_result['newsletter'] ? $this->language->get('text_yes') : $this->language->get('text_no')),
+	'customer_group' => $customer_result['customer_group'],
+	'status' => ($customer_result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+	'approved' => ($customer_result['approved'] ? $this->language->get('text_yes') : $this->language->get('text_no')),
+	'ip' => $customer_result['ip'],
+	'date_added'     => date($this->language->get('date_format_short'), strtotime($customer_result['date_added'])),
+	'orders_total'   => $this->model_sale_customer->getTotalCustomersOrders($customer_result['customer_id']),
+	'orders_missed'  => $this->model_sale_customer->getTotalCustomersOrdersMissed($customer_result['customer_id']),
+	'selected' => isset($this->request->post['selected']) && in_array($customer_result['customer_id'], $this->request->post['selected']),
+	'action_ot'=> $action_ot,
+	'action_om'=> $action_om,
+	'action' => $action
+	);
+	}	
+	$this->data['reviews'] = array(); 
+	$data = array(
+	'sort'  => 'r.date_added',
+	'order' => 'DESC',
+	'start' => 0,
+	'limit' => 10
+	);
+	$review_results = $this->model_catalog_review->getReviews($data);
+	foreach ($review_results as $review_result) {
+	$action = array();
+	$action[] = array(
+	'text' => $this->language->get('text_edit'),
+	'href' => $this->url->link('catalog/review/update', 'token=' . $this->session->data['token'] . '&review_id=' . $review_result['review_id'], 'SSL')
+	);
+	$action_pr = array();
+	$action_pr[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('catalog/review', 'token=' . $this->session->data['token'] . '&filter_reveiw=' . $review_result['review_id'] . '&filter_order_status_id=0', 'SSL')
+	);
+	$this->data['reviews'][] = array(
+	'review_id'  => $review_result['review_id'],
+	'name' => $review_result['name'],
+	'author'     => $review_result['author'],
+	'rating'     => $review_result['rating'],
+	'status'     => ($review_result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+	'date_added' => date($this->language->get('date_format_short'), strtotime($review_result['date_added'])),
+	'reviews_total' => $this->model_catalog_review->getTotalProductReviews($review_result['product_id']),
+	'selected'   => isset($this->request->post['selected']) && in_array($review_result['review_id'], $this->request->post['selected']),
+	'action_pr'  => $action_pr,
+	'action'     => $action
+	);
+	}	
+	$this->load->model('sale/return');
+	$this->data['returns'] = array(); 
+	$data = array(
+	'sort'  => 'r.date_added',
+	'order' => 'DESC',
+	'start' => 0,
+	'limit' => 10
+	);
+	$return_results = $this->model_sale_return->getReturns($data);
+	foreach ($return_results as $return_result) {
+	$action = array();
+	$action[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/return/info', 'token=' . $this->session->data['token'] . '&return_id=' . $return_result['return_id'], 'SSL')
+	);
+	$action[] = array(
+	'text' => $this->language->get('text_edit'),
+	'href' => $this->url->link('sale/return/update', 'token=' . $this->session->data['token'] . '&return_id=' . $return_result['return_id'], 'SSL')
+	);
+	$action_rt = array();
+	$action_rt[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/return', 'token=' . $this->session->data['token'] . '&filter_email=' . $return_result['email'], 'SSL')
+	);
+	$this->data['returns'][] = array(
+	'return_id'     => $return_result['return_id'],
+	'order_id'=> $return_result['order_id'],
+	'customer'=> $return_result['customer'],
+	'product' => $return_result['product'],
+	'model' => $return_result['model'],
+	'status'=> $return_result['status'],
+	'date_added'    => date($this->language->get('date_format_short'), strtotime($return_result['date_added'])),	
+	'date_modified' => date($this->language->get('date_format_short'), strtotime($return_result['date_modified'])),
+	'selected'=> isset($this->request->post['selected']) && in_array($return_result['return_id'], $this->request->post['selected']),
+	'returns_total' => $this->model_sale_customer->getTotalCustomersReturns($return_result['customer_id']),
+	'action_rt'     => $action_rt,
+	'action'=> $action
+	);
+	}	
+	$this->data['affiliates'] = array();
+	$data = array(
+	'sort'  => 'a.date_added',
+	'order' => 'DESC',
+	'start' => 0,
+	'limit' => 10
+	);
+	$affiliate_results = $this->model_sale_affiliate->getAffiliates($data);
+	foreach ($affiliate_results as $affiliate_result) {
+	$action = array();
+	$action[] = array(
+	'text' => $this->language->get('text_edit'),
+	'href' => $this->url->link('sale/affiliate/update', 'token=' . $this->session->data['token'] . '&affiliate_id=' . $affiliate_result['affiliate_id'], 'SSL')
+	);
+	$this->data['affiliates'][] = array(
+	'affiliate_id' => $affiliate_result['affiliate_id'],
+	'name' => $affiliate_result['name'],
+	'email'=> $affiliate_result['email'],
+	'balance'=> $this->currency->format($affiliate_result['balance'], $this->config->get('config_currency')),
+	'status' => ($affiliate_result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+	'approved'     => ($affiliate_result['approved'] ? $this->language->get('text_yes') : $this->language->get('text_no')),
+	'date_added'   => date($this->language->get('date_format_short'), strtotime($affiliate_result['date_added'])),
+	'selected'     => isset($this->request->post['selected']) && in_array($affiliate_result['affiliate_id'], $this->request->post['selected']),
+	'action' => $action
+	);
+	}	
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->data['orders'][] = array(]]></search>
+<add><![CDATA[
+	$action_ot = array();
+	$action_ot[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_email=' . $result['email'], 'SSL')
+	);
+	$action_om = array();
+	$action_om[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_email=' . $result['email'] . '&filter_order_status_id=0', 'SSL')
+	);
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->data['orders'][] = array(]]></search>
+<add><![CDATA[
+	$action_ot = array();
+	$action_ot[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_email=' . $result['email'], 'SSL')
+	);
+	$action_om = array();
+	$action_om[] = array(
+	'text' => $this->language->get('text_view'),
+	'href' => $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_email=' . $result['email'] . '&filter_order_status_id=0', 'SSL')
+	);
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),]]></search>
+<add><![CDATA[
+	'orders_total'   => $this->model_sale_customer->getTotalCustomersOrders($result['customer_id']),
+	'orders_missed'  => $this->model_sale_customer->getTotalCustomersOrdersMissed($result['customer_id']),
+	'action_ot'=> $action_ot,
+	'action_om'=> $action_om,
+	'customer_group' => ($result['customer_id'] ? $this->model_sale_customer->getOrdersCustomersGroup($result['customer_id']) : $this->language->get('text_guest')),
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/sale/customer.php">
+<operation error="log">
+<search position="before"><![CDATA[public function getTotalAddressesByCustomerId($customer_id) {]]></search>
+<add><![CDATA[
+	public function getTotalCustomersOrders($customer_id) {
+	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE customer_id = '" . (int)$customer_id . "' AND order_status_id > '0'");
+	return $query->row['total'];
+	}
+	public function getTotalCustomersOrdersMissed($customer_id) {
+	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE customer_id = '" . (int)$customer_id . "' AND order_status_id = '0'"); 
+	return $query->row['total'];
+	}
+	public function getOrdersCustomersGroup ($customer_id) {
+	$query = $this->db->query("SELECT *, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND customer_id = '" . (int)$customer_id . "'"); 
+	return $query->row['customer_group'];
+	}
+	public function getTotalCustomersReturns ($customer_id) {
+	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "return` WHERE customer_id = '" . (int)$customer_id . "'");
+	return $query->row['total'];
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/sale/order.php">
+<operation error="log">
+<search position="replace"><![CDATA[$sql = "SELECT o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS status, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o";]]></search>
+<add><![CDATA[
+	$sql = "SELECT o.order_id, o.email, o.customer_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS status, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o";
+]]></add>
+</operation>
+    
+<operation error="log">
+<search position="before"><![CDATA['o.date_modified',]]></search>
+<add><![CDATA[
+	'o.customer_id',
+	'o.email',
+	'o.customer_',
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/catalog/review.php">
+<operation error="log">
+<search position="before"><![CDATA[public function getReviews($data = array()) {]]></search>
+<add><![CDATA[
+	public function getTotalProductReviews ($product_id) {
+	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "review` WHERE product_id = '" . (int)$product_id . "'");
+	return $query->row['total'];
+	}
+]]></add>
+</operation>
+    
+<operation error="log">
+<search position="replace"><![CDATA[$sql = "SELECT r.review_id, pd.name, r.author, r.rating, r.status, r.date_added FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "product_description pd ON (r.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";]]></search>
+<add><![CDATA[
+	$sql = "SELECT r.review_id, pd.name, r.author, r.rating, r.status, r.product_id, r.date_added FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "product_description pd ON (r.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA['r.status',]]></search>
+<add><![CDATA[
+'r.product_id',
+]]></add>
+</operation>
+</file>
+
+</modification>

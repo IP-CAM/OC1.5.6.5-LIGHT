@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Order Notes]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Web Optic - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/common/home.php">
+<operation error="log">
+<search position="before"><![CDATA[$this->template = 'common/home.tpl';]]></search>
+<add><![CDATA[
+	$this->db->query("CREATE TABLE IF NOT EXISTS `oc_order_notes` (`order_note_id` int(11) NOT NULL AUTO_INCREMENT, `order_id` int(11) NOT NULL, `comment` text NOT NULL, `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `done` varchar(255) NOT NULL, PRIMARY KEY (`order_note_id`) ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
+	$results = $this->model_sale_order->getAllOrderNotes();
+	$this->data['note_count'] = count($results);
+	foreach ($results as $result) {
+	$this->data['notes'][] = array(
+	'order_id' => $result['order_id'],
+	'done' => $result['done'],
+	'done_text' => $result['done'] ? $this->language->get('text_yes') : $this->language->get('text_no'),
+	'comment' => nl2br($result['comment']),
+	'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+	'text_action' => $result['done'] ? $this->language->get('text_mark_as_not_done') : $this->language->get('text_mark_as_done'),
+	'text_view' => 'View',
+	'action' => $this->url->link('sale/order/note_toggle', 'order_id='.$result['order_id'].'&note_id=' . $result['order_note_id'] . '&done=' . ($result['done'] ? '0' : '1') . '&token=' . $this->session->data['token'], 'SSL'),
+	'view' => $this->url->link('sale/order/info', 'order_id='.$result['order_id'] . '&token=' . $this->session->data['token'], 'SSL'),
+	);
+}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->language->load('common/home');]]></search>
+<add><![CDATA[
+	$this->language->load('sale/order');
+	$this->data['column_note'] = $this->language->get('column_note');
+	$this->data['text_view'] = $this->language->get('text_view');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/sale/order.php">
+<operation error="log">
+<search position="before"><![CDATA[$order_info = $this->model_sale_order->getOrder($order_id);]]></search>
+<add><![CDATA[
+	if(isset($this->request->get['tab'])){
+	$this->data['tab'] = $this->request->get['tab'];
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA['action'        => $action]]></search>
+<add><![CDATA[,
+	'has_notes'=> $this->model_sale_order->getTotalIncompleteOrderNotes($result['order_id']) > 0,
+	'notes_link'	=> $this->url->link('sale/order/info', 'tab=notes&order_id=' . $result['order_id'] . '&token=' . $this->session->data['token'], 'SSL'),
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['heading_title'] = $this->language->get('heading_title');]]></search>
+<add><![CDATA[
+	$this->data['heading_notes'] = $this->language->get('heading_notes');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->data['tab_history'] = $this->language->get('tab_history');]]></search>
+<add><![CDATA[
+	$this->data['tab_notes'] = $this->language->get('tab_notes');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->template = 'sale/order_info.tpl';]]></search>
+<add><![CDATA[
+	$this->data['has_notes'] = $this->model_sale_order->getTotalIncompleteOrderNotes($order_info['order_id']) > 0;
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[public function history() {]]></search>
+<add><![CDATA[
+	public function note_toggle(){
+	$this->load->model('sale/order');
+	$this->model_sale_order->updateOrderNote($this->request->get['note_id'], $this->request->get['done']);
+	$this->redirect($this->url->link('sale/order/info', 'order_id=' . $this->request->get['order_id'] . '&token=' . $this->session->data['token'], 'SSL'));
+	}
+	public function notes() {
+	$this->language->load('sale/order');
+	$this->data['error'] = '';
+	$this->data['success'] = '';
+	$this->load->model('sale/order');
+	if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+	if (!$this->user->hasPermission('modify', 'sale/order')) {
+	$this->data['error'] = $this->language->get('error_permission');
+	}
+	if (!$this->data['error']) {
+	$this->model_sale_order->addOrderNote($this->request->get['order_id'], $this->request->post);
+	$this->data['success'] = $this->language->get('text_success');
+	}
+	}
+	$this->data['text_no_results'] = $this->language->get('text_no_results');
+	$this->data['column_date_added'] = $this->language->get('column_date_added');
+	$this->data['column_status'] = $this->language->get('column_status');
+	$this->data['column_done'] = $this->language->get('column_done');
+	$this->data['column_note'] = $this->language->get('column_note');
+	$this->data['column_action'] = $this->language->get('column_action');
+	if (isset($this->request->get['page'])) {
+	$page = (int)$this->request->get['page'];
+	} else {
+	$page = 1;
+	}
+	$this->data['notes'] = array();
+	$results = $this->model_sale_order->getOrderNotes($this->request->get['order_id'], ($page - 1) * 10, 10);
+	foreach ($results as $result) {
+	$this->data['notes'][] = array(
+	'done'	 => $result['done'],
+	'done_text' => $result['done'] ? $this->language->get('text_yes') : $this->language->get('text_no'),
+	'comment' => nl2br($result['comment']),
+	'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+	'text_action' => $result['done'] ? $this->language->get('text_mark_as_not_done') : $this->language->get('text_mark_as_done'),
+	'action' => $this->url->link('sale/order/note_toggle', 'order_id='.$result['order_id'].'&note_id=' . $result['order_note_id'] . '&done=' . ($result['done'] ? '0' : '1') . '&token=' . $this->session->data['token'], 'SSL'),
+	);
+	}
+	$notes_total = $this->model_sale_order->getTotalOrderNotes($this->request->get['order_id']);
+	$pagination = new Pagination();
+	$pagination->total = $notes_total;
+	$pagination->page = $page;
+	$pagination->limit = 10;
+	$pagination->text = $this->language->get('text_pagination');
+	$pagination->url = $this->url->link('sale/order/notes', 'token=' . $this->session->data['token'] . '&order_id=' . $this->request->get['order_id'] . '&page={page}', 'SSL');
+	$this->data['pagination'] = $pagination->render();
+	$this->template = 'sale/order_notes.tpl';
+	$this->response->setOutput($this->render());
+	}
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->data['button_add_history'] = $this->language->get('button_add_history');]]></search>
+<add><![CDATA[
+	$this->data['button_add_note'] = $this->language->get('button_add_note');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/model/sale/order.php">
+<operation error="log">
+<search position="before"><![CDATA[public function getOrderHistories($order_id, $start = 0, $limit = 10) {]]></search>
+<add><![CDATA[
+	public function addOrderNote($order_id, $data) {
+	$this->db->query("INSERT INTO " . DB_PREFIX . "order_notes SET order_id = '" . (int)$order_id . "', comment = '" . $this->db->escape(strip_tags($data['note'])) . "', date_added = NOW(), done = 0");
+	}
+	public function updateOrderNote($order_note_id, $done){
+	$this->db->query("UPDATE " . DB_PREFIX . "order_notes SET done = '" . $done . "' WHERE order_note_id = '" . $order_note_id . "'");
+	}
+	public function getAllOrderNotes(){
+	$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_notes` WHERE done = 0 ORDER BY date_added ASC");
+	return $query->rows;
+	}
+	public function getOrderNotes($order_id, $start = 0, $limit = 10) {
+	if ($start < 0) {
+	$start = 0;
+	}
+	if ($limit < 1) {
+	$limit = 10;
+	}
+	$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_notes` WHERE order_id = '" . (int)$order_id . "' ORDER BY date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+	return $query->rows;
+	}
+	public function getTotalOrderNotes($order_id) {
+	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "order_notes WHERE order_id = '" . (int)$order_id . "'");
+	return $query->row['total'];
+	}
+	public function getTotalIncompleteOrderNotes($order_id) {
+	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "order_notes WHERE order_id = '" . (int)$order_id . "' AND done = 0");
+	return $query->row['total'];
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/sale/order_info.tpl">
+<operation error="log">
+<search position="before" offset="2"><![CDATA[<h1><img src="view/image/order.png" alt="" /> <?php echo $heading_title; ?></h1>]]></search>
+<add><![CDATA[
+	<div class="box notes-box<?php echo (!$has_notes) ? '-hidden' : ''; ?>">
+	<div class="heading">
+	<h1><img src="view/image/review.png" alt="" /> <i class="fa fa-notes"></i><?php echo $heading_notes; ?></h1>
+	</div>
+	<div class="contents">
+	<div id="notes2"></div>
+	</div>
+	</div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before" offset="1"><![CDATA[<div id="tab-fraud" class="vtabs-content">]]></search>
+<add><![CDATA[
+	<div id="tab-notes" class="vtabs-content">
+	<div id="notes"></div>
+	<table class="form">
+	<tr>
+	<td><?php echo $entry_comment; ?></td>
+	<td><textarea name="note" cols="40" rows="8" style="width: 99%"></textarea>
+	<div style="margin-top: 10px; text-align: right;"><a id="button-notes" class="button"><?php echo $button_add_note; ?></a></div></td>
+	</tr>
+	</table>
+	</div>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[<a href="#tab-history"><?php echo $tab_history; ?></a>]]></search>
+<add><![CDATA[
+	<a href="#tab-notes"><?php echo $tab_notes; ?></a>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$('.vtabs a').tabs();]]></search>
+<add><![CDATA[
+	$('#notes').load('index.php?route=sale/order/notes&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>');
+	$('#notes2').load('index.php?route=sale/order/notes&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&header=no');
+	$('#button-notes').live('click', function() {
+	$.ajax({
+	url: 'index.php?route=sale/order/notes&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>',
+	type: 'post',
+	dataType: 'html',
+	data: 'note=' + encodeURIComponent($('textarea[name=\'note\']').val()),
+	beforeSend: function() {
+	$('.success, .warning').remove();
+	$('#button-notes').attr('disabled', true);
+	$('#notes').prepend('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+	},
+	complete: function() {
+	$('#button-notes').attr('disabled', false);
+	$('.attention').remove();
+	},
+	success: function(html) {
+	$('#notes').html(html);
+	$('#notes2').load('index.php?route=sale/order/notes&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&header=no');
+	$('.notes-box-hidden').show();
+	$('textarea[name=\'note\']').val('');
+	}
+	});
+	});
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$('#history').load('index.php?route=sale/order/history&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>');]]></search>
+<add><![CDATA[
+	$('#notes .pagination a').live('click', function() {
+	$('#notes').load(this.href);
+	return false;
+	});
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$('.vtabs a').tabs();]]></search>
+<add><![CDATA[
+	<?php if(isset($tab) && $tab): ?>
+	$(document).on('ready', function (){
+	$('a[href="#tab-<?php echo $tab; ?>"]').trigger('click');
+	});
+	<?php endif; ?>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/sale/order_list.tpl">
+<operation error="log">
+<search position="ibefore"><![CDATA[<?php echo $order['order_id']; ?></td>]]></search>
+<add><![CDATA[
+	<?php if(isset($order['has_notes']) && $order['has_notes']): ?>
+	<a href="<?php echo $order['notes_link'];?>"><span class="left"><i class="fa fa-pencil-square-o"></i></span></a>
+	<?php endif; ?>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="after"><![CDATA[stylesheet.css" />]]></search>
+<add><![CDATA[
+	<link rel="stylesheet" type="text/css" href="view/stylesheet/order_notes.css">
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/common/home.tpl">
+<operation error="log">
+<search position="after" index="2" offset="1"><![CDATA[</table>]]></search>
+<add><![CDATA[
+	<div class="latest" style="margin-top: 20px">
+	<div class="dashboard-heading">Notes Requiring Attention (<?php echo $note_count; ?>)</div>
+	<div class="dashboard-content">
+	<table class="list">
+	<thead>
+	<tr>
+	<td class="center"><b><?php echo $column_order; ?></b></td>
+	<td class="left"><b><?php echo $column_note; ?></b></td>
+	<td class="center"><b><?php echo $column_date_added; ?></b></td>
+	<td class="center"><b><?php echo $column_action; ?></b></td>
+	</tr>
+	</thead>
+	<tbody>
+	<?php if (isset($notes) && $notes) { ?>
+	<?php foreach ($notes as $note) { ?>
+	<tr>
+	<td class="center"><?php echo $note['order_id']; ?></td>
+	<td class="left"><?php echo $note['comment']; ?></td>
+	<td class="center"><?php echo $note['date_added']; ?></td>
+	<td class="center">
+	<a class="button" href="<?php echo $note['view']; ?>"><?php echo $note['text_view']; ?></a>&nbsp;<a class="button" href="<?php echo $note['action']; ?>"><?php echo $note['text_action']; ?></a>
+	</td>
+	</tr>
+	<?php } ?>
+	<?php } else { ?>
+	<tr>
+	<td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	</div>
+	</div>
+]]></add>
+</operation>
+</file>
+
+</modification>

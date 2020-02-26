@@ -1,0 +1,17 @@
+.jcarousel-skin-opencart .jcarousel-direction-rtl{direction:rtl}
+.jcarousel-skin-opencart .jcarousel-container-horizontal{padding:0 70px}
+.jcarousel-skin-opencart{}
+.jcarousel-skin-opencart li{display:inline-block}
+.jcarousel-skin-opencart li>div{display:inline-block;max-width:100%;vertical-align:bottom}
+.jcarousel-skin-opencart li>div>.thumbnail{margin-bottom:0;}
+.jcarousel-skin-opencart .jcarousel-clip{overflow:hidden;width:100%}
+.jcarousel-skin-opencart .jcarousel-item{text-align:center}
+.jcarousel-skin-opencart .jcarousel-item-horizontal{margin-left:5px;margin-right:5px}
+.jcarousel-skin-opencart .jcarousel-item-placeholder{background:#fff;color:#000}
+.jcarousel-skin-opencart .jcarousel-next-horizontal,.jcarousel-skin-opencart .jcarousel-prev-horizontal{cursor:pointer;position:absolute;top:50%;right:0;width:30px;height:60px;margin-top:-30px;font-size:60px;font-weight:100;line-height:50px;color:#fff;text-align:center;background:#666;opacity:.5;filter:alpha(opacity=50);-webkit-border-radius:23px;-moz-border-radius:23px;border-radius:23px;-webkit-transition:background .2s linear;-moz-transition:background .2s linear;-o-transition:background .2s linear;transition:background .2s linear;}
+.jcarousel-skin-opencart .jcarousel-prev-horizontal{left:5px}
+.jcarousel-skin-opencart .jcarousel-direction-rtl .jcarousel-prev-horizontal{left:auto;right:5px}
+.jcarousel-skin-opencart .jcarousel-direction-rtl .jcarousel-next-horizontal{left:0;right:auto;background:#bbb}
+.jcarousel-skin-opencart .jcarousel-next-horizontal:hover,.jcarousel-skin-opencart .jcarousel-next-horizontal:focus,.jcarousel-skin-opencart .jcarousel-next-horizontal:active,.jcarousel-skin-opencart .jcarousel-prev-horizontal:hover,.jcarousel-skin-opencart .jcarousel-prev-horizontal:focus,.jcarousel-skin-opencart .jcarousel-prev-horizontal:active{opacity:.8;filter:alpha(opacity=80);}
+.jcarousel-skin-opencart .jcarousel-next-disabled-horizontal,.jcarousel-skin-opencart .jcarousel-next-disabled-horizontal:hover,.jcarousel-skin-opencart .jcarousel-next-disabled-horizontal:focus,.jcarousel-skin-opencart .jcarousel-next-disabled-horizontal:active,
+.jcarousel-skin-opencart .jcarousel-prev-disabled-horizontal,.jcarousel-skin-opencart .jcarousel-prev-disabled-horizontal:hover,.jcarousel-skin-opencart .jcarousel-prev-disabled-horizontal:focus,.jcarousel-skin-opencart .jcarousel-prev-disabled-horizontal:active{cursor:default;background:#bbb;opacity:.2;filter:alpha(opacity=20);}

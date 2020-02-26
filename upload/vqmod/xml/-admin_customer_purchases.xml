@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Customer Purchases]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[ecomteck - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/sale/customer.php">
+<operation error="abort">
+<search position="after"><![CDATA[public function update() {]]></search>
+<add><![CDATA[
+	$this->language->load('eccustomerpurchases/order');
+	$this->document->addScript('view/javascript/eccustomerpurchases/jquery.cookie.js');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/sale/customer_form.tpl">
+<operation  error="abort">
+<search position="replace"><![CDATA[<a href="#tab-ip"><?php echo $tab_ip; ?></a></div>]]></search>
+<add><![CDATA[
+	<a href="#tab-ip"><?php echo $tab_ip; ?></a><?php if ($customer_id) { ?><a href="#tab-purchases"><i class="fa fa-sale fa-1x"></i><?php echo $this->language->get("tab_purchases"); ?></a><?php } ?></div>
+]]></add>
+</operation>
+
+<operation  error="abort">
+<search position="before"><![CDATA[<div id="tab-general">]]></search>
+<add><![CDATA[
+	<?php if($customer_id) { ?>
+	<div id="tab-purchases">
+	<?php  echo $this->getChild('eccustomerpurchases/order', array("customer_id"=>$customer_id)); ?>
+	</div>
+	<?php } ?>
+]]></add>
+</operation>
+</file>
+
+</modification>

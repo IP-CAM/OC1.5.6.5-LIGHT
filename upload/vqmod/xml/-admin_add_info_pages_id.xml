@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Add Information Page ID]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[aljawaid - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/catalog/information_list.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<td class="left"><?php echo $information['title']; ?></td>]]></search>
+<add><![CDATA[
+	<td class="text-center"><?php echo $information['information_id']; ?></td>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[<td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>]]></search>
+<add><![CDATA[
+	<td width="10" style="text-align: center;">ID</td>
+]]></add>
+</operation>
+</file>
+
+</modification>

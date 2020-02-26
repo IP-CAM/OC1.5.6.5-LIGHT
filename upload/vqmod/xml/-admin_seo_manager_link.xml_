@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin SEO-Manager Header Link]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/common/header.tpl">
+<operation error="log">
+<search position="before" error="log"><![CDATA[<?php echo $text_backup; ?></a></li>]]></search>
+<add><![CDATA[
+	<li><a href="<?php echo $this->url->link('module/seo_manager', 'token=' . $this->session->data['token'], 'SSL'); ?>"><i class="fa fa-link fa-1x"></i>SEO Manager</a></li>
+]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Captcha register and affiliate]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[EddieLai - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/account/register.php">
+<operation error="abort">
+<search position="before"><![CDATA[$this->data['entry_firstname'] = $this->language->get('entry_firstname');]]></search>
+<add><![CDATA[
+	$this->data['text_captcha'] = $this->language->get('text_captcha');
+	$this->data['entry_captcha'] = $this->language->get('entry_captcha');
+]]></add>
+</operation>
+
+<operation error="abort">
+<search position="before"><![CDATA[if ($this->config->get('config_account_id'))]]></search>
+<add><![CDATA[
+	if (isset($this->error['captcha'])) {
+	$this->data['error_captcha'] = $this->error['captcha'];
+	} else {
+	$this->data['error_captcha'] = '';
+	}
+]]></add>
+</operation>
+
+<operation error="abort">
+<search position="before"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/register.tpl'))]]></search>
+<add><![CDATA[
+	if (isset($this->request->post['captcha'])) {
+	$this->data['captcha'] = $this->request->post['captcha'];
+	} else {
+	$this->data['captcha'] = '';
+	}
+]]></add>
+</operation>
+
+<operation error="abort">
+<search position="before"><![CDATA[if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32))]]></search>
+<add><![CDATA[
+	if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+	$this->error['captcha'] = $this->language->get('error_captcha');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/affiliate/register.php">
+<operation error="abort">
+<search position="before"><![CDATA[$this->data['entry_firstname'] = $this->language->get('entry_firstname');]]></search>
+<add><![CDATA[
+	$this->data['text_captcha'] = $this->language->get('text_captcha');
+	$this->data['entry_captcha'] = $this->language->get('entry_captcha');
+]]></add>
+</operation>
+
+<operation error="abort">
+<search position="before"><![CDATA[if ($this->config->get('config_affiliate_id'))]]></search>
+<add><![CDATA[
+	if (isset($this->error['captcha'])) {
+	$this->data['error_captcha'] = $this->error['captcha'];
+	} else {
+	$this->data['error_captcha'] = '';
+	}
+]]></add>
+</operation>
+
+<operation error="abort">
+<search position="before"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/affiliate/register.tpl'))]]></search>
+<add><![CDATA[
+	if (isset($this->request->post['captcha'])) {
+	$this->data['captcha'] = $this->request->post['captcha'];
+	} else {
+	$this->data['captcha'] = '';
+	}
+]]></add>
+</operation>
+
+<operation error="abort">
+<search position="before"><![CDATA[if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32))]]></search>
+<add><![CDATA[
+	if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+	$this->error['captcha'] = $this->language->get('error_captcha');
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/language/english/account/register.php">
+<operation error="abort">
+<search position="before"><![CDATA[$_['text_account']]]></search>
+<add><![CDATA[
+	$_['text_captcha']= 'Verification';
+	$_['entry_captcha']  = 'Add the Code below:';
+	$_['error_captcha']  = 'The captcha code was entered incorrectly, please try again!';
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/language/english/affiliate/register.php">
+<operation error="abort">
+<search position="before"><![CDATA[$_['text_account']]]></search>
+<add><![CDATA[
+	$_['text_captcha']  = 'Verification';
+	$_['entry_captcha']  = 'Add the Code below:';
+	$_['error_captcha']  = 'The captcha code was entered incorrectly, please try again!';
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/account/register.tpl">
+<operation error="abort">
+<search position="before"><![CDATA[<?php if ($text_agree) { ?>]]></search>
+<add><![CDATA[
+<fieldset>
+<legend><?php echo $text_captcha; ?></legend>
+
+<label class="control-label col-sm-5">
+<img src="index.php?route=information/contact/captcha" /><br />
+	<?php echo $entry_captcha; ?><br />
+	<?php if ($error_captcha) { ?>
+	<span class="error"><?php echo $error_captcha; ?></span>
+	<?php } ?>
+	<input type="text" size="16" name="captcha" value="<?php echo $captcha; ?>" />
+<p>&nbsp;</p>
+</label>
+<fieldset>
+
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/affiliate/register.tpl">
+<operation error="abort">
+<search position="before"><![CDATA[<?php if ($text_agree) { ?>]]></search>
+<add><![CDATA[
+	<h2><?php echo $text_captcha; ?></h2>
+	<div class="content">
+	<table class="form">
+	<tr>
+	<tr>
+	<td><img src="index.php?route=information/contact/captcha" /><br />
+	<?php echo $entry_captcha; ?><br />
+	<?php if ($error_captcha) { ?>
+	<span class="error"><?php echo $error_captcha; ?></span>
+	<?php } ?>
+	<input type="text" name="captcha" value="<?php echo $captcha; ?>" />
+	<br />
+	<br />
+	</td>
+	</tr>
+	</tr>
+	</table>
+	</div>
+]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Attributic]]></id>
+<version><![CDATA[OS 1.75 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Woewudski - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/catalog/product_form.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<?php echo $footer; ?>]]></search>
+<add><![CDATA[
+<script type="text/javascript"><!--
+$(document).ready(function() {
+  $.ajax({
+    url: 'index.php?route=module/attributic/getTemplates&token=<?php echo $token; ?>',
+    type: 'get',
+	dataType: 'html',
+	success: function(html) {
+	    $('#tab-attribute').prepend(html);
+    }
+  });
+});
+
+var attribute_row = <?php echo $attribute_row; ?>;
+
+$('#add_attribute_templates').live('change', function() {
+	$.ajax({
+		url: 'index.php?route=module/attributic/addAttributes&token=<?php echo $token; ?>',
+		type: 'post',
+		dataType: 'json',
+		data: 'this_template_id=' + encodeURIComponent($('#add_attribute_templates').val()),
+		success: function (json) {
+			if (json != '') {
+				for (i = 0; i < json.length; i++) {
+					html  = '<tbody id="attribute-row' + attribute_row + '">';
+   	   	    	 	html += '  <tr>';
+					html += '    <td class="left"><input type="text" name="product_attribute[' + attribute_row + '][name]" value="' + json[i]['name'] + '" /><input type="hidden" name="product_attribute[' + attribute_row + '][attribute_id]" value="' + json[i]['attribute_id'] + '" /></td>';
+					html += '    <td class="left">';
+					<?php foreach ($languages as $language) { ?>
+					html += '<textarea name="product_attribute[' + attribute_row + '][product_attribute_description][<?php echo $language['language_id']; ?>][text]" cols="40" rows="5">' + json[i]['product_attribute_description'][<?php echo $language['language_id']; ?>]['text'] + '</textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" align="top" /><br />';
+  		 		    <?php } ?>
+					html += '    </td>';
+					html += '    <td class="left"><a onclick="$(\'#attribute-row' + attribute_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+  		  		    html += '  </tr>';	
+  		  		    html += '</tbody>';
+
+					$('#add_attribute_templates').val(0);
+
+					$('#attribute tfoot').before(html);
+
+	       		    attribute_row++;
+			    }
+			}
+		}
+	});
+});
+
+$('#delete_all_attributes').live('click', function() {
+    $('table#attribute').replaceWith('<table id="attribute" class="list"><thead><tr><td class="left"><?php echo $entry_attribute; ?></td><td class="left"><?php echo $entry_text; ?></td><td></td></tr></thead><tfoot><tr><td colspan="2"></td><td class="left"><a onclick="addAttribute();" class="button"><?php echo $button_add_attribute; ?></a></td></tr></tfoot></table>');
+});
+
+$('#delete_empty_attributes').live('click', function() {
+    $('table#attribute tbody').each(function(){
+	    var ids = $(this).attr('id');
+
+        if (($.trim($('#' + ids + ' .left textarea:nth-child(1)').val()) == '') && ($.trim($('#' + ids + ' .left textarea:nth-child(2)').val()) == '') && ($.trim($('#' + ids + ' .left textarea:nth-child(3)').val()) == '')) {
+            $('#' + ids + '').remove();
+        }
+	});
+});
+//--></script>
+]]></add>
+</operation>
+</file>
+
+</modification>

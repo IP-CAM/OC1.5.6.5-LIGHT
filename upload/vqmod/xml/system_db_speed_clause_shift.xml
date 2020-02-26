@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[DB Speed pd.language_id shift]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[madimar - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/model/catalog/product.php">
+<!-- REMOVE WHERE CLAUSE INSTANCES OF pd.language_id -->
+<operation error="skip"><!-- 9 places-->
+<search position="replace"><![CDATA[AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "']]></search>
+<add trim="true"><![CDATA[]]></add>
+</operation>
+
+<operation error="skip"><!-- 5 places-->
+<search position="replace"><![CDATA[WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "']]></search>
+<add trim="true"><![CDATA[
+	WHERE
+]]></add>
+</operation>
+
+<!-- ADD pd.language_id TO LEFT JOIN -->
+<operation error="skip"><!-- 13 places-->
+<search position="replace"><![CDATA[(p.product_id = pd.product_id)]]></search>
+<add trim="true"><![CDATA[
+	(p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "')
+]]></add>
+</operation>
+
+<!-- REMOVE WHERE CLAUSE INSTANCES OF p2s.store_id -->
+<operation error="skip"><!-- 16 places-->
+<search position="replace"><![CDATA[AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "']]></search>
+<add trim="true"><![CDATA[]]></add>
+</operation>
+
+<!-- ADD p2s.store_id TO LEFT JOIN -->
+<operation error="skip"><!-- 16 places-->
+<search position="replace"><![CDATA[(p.product_id = p2s.product_id)]]></search>
+<add trim="true"><![CDATA[
+	(p.product_id = p2s.product_id AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "')
+]]></add>
+</operation>
+
+<!-- CLEAN UP OPPHANED CLAUSE FOR WHERE AND -->
+<operation error="skip"><!-- 1 places-->
+<search position="replace"><![CDATA[WHERE AND]]></search>
+<add trim="true"><![CDATA[WHERE]]></add>
+</operation>
+</file>
+
+<file name="catalog/model/catalog/category.php">
+<!-- REMOVE WHERE CLAUSE INSTANCES OF cd.language_id -->
+<operation error="skip">
+<search position="replace"><![CDATA[AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "']]></search>
+<add trim="true"><![CDATA[]]></add>
+</operation>
+
+<!-- ADD cd.language_id TO LEFT JOIN -->
+<operation error="skip">
+<search position="replace"><![CDATA[(c.category_id = cd.category_id)]]></search>
+<add trim="true"><![CDATA[
+	(c.category_id = cd.category_id AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "')
+]]></add>
+</operation>
+
+<!-- REMOVE WHERE CLAUSE INSTANCES OF c2s.store_id -->
+<operation error="skip">
+<search position="replace"><![CDATA[AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "']]></search>
+<add trim="true"><![CDATA[]]></add>
+</operation>
+
+<!-- ADD c2s.store_id TO LEFT JOIN -->
+<operation error="skip">
+<search position="replace"><![CDATA[(c.category_id = c2s.category_id)]]></search>
+<add trim="true"><![CDATA[
+	(c.category_id = c2s.category_id AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "')
+]]></add>
+</operation>
+
+<!-- CLEAN UP OPPHANED CLAUSE FOR WHERE AND -->
+<operation error="skip">
+<search position="replace"><![CDATA[WHERE AND]]></search>
+<add trim="true"><![CDATA[WHERE]]></add>
+</operation>
+</file>
+
+</modification>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Font Awesome icons in Footer]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[STEBGO - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/common/footer.tpl">
+<operation error="skip">
+<search position="replace"><![CDATA[<ul>]]></search>
+<add><![CDATA[
+	<ul class="list-unstyled">]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_contact; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-phone" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_contact; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[<?php echo $text_return; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-reply" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_return; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_sitemap; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-sitemap" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_sitemap; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_manufacturer; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-cubes" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_manufacturer; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="skip">
+<search position="replace"><![CDATA[<?php echo $text_voucher; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-gift" style="min-width: 16px;" aria-hidden="true"></i>&nbsp;<?php echo $text_voucher; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_affiliate; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-users" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_affiliate; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_special; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-rocket" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_special; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_account; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-user" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_account; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_order; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-history" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_order; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_wishlist; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-heart" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_wishlist; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $text_newsletter; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-bullhorn" style="min-width: 16px;" aria-hidden="true"></i>  <?php echo $text_newsletter; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="replace"><![CDATA[<?php echo $information['title']; ?></a></li>]]></search>
+<add><![CDATA[
+	<i class="fa fa-info" style="min-width: 12px;" aria-hidden="true"></i><?php echo $information['title']; ?></a></li>
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[<?php echo $text_sitemap; ?></a></li>]]></search>
+<add><![CDATA[
+	<li><i class="fa fa-github-alt" style="min-width: 16px;" aria-hidden="true"></i> <a target="new" href="https://github.com/IP-CAM/">Github.com OC</a></li>
+]]></add>
+</operation>
+</file>
+
+</modification>

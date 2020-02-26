@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Option Name Sorter]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Shirttools - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/controller/catalog/product.php">
+<operation error="log">
+<search position="before"><![CDATA[$this->load->model('sale/customer_group');]]></search>
+<add><![CDATA[
+	function option_name_sorter_test($a, $b){return strcmp($a["name"], $b["name"]);}
+	foreach($this->data['option_values'] as $key=>$ov){usort($ov, "option_name_sorter_test");$this->data['option_values'][$key] = $ov;}
+]]></add>
+</operation>
+</file>
+
+</modification>

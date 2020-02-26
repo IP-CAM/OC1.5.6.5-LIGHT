@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Manufacturer Logo on Product Page]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Ernie - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/view/theme/*/template/product/product.tpl">
+<operation error="log">
+<search position="replace"><![CDATA[<a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a><br />]]></search>
+<add><![CDATA[
+	<a href="<?php echo $manufacturers; ?>"> <?php echo $manufacturer ?> <?php echo ($manufacturers_img) ? '<img style="margin:5px;" width="50" height="50" class="img-rounded" src="'.$manufacturers_img.'" title="'.$manufacturer.'" />' : '' ;?></a><br />
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/product/product.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->load->model('tool/image');]]></search>
+<add><![CDATA[
+	$manufacturer_image = $this->model_catalog_manufacturer->getManufacturer($product_info['manufacturer_id']);
+	if($manufacturer_image){
+	$this->data['manufacturers_img'] = $this->model_tool_image->resize($manufacturer_image['image'], 50, 50);
+	}else{
+	$this->data['manufacturers_img'] = false;
+	}
+]]>
+</add>
+</operation>
+</file>
+
+</modification>

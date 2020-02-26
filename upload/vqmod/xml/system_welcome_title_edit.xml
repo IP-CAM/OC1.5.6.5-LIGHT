@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Welcome Title Customize ]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[TMD - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/language/*/module/welcome.php">
+<operation error="log">
+<search position="before"><![CDATA[$_['text_module']]]></search>
+<add><![CDATA[
+	$_['entry_title']        = 'Welcome title:';
+]]></add>
+</operation>
+</file>
+
+<file name="admin/controller/module/welcome.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->data['entry_description'] = $this->language->get('entry_description');]]></search>
+<add><![CDATA[
+	$this->data['entry_title'] = $this->language->get('entry_title');
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/module/welcome.tpl">
+<operation error="log">
+<search position="after" offset="1"><![CDATA[<div id="tab-language-<?php echo $module_row; ?>-<?php echo $language['language_id']; ?>">]]></search>
+<add><![CDATA[
+	<tr>
+	<td><?php echo $entry_title; ?></td>
+	<td><input type="text" name="welcome_module[<?php echo $module_row; ?>][title][<?php echo $language['language_id']; ?>]" value="<?php echo isset($module['title'][$language['language_id']]) ? $module['title'][$language['language_id']] : ''; ?>"></td>
+	</tr>
+]]></add>
+</operation>
+</file>
+
+<file name="admin/view/template/module/welcome.tpl">
+<operation error="log">
+<search position="after" offset="1"><![CDATA[html += '      <table class="form">';]]></search>
+<add><![CDATA[
+	html += '        <tr>';
+	html += '        <td><?php echo $entry_title; ?></td>';
+	html += '        <td><input type="text" name="welcome_module[' + module_row + '][title][<?php echo $language['language_id']; ?>]"></td>';
+	html += '        </tr>';
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/controller/module/welcome.php">
+<operation error="log">
+<search position="replace"><![CDATA[$this->data['heading_title'] = sprintf($this->language->get('heading_title'), $this->config->get('config_name'));]]></search>
+<add><![CDATA[
+	$this->data['heading_title'] = $setting['title'][$this->config->get('config_language_id')];
+]]></add>
+</operation>
+</file>
+
+</modification>

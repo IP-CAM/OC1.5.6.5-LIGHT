@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Admin Dashboard Approval Notifier]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Muaz Salah - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="admin/view/template/common/home.tpl">
+<operation info="replace">
+<search position="replace"><![CDATA[<td><?php echo $text_total_customer_approval; ?></td>]]></search>
+<add><![CDATA[
+<style>admin_note{color: red;font-weight: bold;}</style>
+	<?php if ($total_customer_approval) { ?>
+	<td><big><admin_note>INFO: <a href="<?php echo $this->url->link('sale/customer', 'token=' . $this->session->data['token'].'&filter_approved=0', 'SSL'); ?>"><?php echo $text_total_customer_approval; ?></a></admin_note></big></td>
+	<?php } else { ?>
+	<td><?php echo $text_total_customer_approval; ?></td>
+	<?php } ?>
+]]></add>
+</operation>
+
+<operation info="replace">
+<search position="replace"><![CDATA[<td><?php echo $total_customer_approval; ?></td>]]></search>
+<add><![CDATA[
+	<?php if ($total_customer_approval) { ?>
+	<td><admin_note><?php echo $total_customer_approval; ?></admin_note></td>
+	<?php } else { ?>
+	<td><?php echo $total_customer_approval; ?></td>
+	<?php } ?>
+]]></add>
+</operation>
+
+
+<operation info="replace">
+<search position="replace"><![CDATA[<td><?php echo $text_total_review_approval; ?></td>]]></search>
+<add><![CDATA[
+	<?php if ($total_review_approval) { ?>
+	<td><admin_note>[NOTE] <a href="<?php echo $this->url->link('catalog/review', 'token=' . $this->session->data['token'].'&sort=r.status&order=ASC', 'SSL'); ?>"><?php echo $text_total_review_approval; ?></a></admin_note></td>
+	<?php } else { ?>
+	<td><?php echo $text_total_review_approval; ?></td>
+	<?php } ?>
+]]></add>
+</operation>
+
+<operation info="replace">
+<search position="replace"><![CDATA[<td><?php echo $total_review_approval; ?></td>]]></search>
+<add><![CDATA[
+	<?php if ($total_review_approval) { ?>
+	<td><admin_note><?php echo $total_review_approval; ?></admin_note></td>
+	<?php } else { ?>
+	<td><?php echo $total_review_approval; ?></td>
+	<?php } ?>
+]]></add>
+</operation>
+
+<operation info="replace">
+<search position="replace"><![CDATA[<td><?php echo $text_total_affiliate_approval; ?></td>]]></search>
+<add><![CDATA[
+	<?php if ($total_affiliate_approval) { ?>
+	<td><admin_note>[NOTE] <a href="<?php echo $this->url->link('sale/affiliate', 'token=' . $this->session->data['token'].'&filter_approved=0', 'SSL'); ?>"><?php echo $text_total_affiliate_approval; ?></a></admin_note></td>
+	<?php } else { ?>
+	<td><?php echo $text_total_affiliate_approval; ?></td>
+	<?php } ?>
+]]></add>
+</operation>
+
+<operation info="replace">
+<search position="replace"><![CDATA[<td><?php echo $total_affiliate_approval; ?></td>]]></search>
+<add><![CDATA[
+	<?php if ($total_affiliate_approval) { ?>
+	<td><admin_note><?php echo $total_affiliate_approval; ?></admin_note></td>
+	<?php } else { ?>
+	<td><?php echo $total_affiliate_approval; ?></td>
+	<?php } ?>
+]]></add>
+</operation>
+</file>
+
+</modification>

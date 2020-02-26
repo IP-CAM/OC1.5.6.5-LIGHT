@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+<id><![CDATA[Customer Name + Balance in Account]]></id>
+<version><![CDATA[OC v.1.5.6.5 Merkent]]></version>
+<vqmver><![CDATA[2.6.1]]></vqmver>
+<author><![CDATA[Fabrikator - IP_CAM]]></author>
+<email><![CDATA[webmaster@opencart.li]]></email>
+<link><![CDATA[http://www.opencart.li]]></link>
+
+<file name="catalog/controller/account/account.php">
+<operation error="log">
+<search position="after"><![CDATA[$this->language->load('account/account');]]></search>
+<add><![CDATA[
+	$this->load->model('account/transaction');
+	$this->load->model('account/customer');
+	$this->load->model('account/order');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="before"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+<add><![CDATA[
+	$this->data['text_balance'] = $this->language->get('text_balance');
+	$this->data['text_total_order'] = $this->language->get('text_total_order');
+]]></add>
+</operation>
+
+<operation error="log">
+<search position="after"><![CDATA[$this->url->link('account/newsletter', '', 'SSL');]]></search>
+<add><![CDATA[
+	$this->data['total'] = $this->currency->format($this->customer->getBalance());
+	$this->data['total_order'] = $this->model_account_order->getTotalOrders();
+	if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+	$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
+	}
+	if (isset($this->request->post['firstname'])) {
+	$this->data['firstname'] = $this->request->post['firstname'];
+	} elseif (isset($customer_info)) {
+	$this->data['firstname'] = $customer_info['firstname'];
+	} else {
+	$this->data['firstname'] = '';
+	}
+	if (isset($this->request->post['lastname'])) {
+	$this->data['lastname'] = $this->request->post['lastname'];
+	} elseif (isset($customer_info)) {
+	$this->data['lastname'] = $customer_info['lastname'];
+	} else {
+	$this->data['lastname'] = '';
+	}
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/language/english/account/account.php">
+<operation error="log">
+<search position="before"><![CDATA[$_['text_transaction']]]></search>
+<add><![CDATA[
+	$_['text_balance']         = 'Balance: ';
+	$_['text_total_order']     = 'Total orders: ';
+]]></add>
+</operation>
+</file>
+
+<file name="catalog/view/theme/*/template/account/account.tpl">
+<operation error="log">
+<search position="before"><![CDATA[<div class="page-header">]]></search>
+<add><![CDATA[
+	<div style="font-size:18px;margin:10px 20px 10px 20px;">
+	<div style="display:inline-block"><?php echo $firstname; ?> <?php echo $lastname; ?></div>
+	<div style="float:right"><?php echo $text_balance; ?><?php echo $total; ?>&nbsp; &nbsp;&nbsp; &nbsp;<?php echo $text_total_order; ?><?php echo $total_order; ?></div>
+	</div>
+]]></add>
+</operation>
+</file>
+
+</modification>
