@@ -88,7 +88,6 @@ class ControllerModuleSystemCheck extends Controller {
 		$this->data['text_mysqli'] = $this->language->get('text_mysqli');
 		$this->data['text_gd'] = $this->language->get('text_gd');
 		$this->data['text_curl'] = $this->language->get('text_curl');
-		$this->data['text_mcrypt'] = $this->language->get('text_mcrypt');
 		$this->data['text_zlib'] = $this->language->get('text_zlib');
 	
 		$this->data['text_present'] = $this->language->get('text_present');
