@@ -78,7 +78,7 @@ RewriteEngine On
 ## If your opencart installation does not run on the main web folder,
 ## make sure you folder it does run in ie. / becomes /cart/ or /shop/ 
 ## it's now set to match the SubDirectory: /shop/
-RewriteBase /light/
+RewriteBase /
 
 RewriteRule ^sitemap.xml$ index.php?route=feed/google_sitemap [L]
 RewriteRule ^googlebase.xml$ index.php?route=feed/google_base [L]
