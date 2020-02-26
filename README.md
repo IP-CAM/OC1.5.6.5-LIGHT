@@ -41,5 +41,11 @@
    define('HTTPS_IMAGE', 'http://YOURSITE.com/light/');
 
 # Links:
+   OpenCart LIGHT Test Site:
+
+   http://www.opencart.li/light/
+
+   
    Official OpenCart.com Github Download Site for OpenCart Release Candidate v.1.5.6.5_rc:
+
    https://github.com/opencart/opencart/tree/c2c8f9c4c8fce44bb81b394e235913306fb75707
