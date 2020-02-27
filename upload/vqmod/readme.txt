@@ -1,11 +1,23 @@
------------------------------------------
-vQmod™ - Virtual File Modification System
------------------------------------------
+OpenShop vQmod Pro
+---------
+vQmod modification to remove performance issues.
+Also includes tweaks for bullet-proof automatic installation.
+(c) MaxD, 2015
 
+Download it here:
+https://opencartforum.com/files/file/3007-vqmod-pro-bystryy-i-stabilnyy/
+
+Discuss it here - 
+http://devs.mx/topic/462-vqmod-pro-discussion/
+
+Original readme.txt:
+-----------------------------------------
+vQmodâ„¢ - Virtual File Modification System
+-----------------------------------------
 ABOUT:
 ======
  * @author Qphoria <qphoria@gmail.com> & Jay Gilford <jay@jaygilford.com>
- * @copyright (c) 2010-2019
+ * @copyright (c) 2010-2014
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @site: http://vqmod.com
 
