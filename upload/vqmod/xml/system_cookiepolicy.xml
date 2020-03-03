@@ -7,9 +7,9 @@
 <email><![CDATA[webmaster@opencart.li]]></email>
 <link><![CDATA[http://www.opencart.li]]></link>
 
-<file name="catalog/view/theme/*/template/common/footer.tpl">
+<file name="catalog/view/theme/default/template/common/footer.tpl">
 <operation error="log">
-<search position="after"><![CDATA[compressed.js");});</script>]]></search>
+<search position="before"><![CDATA[</div></body></html>]]></search>
 <add><![CDATA[
 <?php if($this->config->get('cookiepolicy_status')== 1) { 
 $this->language->load('module/cookie');
@@ -21,8 +21,8 @@ $this->language->load('module/cookie');
     var accept_text = "<?php echo $this->language->get('accept_text'); ?>";
     var cookie_url = "<?php echo $this->config->get('cookie_url'); ?>";
 </script>
-<script src="http://openshop.li/light/catalog/view/javascript/jquery.cookie.js"></script>
-<script src="http://openshop.li/light/catalog/view/javascript/jquery.cookiecuttr.js"></script>
+<script src="catalog/view/javascript/jquery.cookie.js"></script>
+<script src="catalog/view/javascript/jquery.cookiecuttr.js"></script>
 <style>
 a.cc-cookie-accept{color: <?php echo $this->config->get('accept_text_colour');?>;background: <?php echo $this->config->get('accept_button_colour');?>}a.cc-cookie-accept:hover{color: <?php echo $this->config->get('accept_text_hover');?>;background: <?php echo $this->config->get('accept_button_hover');?>}.cc-cookies, .cc-cookies a{color: <?php echo $this->config->get('cookie_text_colour');?>}.cc-cookies:before{opacity: <?php echo $this->config->get('cookie_opacity');?>;background: <?php echo $this->config->get('cookie_background_colour');?>}
 <?php if($this->config->get('rounded_corners')!='') { ?>
