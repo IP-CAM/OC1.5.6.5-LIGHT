@@ -205,7 +205,7 @@ class ControllerModuleSecureurl extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->redirect('http://www.openshop.li/light/admin/?N51BoTEwIC=AuPgNKs27V');
+			$this->redirect('http://www.openshop.li/light/admin/?N51BoTEtIR=AnPiNKe21V');
 		}
 
     	$this->getForm();
@@ -239,7 +239,7 @@ class ControllerModuleSecureurl extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-		$this->redirect('http://www.opencart.li/light/admin/?N51BoTERIB=AuPgNKs27V');
+		$this->redirect('http://www.openshop.li/light/admin/?N51BoTEtIR=AnPiNKe21V');
     	}
 
     	$this->getList();
