@@ -45,10 +45,6 @@
 
    http://www.opencart.li/light/
    
-   GTMETRIX RESULTS, after changing to cookiefree image Links:
-   
-   https://gtmetrix.com/reports/www.opencart.li/OCcdeyXP
-
    
    Official OpenCart.com Github Download Site for OpenCart Release Candidate v.1.5.6.5_rc:
 
