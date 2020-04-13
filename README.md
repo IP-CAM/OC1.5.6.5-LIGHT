@@ -40,7 +40,7 @@
    
    define('HTTPS_IMAGE', 'http://YOURSITE.com/light/');
 
-Oe then, if your Site run's under HTTPS:
+Or then, if your Site run's under HTTPS:
 
    // HTTP
 
