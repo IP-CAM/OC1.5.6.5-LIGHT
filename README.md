@@ -40,6 +40,20 @@
    
    define('HTTPS_IMAGE', 'http://YOURSITE.com/light/');
 
+Oe then, if your Site run's under HTTPS:
+
+   // HTTP
+
+   define('HTTP_SERVER', 'https://www.YOURSITE.com/light/');
+
+   define('HTTP_IMAGE', 'https://YOURSITE.com/light/');
+
+   // HTTPS
+
+   define('HTTPS_SERVER', 'https://www.YOURSITE.com/light/');
+
+   define('HTTPS_IMAGE', 'https://YOURSITE.com/light/');
+
 # Links:
    OpenCart LIGHT Test Site:
 
