@@ -4,17 +4,17 @@
 
 		$this->language->load('module/merkent_product');
 		
-		if (file_exists(DIR_TEMPLATE . 'merkent/template/module/merkent_product.tpl')) {
+		if (file_exists(DIR_TEMPLATE . 'default/template/module/merkent_product.tpl')) {
 			$this->data['heading_title'] = $this->language->get('heading_' . $setting['product_type']);
 		
 			$this->data['text_empty'] = sprintf($this->language->get('text_empty'), $setting['product_type']);
 
 			$this->data['button_add_cart'] = $this->language->get('button_add_cart');
 
-			if (file_exists('catalog/view/theme/merkent/js/masonry.js')) {
-				$this->document->addScript('catalog/view/theme/merkent/js/masonry.js');
-				if (file_exists('catalog/view/theme/merkent/js/imagesloaded.js')) {
-					$this->document->addScript('catalog/view/theme/merkent/js/imagesloaded.js');
+			if (file_exists('catalog/view/theme/default/js/masonry.js')) {
+				$this->document->addScript('catalog/view/theme/default/js/masonry.js');
+				if (file_exists('catalog/view/theme/default/js/imagesloaded.js')) {
+					$this->document->addScript('catalog/view/theme/default/js/imagesloaded.js');
 				}
 			}
 
@@ -134,8 +134,8 @@
 					$merkent_products[] = array(
 						'product_id' 	=> $result['product_id'],
 						'thumb'   	 	=> $image,
-						'name'        => utf8_substr($result['name'],0,30),
-						'description' => utf8_substr(strip_tags(html_entity_decode($description, ENT_QUOTES, 'UTF-8')), 0, 250) . '..',
+						'name'    	 	=> $result['name'],
+						'description' 	=> $description,
 						'price'   	 	=> $price,
 						'special' 	 	=> $special,
 						'rating'     	=> $rating,
@@ -151,7 +151,7 @@
 
 			$this->data['module'] = $module++;
 
-			$this->template = 'merkent/template/module/merkent_product.tpl';
+			$this->template = 'default/template/module/merkent_product.tpl';
 		} else {
 			$this->data['heading_title'] = false;
 			
