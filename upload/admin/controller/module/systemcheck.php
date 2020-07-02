@@ -150,51 +150,6 @@ class ControllerModuleSystemCheck extends Controller {
 		$this->data['text_update'] = $this->language->get('text_update');
 		$this->data['text_getupdate'] = $this->language->get('text_getupdate');
 	
-		$vdfurl = 'http://villagedefrance.net/updater/module/' . $this->_name . '/revisions.txt';
-		$vdfhandler = curl_init($vdfurl);
-		curl_setopt($vdfhandler,  CURLOPT_RETURNTRANSFER, TRUE);
-		$resp = curl_exec($vdfhandler);
-		$vdf = curl_getinfo($vdfhandler, CURLINFO_HTTP_CODE);
-	
-		if ($vdf == '200') { 
-			$getRevisions = file_get_contents($vdfurl);
-		} else {
-			$getRevisions = '';
-		}
-	
-		if ($getRevisions !== '') {
-			$revisionList = explode("\n", $getRevisions);
-		
-			foreach ($revisionList as $revision) { 
-			
-				$version = substr($revision, 0, 5);
-				$subversion = substr($revision, -3);
-			
-				if ($version > $this->_version) {
-					$this->data['version'] = sprintf($this->language->get('text_v_update'), $version);
-					$this->data['ver_update'] = true;
-				
-					$this->data['revision'] = $this->language->get('text_no_revision');
-				} else {
-					$this->data['version'] = sprintf($this->language->get('text_v_no_update'), $version);
-					$this->data['ver_update'] = false;
-				
-					if ($subversion > $this->_revision) {
-						$this->data['revision'] = sprintf($this->language->get('text_r_update'), $subversion);
-						$this->data['rev_update'] = true;
-					} else {
-						$this->data['revision'] = sprintf($this->language->get('text_r_no_update'), $subversion);
-						$this->data['rev_update'] = false;
-					}
-				}
-			}
-		} else {
-			$this->data['version'] = '';
-			$this->data['revision'] = '';
-			$this->data['ver_update'] = false;
-			$this->data['rev_update'] = false;
-		}
-	
 		$this->data['cache'] = DIR_SYSTEM . 'cache';
 		$this->data['logs'] = DIR_SYSTEM . 'logs';
 		$this->data['image_cache'] = DIR_IMAGE . 'cache';
