@@ -250,12 +250,12 @@
 					<th width="15%" align="left"><?php echo $column_status; ?></th>
 				</tr>
 				<?php foreach ($helpers as $helper) { ?>
-					<?php if ($helper == $url_json || $helper == $url_utf8 || $helper == $url_vat) { ?>
+					<?php if ($helper == $url_json || $helper == $url_utf8 || $helper == $url_vat || $helper == $url_default_json) { ?>
 						<tr>
 							<td width="85%" align="left"><?php echo $helper; ?></td>
 							<td width="15%" align="left"><?php echo $text_present; ?></td>
 						</tr>
-					<?php } else if (!$url_json || !$url_utf8 || !$url_vat) { ?>
+					<?php } else if (!$url_json || !$url_utf8 || !$url_vat || !$url_default_json) { ?>
 						<tr>
 							<td width="85%" align="left"><?php echo $helper; ?></td>
 							<td width="15%" align="left"><?php echo $text_missing; ?></td>

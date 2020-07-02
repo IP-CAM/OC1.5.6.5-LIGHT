@@ -260,8 +260,7 @@ class ControllerModuleSystemCheck extends Controller {
 			$this->data['url_colour_finder'] = '';
 		}
 		
-		
-	
+
 		// Helper Files
 		$this->data['helpers'] = array();
 	
@@ -270,7 +269,7 @@ class ControllerModuleSystemCheck extends Controller {
 		foreach ($helpers as $helper) {
 			$this->data['helpers'][] = $helper;
 		}
-	
+
 		if (file_exists(DIR_SYSTEM . 'helper/json.php')) {
 			$this->data['url_json'] = DIR_SYSTEM . 'helper/json.php';
 		} else {
@@ -286,7 +285,12 @@ class ControllerModuleSystemCheck extends Controller {
 		} else {
 			$this->data['url_vat'] = '';
 		}
-		
+		if (file_exists(DIR_SYSTEM . 'helper/default_json.php')) {
+			$this->data['url_default_json'] = DIR_SYSTEM . 'helper/default_json.php';
+		} else {
+			$this->data['url_default_json'] = '';
+		}
+
 		// Library Files
 		$this->data['libraries'] = array();
 	
@@ -295,7 +299,7 @@ class ControllerModuleSystemCheck extends Controller {
 		foreach ($libraries as $library) {
 			$this->data['libraries'][] = $library;
 		}
-	
+
 		$core_version = substr(VERSION, 0, 5);
 		
 		$this->data['core_version'] = $core_version;
@@ -325,7 +329,6 @@ class ControllerModuleSystemCheck extends Controller {
 			$this->data['library_files'][] = array('name' => 'tax','url' => DIR_SYSTEM . 'library/tax.php');
 			$this->data['library_files'][] = array('name' => 'd_response','url' => DIR_SYSTEM . 'library/d_response.php');
 			$this->data['library_files'][] = array('name' => 'colour-finder','url' => DIR_SYSTEM . 'library/colour_finder.php');
-						
 			$this->data['library_files'][] = array('name' => 'template','url' => DIR_SYSTEM . 'library/template.php');
 			$this->data['library_files'][] = array('name' => 'url','url' => DIR_SYSTEM . 'library/url.php');
 			$this->data['library_files'][] = array('name' => 'user','url' => DIR_SYSTEM . 'library/user.php');
