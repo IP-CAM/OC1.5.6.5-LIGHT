@@ -35,7 +35,6 @@ class ControllerInformationSitemap extends Controller {
 		$this->data['text_contact'] = $this->language->get('text_contact');
 
 		$this->load->model('catalog/category');
-		$this->load->model('catalog/product');
 
 		$this->data['categories'] = array();
 
