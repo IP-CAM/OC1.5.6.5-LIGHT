@@ -11,7 +11,7 @@
 <operation error="log">
 	<search position="add"><![CDATA[<?php echo $tab_order; ?>]]></search>
 	<add><![CDATA[<?php  if(isset($comment) && !empty($comment)){?>
-	<i><img src="http://openshop.li/shop/image/warn_icon.png" height="16" width="16" alt="Comments on Page!"></i>
+	<i><img src="view/image/warning.png" height="16" width="16" alt="Comments on Page!"></i>
 	<?php }?>
 	<?php echo $tab_order; ?>]]></add>
 </operation>
