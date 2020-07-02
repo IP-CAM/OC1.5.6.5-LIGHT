@@ -57,14 +57,16 @@ class ControllerCommonFooter extends Controller {
 		if ($this->config->get('config_customer_online')) {
 			$this->load->model('tool/online');
 
-			if (isset($this->request->server['REMOTE_ADDR'])) {
+			if (isset($this->request->server['HTTP_X_REAL_IP'])) {
+				$ip = $this->request->server['HTTP_X_REAL_IP'];
+			} else if (isset($this->request->server['REMOTE_ADDR'])) {
 				$ip = $this->request->server['REMOTE_ADDR'];	
 			} else {
 				$ip = ''; 
 			}
 
 			if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
-				$url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];	
+				$url = ($this->request->server['HTTPS'] ? 'https://' : 'http://') . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
 			} else {
 				$url = '';
 			}
