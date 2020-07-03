@@ -343,7 +343,6 @@ echo '<br>';
          
                 $this->model_module_massimgrename->copyimage($product);
                 $this->model_module_massimgrename->update_product_image_by_product_id($product);
-//                $this->model_module_massimgrename->update_openbay_image_links($product);
                 $this->model_module_massimgrename->delete($product);
 //get related images
                 if($this->debug == true)
@@ -418,7 +417,6 @@ if($this->debug == true)
                     }
                     $this->model_module_massimgrename->update_thumb_image($image);
                     $this->model_module_massimgrename->update_product_image_by_product_id($product);
-                    //$this->model_module_massimgrename->update_openbay_image_links($image);
                     $this->model_module_massimgrename->delete($image);
                 }
                 if($this->debug == true)

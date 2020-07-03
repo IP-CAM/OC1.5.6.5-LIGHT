@@ -338,12 +338,6 @@ class ControllerModuleSystemCheck extends Controller {
 			$this->data['library_files'][] = array('name' => 'cba','url' => DIR_SYSTEM . 'library/cba.php'); // true for 1.5.5.2 only !
 		}
 		if ($core_version = '1.5.6') {
-			$this->data['library_files'][] = array('name' => 'amazon','url' => DIR_SYSTEM . 'library/amazon.php');
-			$this->data['library_files'][] = array('name' => 'amazon_category_template','url' => DIR_SYSTEM . 'library/amazon_category_template.php'); // true for 1.5.6 only !
-			$this->data['library_files'][] = array('name' => 'amazonus','url' => DIR_SYSTEM . 'library/amazonus.php');
-			$this->data['library_files'][] = array('name' => 'amazonus_category_template','url' => DIR_SYSTEM . 'library/amazonus_category_template.php'); // true for 1.5.6 only !
-			$this->data['library_files'][] = array('name' => 'ebay','url' => DIR_SYSTEM . 'library/ebay.php');
-			$this->data['library_files'][] = array('name' => 'openbay','url' => DIR_SYSTEM . 'library/openbay.php');
 			$this->data['library_files'][] = array('name' => 'play','url' => DIR_SYSTEM . 'library/play.php');
 		}
 		

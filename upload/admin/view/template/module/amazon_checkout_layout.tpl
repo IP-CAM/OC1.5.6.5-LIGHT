@@ -88,7 +88,6 @@
 </div>
 <script type="text/javascript"><!--
 var module_row = <?php echo $module_row; ?>;
-
 function addModule() {	
 	html  = '<tbody id="module-row' + module_row + '">';
 	html += '  <tr>';
