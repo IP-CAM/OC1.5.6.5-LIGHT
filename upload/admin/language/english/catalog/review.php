@@ -23,6 +23,7 @@ $_['entry_good']        = 'Good';
 $_['entry_bad']         = 'Bad';
 
 // Error
+$_['error_warning']     = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']  = 'Warning: You do not have permission to modify reviews!';
 $_['error_product']     = 'Product required!';
 $_['error_author']      = 'Author must be between 3 and 64 characters!';

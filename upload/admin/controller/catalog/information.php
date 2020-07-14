@@ -427,11 +427,11 @@ class ControllerCatalogInformation extends Controller {
 		}
 
 		foreach ($this->request->post['information_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 64)) {
+			if ((utf8_strlen(trim($value['title'])) < 3 || (utf8_strlen($value['title']) > 64)) {
 				$this->error['title'][$language_id] = $this->language->get('error_title');
 			}
 
-			if (utf8_strlen($value['description']) < 3) {
+			if (utf8_strlen(trim($value['description'])) < 3) {
 				$this->error['description'][$language_id] = $this->language->get('error_description');
 			}
 		}
