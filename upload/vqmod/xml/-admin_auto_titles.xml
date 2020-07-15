@@ -148,7 +148,7 @@
 <search position="bottom" offset="1"><![CDATA[ <!-- This is irrelevant --> ]]></search>
 <add><![CDATA[
 	<script type="text/javascript"><!--
-	$storename = $('input[name="config_name"]'); 
+	$storename = $('input[name="config_title"]'); 
 	$title = $('.storename');
 	if ($storename.val() != '') {
 	$title.html(' - ' + $storename.val()); 
