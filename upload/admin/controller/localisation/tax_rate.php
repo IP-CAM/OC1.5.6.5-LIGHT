@@ -383,7 +383,7 @@ class ControllerLocalisationTaxRate extends Controller {
 		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
 
 		if (isset($this->request->post['geo_zone_id'])) {
-			$this->data['geo_zone_id'] = $this->request->post['geo_zone_id'];
+			$this->data['geo_zone_id'] = (int)$this->request->post['geo_zone_id'];
 		} elseif (!empty($tax_rate_info)) {
 			$this->data['geo_zone_id'] = $tax_rate_info['geo_zone_id'];
 		} else {

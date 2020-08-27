@@ -368,7 +368,7 @@ class ControllerCatalogManufacturer extends Controller {
 		}
 
 		if (isset($this->request->post['image'])) {
-			$this->data['image'] = $this->request->post['image'];
+			$this->data['image'] = html_entity_decode($this->request->post['image'], ENT_QUOTES, 'UTF-8');
 		} elseif (!empty($manufacturer_info)) {
 			$this->data['image'] = $manufacturer_info['image'];
 		} else {

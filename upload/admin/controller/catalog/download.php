@@ -345,14 +345,14 @@ class ControllerCatalogDownload extends Controller {
 		$this->data['token'] = $this->session->data['token'];
 
 		if (isset($this->request->get['download_id'])) {
-			$this->data['download_id'] = $this->request->get['download_id'];
+			$this->data['download_id'] = (int)$this->request->get['download_id'];
 		} else {
 			$this->data['download_id'] = 0;
 		}
 
 		if (isset($this->request->post['download_description'])) {
 			$this->data['download_description'] = $this->request->post['download_description'];
-		} elseif (isset($this->request->get['download_id'])) {
+		} elseif (!empty($download_info)) {
 			$this->data['download_description'] = $this->model_catalog_download->getDownloadDescriptions($this->request->get['download_id']);
 		} else {
 			$this->data['download_description'] = array();

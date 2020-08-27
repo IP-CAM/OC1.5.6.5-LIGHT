@@ -355,7 +355,7 @@ class ControllerLocalisationZone extends Controller {
 		}
 
 		if (isset($this->request->post['country_id'])) {
-			$this->data['country_id'] = $this->request->post['country_id'];
+			$this->data['country_id'] = (int)$this->request->post['country_id'];
 		} elseif (!empty($zone_info)) {
 			$this->data['country_id'] = $zone_info['country_id'];
 		} else {

@@ -339,11 +339,11 @@ class ControllerCatalogAttribute extends Controller {
 		}
 
 		if (isset($this->request->post['attribute_group_id'])) {
-			$this->data['attribute_group_id'] = $this->request->post['attribute_group_id'];
+			$this->data['attribute_group_id'] = (int)$this->request->post['attribute_group_id'];
 		} elseif (!empty($attribute_info)) {
 			$this->data['attribute_group_id'] = $attribute_info['attribute_group_id'];
 		} else {
-			$this->data['attribute_group_id'] = '';
+			$this->data['attribute_group_id'] = 0;
 		}
 
 		$this->load->model('catalog/attribute_group');

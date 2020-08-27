@@ -437,7 +437,7 @@ class ControllerSaleVoucher extends Controller {
 		$this->data['voucher_themes'] = $this->model_sale_voucher_theme->getVoucherThemes();
 
 		if (isset($this->request->post['voucher_theme_id'])) {
-			$this->data['voucher_theme_id'] = $this->request->post['voucher_theme_id'];
+			$this->data['voucher_theme_id'] = (int)$this->request->post['voucher_theme_id'];
 		} elseif (!empty($voucher_info)) {
 			$this->data['voucher_theme_id'] = $voucher_info['voucher_theme_id'];
 		} else {

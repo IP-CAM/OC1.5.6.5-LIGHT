@@ -293,7 +293,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['category_description'])) {
 			$this->data['category_description'] = $this->request->post['category_description'];
-		} elseif (isset($this->request->get['category_id'])) {
+		} elseif (!empty($category_info)) {
 			$this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($this->request->get['category_id']);
 		} else {
 			$this->data['category_description'] = array();
@@ -308,7 +308,7 @@ class ControllerCatalogCategory extends Controller {
 		}
 
 		if (isset($this->request->post['parent_id'])) {
-			$this->data['parent_id'] = $this->request->post['parent_id'];
+			$this->data['parent_id'] = (int)$this->request->post['parent_id'];
 		} elseif (!empty($category_info)) {
 			$this->data['parent_id'] = $category_info['parent_id'];
 		} else {
@@ -319,7 +319,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['category_filter'])) {
 			$filters = $this->request->post['category_filter'];
-		} elseif (isset($this->request->get['category_id'])) {		
+		} elseif (!empty($category_info)) {		
 			$filters = $this->model_catalog_category->getCategoryFilters($this->request->get['category_id']);
 		} else {
 			$filters = array();
@@ -344,7 +344,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['category_store'])) {
 			$this->data['category_store'] = $this->request->post['category_store'];
-		} elseif (isset($this->request->get['category_id'])) {
+		} elseif (!empty($category_info)) {
 			$this->data['category_store'] = $this->model_catalog_category->getCategoryStores($this->request->get['category_id']);
 		} else {
 			$this->data['category_store'] = array(0);
@@ -359,7 +359,7 @@ class ControllerCatalogCategory extends Controller {
 		}
 
 		if (isset($this->request->post['image'])) {
-			$this->data['image'] = $this->request->post['image'];
+			$this->data['image'] = html_entity_decode($this->request->post['image'], ENT_QUOTES, 'UTF-8');
 		} elseif (!empty($category_info)) {
 			$this->data['image'] = $category_info['image'];
 		} else {
@@ -412,7 +412,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['category_layout'])) {
 			$this->data['category_layout'] = $this->request->post['category_layout'];
-		} elseif (isset($this->request->get['category_id'])) {
+		} elseif (!empty($category_info)) {
 			$this->data['category_layout'] = $this->model_catalog_category->getCategoryLayouts($this->request->get['category_id']);
 		} else {
 			$this->data['category_layout'] = array();

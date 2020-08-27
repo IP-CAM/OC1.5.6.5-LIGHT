@@ -703,7 +703,7 @@ class ControllerSaleReturn extends Controller {
 		}
 
 		if (isset($this->request->post['order_id'])) {
-			$this->data['order_id'] = $this->request->post['order_id'];
+			$this->data['order_id'] = (int)$this->request->post['order_id'];
 		} elseif (!empty($return_info)) { 
 			$this->data['order_id'] = $return_info['order_id'];
 		} else {
@@ -727,7 +727,7 @@ class ControllerSaleReturn extends Controller {
 		}
 
 		if (isset($this->request->post['customer_id'])) {
-			$this->data['customer_id'] = $this->request->post['customer_id'];
+			$this->data['customer_id'] = (int)$this->request->post['customer_id'];
 		} elseif (!empty($return_info)) {
 			$this->data['customer_id'] = $return_info['customer_id'];
 		} else {
@@ -775,7 +775,7 @@ class ControllerSaleReturn extends Controller {
 		}	
 
 		if (isset($this->request->post['product_id'])) {
-			$this->data['product_id'] = $this->request->post['product_id'];
+			$this->data['product_id'] = (int)$this->request->post['product_id'];
 		} elseif (!empty($return_info)) {
 			$this->data['product_id'] = $return_info['product_id'];
 		} else {
@@ -807,7 +807,7 @@ class ControllerSaleReturn extends Controller {
 		}
 
 		if (isset($this->request->post['return_reason_id'])) {
-			$this->data['return_reason_id'] = $this->request->post['return_reason_id'];
+			$this->data['return_reason_id'] = (int)$this->request->post['return_reason_id'];
 		} elseif (!empty($return_info)) {
 			$this->data['return_reason_id'] = $return_info['return_reason_id'];
 		} else {
@@ -819,7 +819,7 @@ class ControllerSaleReturn extends Controller {
 		$this->data['return_reasons'] = $this->model_localisation_return_reason->getReturnReasons();
 
 		if (isset($this->request->post['return_action_id'])) {
-			$this->data['return_action_id'] = $this->request->post['return_action_id'];
+			$this->data['return_action_id'] = (int)$this->request->post['return_action_id'];
 		} elseif (!empty($return_info)) {
 			$this->data['return_action_id'] = $return_info['return_action_id'];
 		} else {
@@ -839,7 +839,7 @@ class ControllerSaleReturn extends Controller {
 		}
 
 		if (isset($this->request->post['return_status_id'])) {
-			$this->data['return_status_id'] = $this->request->post['return_status_id'];
+			$this->data['return_status_id'] = (int)$this->request->post['return_status_id'];
 		} elseif (!empty($return_info)) {
 			$this->data['return_status_id'] = $return_info['return_status_id'];
 		} else {
@@ -863,7 +863,7 @@ class ControllerSaleReturn extends Controller {
 		$this->load->model('sale/return');
 
 		if (isset($this->request->get['return_id'])) {
-			$return_id = $this->request->get['return_id'];
+			$return_id = (int)$this->request->get['return_id'];
 		} else {
 			$return_id = 0;
 		}

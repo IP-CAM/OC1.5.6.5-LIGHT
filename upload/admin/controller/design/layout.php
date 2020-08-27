@@ -338,7 +338,7 @@ class ControllerDesignLayout extends Controller {
 
 		if (isset($this->request->post['layout_route'])) {
 			$this->data['layout_routes'] = $this->request->post['layout_route'];
-		} elseif (isset($this->request->get['layout_id'])) {
+		} elseif (!empty($layout_info)) {
 			$this->data['layout_routes'] = $this->model_design_layout->getLayoutRoutes($this->request->get['layout_id']);
 		} else {
 			$this->data['layout_routes'] = array();
