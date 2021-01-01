@@ -64,5 +64,7 @@ Or then, if your Site run's under HTTPS:
    
    
    Official OpenCart.com Github Download Site for OpenCart Release Candidate v.1.5.6.5_rc:
+   Please note: This Default OC Version DOES NOT contain the system/library/encryption.php file, 
+   to make latest Version PHP v.7.4.13 work.
 
    https://github.com/opencart/opencart/tree/c2c8f9c4c8fce44bb81b394e235913306fb75707
