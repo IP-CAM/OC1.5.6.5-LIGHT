@@ -61,8 +61,11 @@ Or then, if your Site run's under HTTPS:
    OpenCart LIGHT Test Site:
 
    http://www.openshop.li/light/
+   
    http://www.bigmax.ch/shop/
+   
    http://www.evelo.li/shop/
+   
    http://www.opencart.li/shop/
    
    Official OpenCart.com Github Download Site for OpenCart Release Candidate v.1.5.6.5_rc:
