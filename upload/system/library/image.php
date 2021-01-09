@@ -35,7 +35,7 @@ class Image {
 		}
 	}
 
-	public function save($file, $quality = 40) {
+	public function save($file, int $quality = 40) {
 		$info = pathinfo($file);
 
 		$extension = strtolower($info['extension']);
@@ -53,7 +53,7 @@ class Image {
 		}
 	}
 
-	public function resize($width = 0, $height = 0, $default = '') {
+	public function resize(int $width = 0, int $height = 0, $default = '') {
 		if (!$this->info['width'] || !$this->info['height']) {
 			return;
 		}
