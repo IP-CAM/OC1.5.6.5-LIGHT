@@ -74,5 +74,6 @@ Or then, if your Site run's under HTTPS:
    already contains the latest
    system/library/encryption.php file, to make latest Version PHP v.7.4.13 work.
    ---
-   The 'official' OpenCart 1.5.6.5_rc Release Download can be found here:
+   The 'official' OpenCart 1.5.6.5_rc (pre-)Release Download can be found here:
+
    https://github.com/opencart/opencart/tree/c2c8f9c4c8fce44bb81b394e235913306fb75707
