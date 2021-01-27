@@ -76,4 +76,8 @@ Or then, if your Site run's under HTTPS:
    ---
    The 'official' OpenCart 1.5.6.5_rc (pre-)Release Download can be found here:
 
+   Please note, that, in contrary to the Download, offered on my Github Site here,
+
+   this 'official' OpenCart Github Download does not yet contain the latest PHP v.7.4.13 capable encryption file.
+
    https://github.com/opencart/opencart/tree/c2c8f9c4c8fce44bb81b394e235913306fb75707
