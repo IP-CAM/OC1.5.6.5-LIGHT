@@ -7,7 +7,7 @@
    Based on the famous OpenCart OC v.1.5.6.5_rc Release. 
    Combines Opencart 1.5.6.5_rc with the great Merkent responsive Bootstrap Theme.
    The Best of MaxD's famous OpenShop Admin Extensions, partly enhanced, and built-in.
-   Security- and Codewise refined and updated to match MySQLi (i.E.utf8mb4) and PHP7.4.13
+   Security- and Codewise refined and updated to match MySQLi (i.E.utf8mb4) and PHP7.4.15
 
 # Features:
    Slightly updated + secured Engine + System from last Version Opencart v.1.5.6.5_rc.
