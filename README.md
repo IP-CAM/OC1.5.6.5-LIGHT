@@ -18,7 +18,7 @@
    Some VqMods are disabled, they only function in conjunction with non-active Modules.
    And much much more, to find out about first ...
    
- Latest PHP-7.4.13 McCrypt Installation Fixes already built-in:
+ Latest PHP-7.4.15 McCrypt Installation Fixes already built-in:
  https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=38012
 
 # PLEASE NOTE:
@@ -72,12 +72,12 @@ Or then, if your Site run's under HTTPS:
    
    Please note: In contrary to the official OC 1.5.6.5_rc Download, my OC Version 
    already contains the latest
-   system/library/encryption.php file, to make latest Version PHP v.7.4.13 work.
+   system/library/encryption.php file, to make latest Version PHP v.7.4.15 work.
    ---
    The 'official' OpenCart 1.5.6.5_rc (pre-)Release Download can be found here:
 
    Please note, that, in contrary to the Download, offered on my Github Site here,
 
-   this 'official' OpenCart Github Download does not yet contain the latest PHP v.7.4.13 capable encryption file.
+   this 'official' OpenCart Github Download does not yet contain the latest PHP v.7.4.15 capable encryption file.
 
    https://github.com/opencart/opencart/tree/c2c8f9c4c8fce44bb81b394e235913306fb75707
