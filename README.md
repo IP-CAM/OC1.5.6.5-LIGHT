@@ -7,12 +7,12 @@
    Based on the famous OpenCart OC v.1.5.6.5_rc Release. 
    Combines Opencart 1.5.6.5_rc with the great Merkent responsive Bootstrap Theme.
    The Best of MaxD's famous OpenShop Admin Extensions, partly enhanced, and built-in.
-   Security- and Codewise refined and updated to match MySQLi (i.E.utf8mb4) and PHP v.7.4.15
+   Security- and Codewise refined and updated to match MySQLi (i.E.utf8mb4) and PHP v.7.4.16
 
 # Features:
    Slightly updated + secured Engine + System from last Version Opencart v.1.5.6.5_rc.
    The best OpenShop Administration Tools and many additional Modules already built-in.
-   MaxD's VqMod PRO v.2.6.4 Engine plus ~120 VqMod Extensions are already implemented.
+   MaxD's VqMod PRO v.2.6.1 Engine plus ~120 VqMod Extensions are already implemented.
    ~75 Admin-related + ~45 Frontside-related VqMod Extensions are included in the Package.
    High Perfomance Code and Database Caching, all controlled by fine OpenShop Admin Tools. 
    Some VqMods are disabled, they only function in conjunction with non-active Modules.
@@ -72,7 +72,7 @@ Or then, if your Site run's under HTTPS:
    
    Please note: In contrary to the official OC 1.5.6.5_rc Download, my OC Version 
    already contains the latest
-   system/library/encryption.php file, to make latest Version PHP v.7.4.15 work.
+   system/library/encryption.php file, to make latest Version PHP v.7.4.16 work.
    ---
    The 'official' OpenCart 1.5.6.5_rc (pre-)Release Download can be found here:
 
