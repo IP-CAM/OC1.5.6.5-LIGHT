@@ -18,7 +18,7 @@
    Some VqMods are disabled, they only function in conjunction with non-active Modules.
    And much much more, to find out about first ...
    
- Latest PHP-7.4.15 McCrypt Installation Fixes already built-in:
+ Latest PHP-7.4.16 McCrypt Replacement Fixes already built-in:
  https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=38012
 
 # PLEASE NOTE:
