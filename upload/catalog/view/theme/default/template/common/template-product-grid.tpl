@@ -37,7 +37,7 @@ if (!empty($image_width)) {
 	<?php if ($product['thumb']) { ?>
 	<a href="<?php echo $product['href']; ?>"><img class="img-thumbnail" src="<?php echo $product['thumb']; ?>" loading="lazy" alt="<?php echo $product['name']; ?>"></a>
 	<?php } ?>
-	<p>
+	<p></p>
 	<div style="text-align:center; class="name"><a href="<?php echo $product['href']; ?>"><?php echo  substr_replace($product['name'], "", 26); ?>...</a></div>
 	<?php if (utf8_strlen($product['description']) > 2) { ?>
 	<p style="text-align:center;"><?php echo substr_replace($product['description'], "", 80); ?></p>
