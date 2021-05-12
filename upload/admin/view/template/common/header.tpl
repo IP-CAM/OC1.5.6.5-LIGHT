@@ -165,7 +165,6 @@
               <li><a href="<?php echo $weight_class; ?>"><i class="fa fa-crop fa-1x"></i><?php echo $text_weight_class; ?></a></li>
             </ul>
           </li>
-        <li><a href="<?php echo $this->url->link('module/magic_translations', 'token=' . $this->session->data['token'], 'SSL'); ?>"><i class="fa fa-language fa-1x"></i>Lang.Translations</a></li>
         <li><a href="<?php echo $this->url->link('tool/editor', 'token=' . $this->session->data['token'], 'SSL'); ?>"><i class="fa fa-pencil-square-o fa-1x"></i>File Code Editor</a></li>
 		<li><a href="<?php echo $this->url->link('tool/tweaks', 'token=' . $this->session->data['token'], 'SSL'); ?>"><i class="fa fa-code-fork fa-1x"></i><?php if (!isset($tweaks)) $tweaks='Tweaks VqManager'; echo $tweaks; ?></a></li>
 		<li><a href="<?php echo $this->url->link('tool/seo_keyword_checker', 'token=' . $this->session->data['token'], 'SSL'); ?>"><i class="fa fa-link fa-1x"></i>SEO Keyword Check</a></li>
